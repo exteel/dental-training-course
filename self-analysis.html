@@ -758,10 +758,12 @@
     try { localStorage.setItem('sa_meta', JSON.stringify(data.meta)); } catch (e) {}
     try { localStorage.setItem('sa_savedAt', data.savedAt); } catch (e) {}
 
-    /* Show confirmation */
+    /* Show confirmation — hide hero so button is visible without scrolling */
+    var hero = document.querySelector('.hero');
+    if (hero) { hero.style.display = 'none'; }
     formWrap.style.display = 'none';
     confirmation.classList.add('is-visible');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   });
 
   /* ---- Init ---- */
