@@ -2319,6 +2319,27 @@
   });
 
 })();
+
+
+/* ── Viewport scaling — fits 1920x1080 canvas into any screen ── */
+(function() {
+  function fitPresentation() {
+    const pres = document.querySelector('.presentation');
+    if (!pres) return;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const scale = Math.min(vw / 1920, vh / 1080);
+    const offsetX = Math.round((vw - 1920 * scale) / 2);
+    const offsetY = Math.round((vh - 1080 * scale) / 2);
+    pres.style.transform = 'scale(' + scale + ')';
+    pres.style.left = offsetX + 'px';
+    pres.style.top = offsetY + 'px';
+    document.body.style.background = '#0a0f1a';
+  }
+  fitPresentation();
+  window.addEventListener('resize', fitPresentation);
+})();
+
 </script>
 
 </body>
