@@ -264,10 +264,11 @@ a {
   /* height intentionally omitted — inset:0 fills the container,
      avoids overflow when .presentation height is reduced by session bar */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   padding: var(--content-padding);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   /* Entrance animation state */
   opacity: 0;
