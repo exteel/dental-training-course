@@ -275,7 +275,12 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: var(--content-padding);
+  /* ROOT CAUSE FIX: separate vertical and horizontal padding.
+     Horizontal (5vw) needs wide margins for 1200px content on wide screens.
+     Vertical must scale with viewport HEIGHT, not width — using vh prevents
+     the 160px vertical-padding tax that ate 17% of a 900px viewport. */
+  padding-block: clamp(16px, 3vh, 48px);
+  padding-inline: var(--content-padding);
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -2283,6 +2288,397 @@ a {
     display: block;
     height: 60px;
     flex-shrink: 0;
+  }
+}
+
+/* ============================================================
+   32.7 SHORT VIEWPORT — desktop with reduced viewport height
+   (browser chrome eats ~100-260px on 1080p monitor)
+   Ordered smallest → largest so larger breakpoints override smaller.
+   ============================================================ */
+
+/* Generic short-viewport rules — compact padding/gaps on desktop heights ≤ 900px */
+@media (min-width: 769px) and (max-height: 900px) {
+  :root {
+    /* shrink content padding — reclaim vertical space */
+    --content-padding: clamp(var(--space-5), 3vw, var(--space-12));
+  }
+
+  /* Slide padding tightens */
+  .slide {
+    padding-top: clamp(var(--space-4), 3vh, var(--space-10));
+    padding-bottom: clamp(var(--space-4), 3vh, var(--space-10));
+  }
+
+  /* Generic gap compression in slide__inner */
+  .slide-content .slide__inner,
+  .slide-list .slide__inner,
+  .slide-table .slide__inner,
+  .slide-summary .slide__inner,
+  .slide-dark .slide__inner,
+  .slide-script .slide__inner {
+    gap: var(--space-5);
+  }
+
+  .slide-formula .slide__inner {
+    gap: var(--space-5);
+  }
+
+  /* Title slide — less padding, smaller h1 */
+  .slide-title .slide__inner { gap: var(--space-4); }
+  .slide-title h1 {
+    font-size: clamp(var(--font-size-3xl), 4.5vw, 60px);
+  }
+  .slide-title .title-subtitle {
+    font-size: clamp(var(--font-size-base), 1.6vw, var(--font-size-lg));
+  }
+
+  /* Stat slide — giant number scaled down */
+  .slide-stat .slide__inner { gap: var(--space-4); }
+  .slide-stat .stat-number {
+    font-size: clamp(4rem, 14vw, 9rem);
+  }
+  .slide-stat .stat-headline {
+    font-size: clamp(var(--font-size-lg), 2.2vw, var(--font-size-2xl));
+  }
+  .slide-stat .stat-grid {
+    gap: var(--space-5);
+  }
+  .slide-stat .stat-grid-item {
+    padding: var(--space-4);
+  }
+
+  /* Content headers compressed */
+  .slide-content .slide-header h2,
+  .slide-list h2,
+  .slide-table h2,
+  .slide-summary .summary-header h2,
+  .slide-formula h2,
+  .slide-dark h2 {
+    font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-3xl));
+  }
+
+  /* Case slide */
+  .slide-case .slide__inner { gap: var(--space-8); }
+  .slide-case .case-panel { padding: var(--space-5) var(--space-6); }
+
+  /* Formula box — shrink padding */
+  .formula-box {
+    padding: var(--space-5) var(--space-8);
+    gap: var(--space-4);
+  }
+  .formula-box .formula-display {
+    font-size: clamp(var(--font-size-lg), 2.4vw, var(--font-size-2xl));
+  }
+  .formula-result-box {
+    padding: var(--space-4) var(--space-6);
+  }
+  .formula-result-box .result-value {
+    font-size: var(--font-size-3xl);
+  }
+
+  /* Table — denser rows */
+  .slide-table thead th { padding: var(--space-3) var(--space-5); }
+  .slide-table tbody td { padding: var(--space-3) var(--space-5); }
+
+  /* Quote — smaller mark */
+  .slide-quote .slide__inner { gap: var(--space-5); }
+  .slide-quote .quote-mark { font-size: 5rem; }
+  .slide-quote blockquote {
+    font-size: clamp(var(--font-size-lg), 2.8vw, var(--font-size-2xl));
+  }
+
+  /* Timeline step — tighter */
+  .timeline-step .timeline-body { padding-bottom: var(--space-5); }
+
+  /* Highlight box — tighter */
+  .highlight-box { padding: var(--space-4) var(--space-5); }
+
+  /* Checklist items — tighter */
+  .checklist-item { padding: var(--space-3) var(--space-4); }
+
+  /* Metric card — tighter */
+  .metric-card { padding: var(--space-4) var(--space-6); }
+  .metric-card .metric-value { font-size: var(--font-size-3xl); }
+
+  /* Script box / speech bubble compression (used in module-01 etc) */
+  .script-box { gap: var(--space-2); }
+  .script-box .speech-bubble {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-base);
+  }
+  .avatar-label .avatar-icon { width: 32px; height: 32px; }
+  .avatar-label .avatar-icon svg { width: 18px; height: 18px; }
+
+  /* ===========================================================
+     scripts.html compact fixes — reclaim vertical space on 1920x900
+     !important needed to override inline <style> in scripts.html
+     which is loaded AFTER this stylesheet.
+     =========================================================== */
+
+  /* Content slide header: tight gap + smaller h2/p */
+  .slide-content .slide-header { gap: var(--space-2) !important; }
+  .slide-content .slide-header h2 {
+    font-size: clamp(var(--font-size-lg), 2.2vw, var(--font-size-xl)) !important;
+    line-height: 1.15 !important;
+    margin: 0 !important;
+  }
+  .slide-content .slide-header p {
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.35 !important;
+    margin: 0 !important;
+    max-width: 90ch !important;
+  }
+  .slide-content .slide__inner { gap: var(--space-3) !important; }
+
+  /* Variants grid (scripts.html slide 6) — 3 cols, dense cards */
+  .variants-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--space-3) !important;
+  }
+  .variant-card {
+    padding: var(--space-2) var(--space-3) !important;
+    gap: 6px !important;
+    border-radius: var(--radius-md) !important;
+  }
+  .variant-card__num { width: 24px !important; height: 24px !important; font-size: 10px !important; }
+  .variant-card__title { font-size: var(--font-size-xs) !important; line-height: 1.25 !important; }
+  .variant-card__phrase {
+    font-size: var(--font-size-xs) !important;
+    padding: var(--space-2) var(--space-3) !important;
+    line-height: 1.35 !important;
+  }
+  .variant-card__why { font-size: 11px !important; line-height: 1.3 !important; }
+
+  /* HEARD steps (scripts.html slide 5) */
+  .heard-steps { gap: var(--space-2) !important; }
+  .heard-step { padding: var(--space-2) var(--space-3) !important; gap: var(--space-3) !important; }
+  .heard-step__letter { width: 32px !important; height: 32px !important; font-size: var(--font-size-sm) !important; }
+  .heard-step__title { font-size: var(--font-size-sm) !important; }
+  .heard-step__desc { font-size: var(--font-size-xs) !important; line-height: 1.35 !important; }
+
+  /* Protocol steps (scripts.html slide 10) */
+  .protocol-steps { gap: var(--space-1) !important; }
+  .protocol-step { padding: var(--space-1) 0 !important; gap: var(--space-3) !important; }
+  .protocol-step__node { width: 28px !important; height: 28px !important; font-size: var(--font-size-xs) !important; }
+  .protocol-step__body { gap: var(--space-1) !important; }
+  .protocol-step__title { font-size: var(--font-size-sm) !important; line-height: 1.2 !important; }
+  .protocol-step__duration { font-size: 11px !important; }
+  .protocol-step__phrase {
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: var(--font-size-xs) !important;
+    line-height: 1.35 !important;
+    margin-top: 2px !important;
+  }
+  .protocol-step:not(:last-child)::before { top: 34px !important; }
+
+  /* Phrase bubbles + marker cards (slides 3, 4, 7-9, 11) */
+  .phrase-bubble {
+    padding: 6px var(--space-3) !important;
+    font-size: var(--font-size-xs) !important;
+    line-height: 1.3 !important;
+  }
+  .phrase-bubble__note { font-size: 11px !important; margin-top: 2px !important; line-height: 1.3 !important; }
+
+  .marker-card { padding: var(--space-2) var(--space-3) !important; gap: 6px !important; }
+  .marker-card__header { font-size: var(--font-size-xs) !important; gap: 6px !important; }
+  .marker-card__body { font-size: var(--font-size-xs) !important; gap: 6px !important; line-height: 1.3 !important; }
+  .marker-card__body p { margin: 0 !important; line-height: 1.3 !important; }
+  .marker-card__body ul { margin: 2px 0 4px 18px !important; font-size: var(--font-size-xs) !important; line-height: 1.35 !important; }
+  .marker-card__body li { margin-bottom: 0 !important; }
+  .marker-card__body > .phrase-bubble + .phrase-bubble { margin-top: var(--space-1) !important; }
+
+  /* Scenario blocks (scripts.html slide 3, etc.) */
+  .scenario { padding: var(--space-2) var(--space-3) !important; gap: 6px !important; }
+  .scenario__title { font-size: var(--font-size-sm) !important; gap: var(--space-2) !important; margin: 0 !important; }
+  .scenario__num { font-size: var(--font-size-xs) !important; padding: 2px 6px !important; }
+  .scenario__context { font-size: var(--font-size-xs) !important; }
+  .do-dont-grid { gap: var(--space-2) !important; }
+
+  /* KPI grid (scripts.html slide 14) */
+  .kpi-card { padding: var(--space-3) var(--space-4) !important; gap: var(--space-2) !important; }
+  .kpi-card__target { font-size: var(--font-size-xl) !important; }
+  .kpi-card__desc { font-size: var(--font-size-xs) !important; line-height: 1.35 !important; }
+  .kpi-grid { gap: var(--space-3) !important; }
+
+  /* Forbidden table (if present) */
+  .forbidden-table thead th { padding: var(--space-2) var(--space-3) !important; font-size: var(--font-size-xs) !important; }
+  .forbidden-table tbody td { padding: var(--space-2) var(--space-3) !important; font-size: var(--font-size-sm) !important; }
+
+  /* Toc cards (scripts.html slide 2) */
+  .toc-card { padding: var(--space-2) var(--space-4) !important; gap: var(--space-3) !important; }
+  .toc-card__num { width: 32px !important; height: 32px !important; font-size: var(--font-size-xs) !important; }
+  .toc-card__desc { font-size: var(--font-size-xs) !important; line-height: 1.35 !important; }
+  .toc-grid { gap: var(--space-3) !important; }
+}
+
+/* Very short viewports (≤ 820px) — aggressive compression */
+@media (min-width: 769px) and (max-height: 820px) {
+  :root {
+    --content-padding: clamp(var(--space-4), 2.5vw, var(--space-10));
+  }
+
+  .slide {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  .slide-title .slide__inner,
+  .slide-stat .slide__inner,
+  .slide-content .slide__inner,
+  .slide-formula .slide__inner,
+  .slide-list .slide__inner,
+  .slide-table .slide__inner,
+  .slide-summary .slide__inner,
+  .slide-dark .slide__inner,
+  .slide-script .slide__inner,
+  .slide-quote .slide__inner {
+    gap: var(--space-4);
+  }
+
+  /* Title */
+  .slide-title h1 {
+    font-size: clamp(1.75rem, 3.5vw, 48px);
+    max-width: 16ch;
+  }
+  .slide-title .title-subtitle {
+    font-size: var(--font-size-base);
+  }
+  .slide-title .title-decoration { display: none; }
+  .slide-title .title-meta { padding-top: var(--space-1); }
+
+  /* Stat */
+  .slide-stat .stat-number {
+    font-size: clamp(3.5rem, 11vw, 7.5rem);
+  }
+  .slide-stat .stat-headline {
+    font-size: clamp(var(--font-size-md), 1.8vw, var(--font-size-xl));
+  }
+  .slide-stat .stat-description {
+    font-size: var(--font-size-base);
+  }
+
+  /* Content headers */
+  .slide-content .slide-header h2,
+  .slide-list h2,
+  .slide-table h2,
+  .slide-summary .summary-header h2,
+  .slide-formula h2,
+  .slide-dark h2 {
+    font-size: clamp(var(--font-size-lg), 2.5vw, var(--font-size-2xl));
+  }
+
+  .slide-content .slide-header p { font-size: var(--font-size-base); }
+
+  /* Formula box */
+  .formula-box {
+    padding: var(--space-4) var(--space-6);
+    gap: var(--space-3);
+  }
+  .formula-box .formula-display {
+    font-size: clamp(var(--font-size-md), 2vw, var(--font-size-xl));
+  }
+  .formula-box .formula-legend {
+    gap: var(--space-2) var(--space-4);
+    padding-top: var(--space-2);
+  }
+  .formula-result-box {
+    padding: var(--space-3) var(--space-5);
+  }
+  .formula-result-box .result-value {
+    font-size: var(--font-size-2xl);
+  }
+
+  /* Table */
+  .slide-table thead th {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-xs);
+  }
+  .slide-table tbody td {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+  }
+
+  /* Case */
+  .slide-case .slide__inner { gap: var(--space-5); }
+  .slide-case .case-panel {
+    padding: var(--space-4) var(--space-5);
+    gap: var(--space-3);
+  }
+  .slide-case .case-panel p { font-size: var(--font-size-sm); }
+
+  /* Quote */
+  .slide-quote .quote-mark { font-size: 4rem; }
+  .slide-quote blockquote {
+    font-size: clamp(var(--font-size-md), 2.2vw, var(--font-size-xl));
+  }
+
+  /* Scripts page — speech bubbles tightened */
+  .script-box { gap: var(--space-2); }
+  .script-box .speech-bubble {
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-base);
+  }
+  .slide-script .script-exchange { gap: var(--space-4); }
+
+  /* Highlight / callout compressed */
+  .highlight-box { padding: var(--space-3) var(--space-4); }
+  .highlight-box__icon { width: 18px; height: 18px; }
+
+  /* Checklist tighter */
+  .checklist-item {
+    padding: var(--space-2) var(--space-4);
+    gap: var(--space-3);
+  }
+  .checklist-body .checklist-title { font-size: var(--font-size-sm); }
+  .checklist-body .checklist-desc { font-size: var(--font-size-xs); }
+
+  /* Timeline */
+  .timeline-step { gap: var(--space-4); }
+  .timeline-step .timeline-body { padding-bottom: var(--space-4); }
+  .timeline-step .timeline-node { width: 32px; height: 32px; font-size: var(--font-size-xs); }
+  .timeline-step:not(:last-child)::before { left: 15px; }
+
+  /* Comparison / good-bad cards */
+  .comparison { gap: var(--space-4); }
+  .comparison-side {
+    padding: var(--space-4) var(--space-5);
+    gap: var(--space-3);
+  }
+
+  /* Metric */
+  .metric-card {
+    padding: var(--space-3) var(--space-5);
+    gap: var(--space-2);
+  }
+  .metric-card .metric-value { font-size: var(--font-size-2xl); }
+
+  /* Summary grid */
+  .slide-summary .summary-grid { gap: var(--space-3); }
+}
+
+/* Ultra-short viewports (≤ 740px) — for laptops + open devtools / split view */
+@media (min-width: 769px) and (max-height: 740px) {
+  :root {
+    --content-padding: var(--space-4);
+  }
+  .slide { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+
+  .slide-title h1 { font-size: clamp(1.75rem, 3.5vw, 44px); }
+  .slide-stat .stat-number { font-size: clamp(3rem, 9vw, 6rem); }
+
+  /* Content headers even smaller */
+  .slide-content .slide-header h2,
+  .slide-list h2,
+  .slide-table h2,
+  .slide-summary .summary-header h2,
+  .slide-formula h2,
+  .slide-dark h2 {
+    font-size: clamp(var(--font-size-md), 2vw, var(--font-size-xl));
+  }
+
+  .slide__inner {
+    gap: var(--space-3) !important;
   }
 }
 

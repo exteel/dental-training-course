@@ -23,6 +23,7 @@
       overflow-x: hidden !important;
     }
 
+
     /* Markers (✅ / ❌ / 💡) for do/don't/why blocks */
     .marker-card {
       border-radius: var(--radius-xl);
@@ -809,6 +810,75 @@
       .variants-grid {
         grid-template-columns: repeat(2, 1fr);
       }
+    }
+
+    /* ── Short viewport (desktop height ≤ 900px): compress scripts-specific cards ── */
+    @media (min-width: 769px) and (max-height: 900px) {
+      .marker-card { padding: var(--space-2) var(--space-4); gap: var(--space-2); }
+      .marker-card__body { font-size: var(--font-size-sm); gap: var(--space-2); }
+      .marker-card__body p { margin: 0; }
+      .phrase-bubble { padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); }
+      .phrase-bubble__note { font-size: var(--font-size-xs); margin-top: var(--space-1); }
+      .scenario { padding: var(--space-2) var(--space-4); gap: var(--space-2); }
+      .scenario__context { font-size: var(--font-size-sm); }
+      .heard-step { padding: var(--space-2) var(--space-3); gap: var(--space-3); }
+      .heard-step__letter { width: 34px; height: 34px; font-size: var(--font-size-base); }
+      .heard-step__desc { font-size: var(--font-size-xs); }
+      .heard-steps { gap: var(--space-2); }
+      .protocol-step { padding: var(--space-2) 0; }
+      .protocol-step:not(:last-child)::before { top: 42px; }
+      .protocol-step__node { width: 34px; height: 34px; font-size: var(--font-size-xs); }
+      .protocol-step__phrase { padding: var(--space-2) var(--space-3); font-size: var(--font-size-xs); }
+      .variant-card { padding: var(--space-3) var(--space-4); gap: var(--space-2); }
+      .variant-card__phrase { padding: var(--space-2) var(--space-3); font-size: var(--font-size-xs); }
+      .variant-card__why { font-size: var(--font-size-xs); }
+      .variants-grid { gap: var(--space-3); }
+      .kpi-card { padding: var(--space-3) var(--space-4); gap: var(--space-2); }
+      .kpi-card__target { font-size: var(--font-size-2xl); }
+      .kpi-card__desc { font-size: var(--font-size-xs); }
+      .kpi-grid { gap: var(--space-3); }
+      .toc-card { padding: var(--space-2) var(--space-4); gap: var(--space-3); }
+      .toc-card__num { width: 34px; height: 34px; font-size: var(--font-size-xs); }
+      .toc-card__desc { font-size: var(--font-size-xs); }
+      .toc-grid { gap: var(--space-3); }
+      .forbidden-table thead th { padding: var(--space-2) var(--space-3); font-size: var(--font-size-xs); }
+      .forbidden-table tbody td { padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); }
+      .do-dont-grid { gap: var(--space-3); }
+    }
+
+    /* ── Very short (≤ 820px): aggressive compression ── */
+    @media (min-width: 769px) and (max-height: 820px) {
+      .marker-card { padding: var(--space-2) var(--space-4); }
+      .marker-card__body { font-size: var(--font-size-xs); }
+      .phrase-bubble { padding: var(--space-2) var(--space-3); font-size: var(--font-size-xs); }
+      .phrase-bubble__note { font-size: var(--font-size-xs); margin-top: var(--space-1); }
+      .scenario { padding: var(--space-2) var(--space-4); }
+      .scenario__context { font-size: var(--font-size-xs); }
+      .heard-step { padding: var(--space-2) var(--space-3); gap: var(--space-2); }
+      .heard-step__letter { width: 30px; height: 30px; font-size: var(--font-size-base); }
+      .heard-step__title { font-size: var(--font-size-sm); }
+      .heard-step__desc { font-size: var(--font-size-xs); }
+      .heard-steps { gap: var(--space-2); }
+      .protocol-step { padding: var(--space-2) 0; }
+      .protocol-step__node { width: 32px; height: 32px; font-size: var(--font-size-xs); }
+      .protocol-step__title { font-size: var(--font-size-sm); }
+      .protocol-step__duration { font-size: var(--font-size-xs); }
+      .protocol-step__phrase { padding: var(--space-2) var(--space-3); font-size: var(--font-size-xs); }
+      .variant-card { padding: var(--space-2) var(--space-3); }
+      .variant-card__phrase { font-size: var(--font-size-xs); padding: var(--space-2) var(--space-3); }
+      .variant-card__why { font-size: var(--font-size-xs); }
+      .variants-grid { gap: var(--space-3); }
+      .kpi-card { padding: var(--space-3) var(--space-4); }
+      .kpi-card__target { font-size: var(--font-size-2xl); }
+      .kpi-card__desc { font-size: var(--font-size-xs); }
+      .kpi-grid { gap: var(--space-3); }
+      .toc-card { padding: var(--space-2) var(--space-4); }
+      .toc-card__num { width: 30px; height: 30px; font-size: var(--font-size-xs); }
+      .toc-card__desc { font-size: var(--font-size-xs); }
+      .toc-grid { gap: var(--space-3); }
+      .forbidden-table thead th { padding: var(--space-2); font-size: var(--font-size-xs); }
+      .forbidden-table tbody td { padding: var(--space-2); font-size: var(--font-size-xs); }
+      .do-dont-grid { gap: var(--space-2); }
     }
   </style>
 </head>
