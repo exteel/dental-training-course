@@ -1287,6 +1287,13 @@ function completeModule(key) {
     if (!pres) return;
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    // Mobile: skip transform entirely — CSS handles layout
+    if (vw < 769) {
+      pres.style.transform = '';
+      pres.style.left = '';
+      pres.style.top = '';
+      return;
+    }
     const scale = Math.min(vw / 1920, vh / 1080);
     const offsetX = Math.round((vw - 1920 * scale) / 2);
     const offsetY = Math.round((vh - 1080 * scale) / 2);

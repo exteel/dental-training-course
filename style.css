@@ -2031,6 +2031,42 @@ a {
     --content-padding: var(--space-5);
   }
 
+  /* ── CRITICAL: disable fixed 1920x1080 canvas on mobile ── */
+  /* On desktop the presentation is a fixed 16:9 canvas scaled via JS.
+     On mobile (portrait), scaling makes it a tiny band — so instead
+     we fall back to a natural, full-width, scrollable layout. */
+  body {
+    overflow: auto !important;
+  }
+
+  .presentation {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    transform: none !important;
+    overflow: visible !important;
+    left: auto !important;
+    top: auto !important;
+  }
+
+  .slide {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-height: 100vh;
+    height: auto !important;
+  }
+
+  /* Only active slide visible on mobile (same navigation UX) */
+  .slide:not(.slide--active) {
+    display: none !important;
+  }
+
+  .slide--active {
+    display: flex !important;
+  }
+
   /* ── Bottom nav bar: [< Назад]  2/18  [Далі >] ── */
   .nav-btn {
     width: calc(50% - 48px);
