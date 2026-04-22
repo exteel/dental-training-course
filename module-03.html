@@ -1942,15 +1942,23 @@
   document.addEventListener('keydown', (e) => {
     switch (e.key) {
       case 'ArrowLeft':
-      case 'ArrowUp':
         goToSlide(currentIndex - 1);
         break;
+      case 'ArrowUp': {
+        const _su = document.querySelector('.slide--active');
+        if (_su && _su.scrollTop > 5) { e.preventDefault(); _su.scrollBy({ top: -120, behavior: 'smooth' }); break; }
+        goToSlide(currentIndex - 1); break;
+      }
       case 'ArrowRight':
+        e.preventDefault(); goToSlide(currentIndex + 1); break;
       case 'ArrowDown':
-      case ' ':
-        e.preventDefault();
-        goToSlide(currentIndex + 1);
-        break;
+      case ' ': {
+        const _sd = document.querySelector('.slide--active');
+        if (_sd && _sd.scrollHeight > _sd.clientHeight + 5 && _sd.scrollTop + _sd.clientHeight < _sd.scrollHeight - 5) {
+          e.preventDefault(); _sd.scrollBy({ top: 120, behavior: 'smooth' }); break;
+        }
+        e.preventDefault(); goToSlide(currentIndex + 1); break;
+      }
       case 'Home':
         goToSlide(0);
         break;

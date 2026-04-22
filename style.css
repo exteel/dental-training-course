@@ -2301,7 +2301,7 @@ a {
    (covers 1080p monitors with browser chrome: ~100-180px chrome → ~900-980px viewport;
     Chromium reports max-height:900 as not-matching at exactly 900px due to sub-pixel
     rounding, so we use 960px as the safe upper boundary) */
-@media (min-width: 769px) and (max-height: 960px) {
+@media (min-width: 769px) and (max-height: 1080px) {
   :root {
     /* shrink content padding — reclaim vertical space */
     --content-padding: clamp(var(--space-5), 3vw, var(--space-12));
