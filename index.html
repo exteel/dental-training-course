@@ -1,0 +1,1722 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Лікар як ключ до повторного пацієнта — Yeremchuk Dental Education</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ============================================================
+       INDEX PAGE — OVERRIDES & EXTENSIONS
+       The shared style.css sets overflow:hidden for slide layout.
+       This page is a scrollable landing, so we reset that.
+    ============================================================ */
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      overflow: auto;
+      background: #0b1220;
+      color: #f1f5f9;
+    }
+
+    /* Reset slide-specific shell rules */
+    .presentation { position: static; width: auto; height: auto; overflow: visible; }
+
+    /* ============================================================
+       GLOBAL LAYOUT
+    ============================================================ */
+    .page-wrapper {
+      min-height: 100vh;
+      font-family: var(--font-family);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+    }
+
+    /* ============================================================
+       TOP NAV
+    ============================================================ */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(11, 18, 32, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background 250ms ease-out;
+    }
+
+    .top-nav__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-nav__brand {
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .top-nav__brand span { color: #60a5fa; }
+
+    .top-nav__links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .top-nav__links a {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      transition: color 200ms ease-out;
+    }
+
+    .top-nav__links a:hover { color: rgba(255,255,255,0.90); }
+
+    @media (max-width: 640px) { .top-nav__links { display: none; } }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    .hero {
+      padding-top: 60px;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.22) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(14,165,233,0.10) 0%, transparent 50%),
+        linear-gradient(180deg, #0b1220 0%, #0d1728 60%, #0b1220 100%);
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(37,99,235,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37,99,235,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: clamp(4rem, 8vh, 7rem) 0 clamp(3rem, 6vh, 5rem);
+    }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.35);
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.375rem 0.875rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #60a5fa;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero__title {
+      font-size: clamp(2.25rem, 5vw, 3.75rem);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 60%, #93c5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero__subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 3rem;
+      letter-spacing: 0.01em;
+    }
+
+    .hero__subtitle strong {
+      color: rgba(255,255,255,0.80);
+      font-weight: 600;
+    }
+
+    /* Stats row */
+    .hero__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      max-width: 720px;
+    }
+
+    @media (max-width: 640px) {
+      .hero__stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 100%;
+      }
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.5rem 1.25rem;
+      transition: border-color 250ms ease-out, background 250ms ease-out;
+    }
+
+    .stat-card:hover {
+      background: rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.30);
+    }
+
+    .stat-card__value {
+      font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #60a5fa, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card__label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.4;
+    }
+
+    /* CTA buttons */
+    .hero__ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-family);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 0.875rem 1.75rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 200ms ease-out, box-shadow 200ms ease-out, background 200ms ease-out;
+      outline: none;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn--primary {
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.35);
+    }
+
+    .btn--primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(37,99,235,0.45);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: rgba(255,255,255,0.80);
+      border: 1.5px solid rgba(255,255,255,0.20);
+    }
+
+    .btn--outline:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.40);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .btn__icon {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       SECTION COMMON
+    ============================================================ */
+    .section { padding: clamp(4rem, 8vh, 6rem) 0; }
+    .section--alt { background: rgba(255,255,255,0.015); }
+
+    .section__eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 0.75rem;
+    }
+
+    .section__title {
+      font-size: clamp(1.625rem, 3vw, 2.25rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.75rem;
+    }
+
+    .section__subtitle {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.50);
+      margin-bottom: 3rem;
+      max-width: 560px;
+    }
+
+    /* ============================================================
+       PROGRESS TRACKER
+    ============================================================ */
+    .progress-section { background: rgba(255,255,255,0.015); }
+
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.875rem;
+    }
+
+    @media (max-width: 900px) { .progress-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .progress-grid { grid-template-columns: 1fr; } }
+
+    .progress-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      transition: background 200ms ease-out, border-color 200ms ease-out, transform 200ms ease-out;
+    }
+
+    .progress-item:hover {
+      background: rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.25);
+      transform: translateY(-1px);
+    }
+
+    .progress-item__indicator {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: background 300ms ease-out;
+    }
+
+    .progress-item--done .progress-item__indicator {
+      background: rgba(16,185,129,0.20);
+      border: 1.5px solid #10b981;
+      color: #10b981;
+    }
+
+    .progress-item--current .progress-item__indicator {
+      background: rgba(37,99,235,0.25);
+      border: 1.5px solid #3b82f6;
+      color: #60a5fa;
+      animation: progress-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes progress-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.40); }
+      50% { box-shadow: 0 0 0 6px rgba(37,99,235,0); }
+    }
+
+    .progress-item--upcoming .progress-item__indicator {
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.30);
+    }
+
+    .progress-item__text { flex: 1; min-width: 0; }
+
+    .progress-item__name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .progress-item--done .progress-item__name { color: rgba(255,255,255,0.55); }
+
+    .progress-item__status {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      margin-top: 0.125rem;
+    }
+
+    .progress-item--done    .progress-item__status { color: #10b981; }
+    .progress-item--current .progress-item__status { color: #60a5fa; }
+    .progress-item--upcoming .progress-item__status { color: rgba(255,255,255,0.25); }
+
+    /* ============================================================
+       MODULE CARDS
+    ============================================================ */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) { .modules-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px) { .modules-grid { grid-template-columns: 1fr; } }
+
+    .module-card {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition:
+        transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 250ms ease-out,
+        border-color 250ms ease-out,
+        background 250ms ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .module-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 250ms ease-out;
+      pointer-events: none;
+    }
+
+    .module-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 4px 12px rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.35);
+    }
+
+    .module-card:hover::before { opacity: 1; }
+
+    .module-card--key {
+      border-color: rgba(245,158,11,0.35);
+      background: rgba(245,158,11,0.04);
+    }
+
+    .module-card--key::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      box-shadow: 0 0 0 1px rgba(245,158,11,0.15), 0 0 30px rgba(245,158,11,0.06) inset;
+      pointer-events: none;
+    }
+
+    .module-card--key:hover {
+      border-color: rgba(245,158,11,0.55);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 4px 20px rgba(245,158,11,0.15);
+    }
+
+    .module-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .module-card__number {
+      font-size: 0.6875rem;
+      font-weight: 800;
+      letter-spacing: 0.10em;
+      color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .module-card--key .module-card__number {
+      background: rgba(245,158,11,0.12);
+      color: rgba(245,158,11,0.70);
+    }
+
+    .module-card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.20);
+      transition: background 250ms ease-out;
+    }
+
+    .module-card--key .module-card__icon {
+      background: rgba(245,158,11,0.12);
+      border-color: rgba(245,158,11,0.25);
+    }
+
+    .module-card__icon svg {
+      width: 22px;
+      height: 22px;
+      color: #60a5fa;
+    }
+
+    .module-card--key .module-card__icon svg { color: #f59e0b; }
+
+    .module-card__title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-card__subtitle {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.50);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .module-card__meta {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.30);
+      margin-bottom: 1rem;
+    }
+
+    .module-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      padding: 0.25rem 0.625rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.50);
+      border: 1px solid rgba(255,255,255,0.08);
+      letter-spacing: 0.02em;
+    }
+
+    .tag--gold {
+      background: rgba(245,158,11,0.12);
+      color: #f59e0b;
+      border-color: rgba(245,158,11,0.25);
+    }
+
+    .module-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #60a5fa;
+      margin-top: auto;
+      transition: gap 200ms ease-out, color 200ms ease-out;
+    }
+
+    .module-card--key .module-card__cta { color: #f59e0b; }
+
+    .module-card:hover .module-card__cta { gap: 0.75rem; }
+
+    .module-card__cta svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 200ms ease-out;
+    }
+
+    .module-card:hover .module-card__cta svg { transform: translateX(3px); }
+
+    /* Scripts / КВП bonus card */
+    .module-card--scripts {
+      border-color: rgba(20,184,166,0.35);
+      background: rgba(20,184,166,0.04);
+    }
+    .module-card--scripts::before {
+      background: linear-gradient(135deg, rgba(20,184,166,0.07) 0%, transparent 60%);
+    }
+    .module-card--scripts:hover {
+      border-color: rgba(20,184,166,0.55);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 4px 20px rgba(20,184,166,0.15);
+    }
+    .module-card--scripts .module-card__number {
+      background: rgba(20,184,166,0.12);
+      color: rgba(20,184,166,0.80);
+    }
+    .module-card--scripts .module-card__icon {
+      background: rgba(20,184,166,0.12);
+      border-color: rgba(20,184,166,0.25);
+    }
+    .module-card--scripts .module-card__icon svg { color: #2dd4bf; }
+    .module-card--scripts .module-card__cta { color: #2dd4bf; }
+    .tag--scripts {
+      background: rgba(20,184,166,0.10);
+      color: rgba(20,184,166,0.80);
+      border-color: rgba(20,184,166,0.20);
+    }
+
+    /* ============================================================
+       FINAL TEST CARD
+    ============================================================ */
+    .final-test-card {
+      background:
+        radial-gradient(ellipse 60% 80% at 90% 50%, rgba(37,99,235,0.15) 0%, transparent 60%),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: 24px;
+      padding: clamp(2rem, 4vw, 3rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-test-card::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(37,99,235,0.08);
+      pointer-events: none;
+    }
+
+    .final-test-card__body { position: relative; z-index: 1; }
+
+    .final-test-card__eyebrow {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 0.625rem;
+    }
+
+    .final-test-card__title {
+      font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.625rem;
+      letter-spacing: -0.02em;
+    }
+
+    .final-test-card__subtitle {
+      font-size: 0.9375rem;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 0.875rem;
+    }
+
+    .final-test-card__note { font-size: 0.8rem; color: rgba(255,255,255,0.30); }
+    .final-test-card__action { position: relative; z-index: 1; flex-shrink: 0; }
+
+    /* ============================================================
+       MATERIALS
+    ============================================================ */
+    .materials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 700px) { .materials-grid { grid-template-columns: 1fr; } }
+
+    .material-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: background 200ms ease-out, border-color 200ms ease-out, transform 200ms ease-out;
+    }
+
+    .material-card:hover {
+      background: rgba(37,99,235,0.07);
+      border-color: rgba(37,99,235,0.25);
+      transform: translateY(-2px);
+    }
+
+    .material-card__icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.18);
+      flex-shrink: 0;
+    }
+
+    .material-card__icon svg {
+      width: 20px;
+      height: 20px;
+      color: #60a5fa;
+    }
+
+    .material-card__title {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.25rem;
+      line-height: 1.3;
+    }
+
+    .material-card__desc { font-size: 0.8125rem; color: rgba(255,255,255,0.40); }
+
+    /* ============================================================
+       HOW IT WORKS TIMELINE
+    ============================================================ */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    @media (max-width: 800px) {
+      .timeline { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .timeline::before { display: none; }
+    }
+
+    @media (max-width: 480px) { .timeline { grid-template-columns: 1fr; } }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(12.5% + 1rem);
+      right: calc(12.5% + 1rem);
+      height: 2px;
+      background: linear-gradient(90deg, rgba(37,99,235,0.30), rgba(14,165,233,0.30));
+      pointer-events: none;
+    }
+
+    .timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 1rem;
+      position: relative;
+    }
+
+    .timeline-step__number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 900;
+      margin-bottom: 1.25rem;
+      position: relative;
+      z-index: 1;
+      background: #0b1220;
+      border: 2px solid rgba(37,99,235,0.40);
+      color: #60a5fa;
+      transition: border-color 250ms ease-out, box-shadow 250ms ease-out;
+    }
+
+    .timeline-step:hover .timeline-step__number {
+      border-color: rgba(37,99,235,0.70);
+      box-shadow: 0 0 20px rgba(37,99,235,0.25);
+    }
+
+    .timeline-step__title {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .timeline-step__detail {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    .footer {
+      background: rgba(0,0,0,0.35);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: clamp(2.5rem, 5vh, 4rem) 0 2rem;
+    }
+
+    .footer__top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    @media (max-width: 640px) { .footer__top { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .footer__brand-name {
+      font-size: 0.9375rem;
+      font-weight: 800;
+      color: rgba(255,255,255,0.85);
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer__brand-desc {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .footer__tip {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.40);
+      line-height: 1.6;
+    }
+
+    .footer__tip strong {
+      color: rgba(255,255,255,0.60);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer__nav-title {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+      margin-bottom: 1rem;
+    }
+
+    .footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      transition: color 200ms ease-out;
+    }
+
+    .footer__links a:hover { color: rgba(255,255,255,0.85); }
+
+    .footer__bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .footer__copy {
+      font-size: 0.8125rem;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ============================================================
+       SCROLL ANIMATIONS
+    ============================================================ */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    .stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .stagger.visible > *:nth-child(1) { opacity: 1; transform: none; transition-delay:   0ms; }
+    .stagger.visible > *:nth-child(2) { opacity: 1; transform: none; transition-delay:  80ms; }
+    .stagger.visible > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 160ms; }
+    .stagger.visible > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 240ms; }
+    .stagger.visible > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 320ms; }
+    .stagger.visible > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 400ms; }
+    .stagger.visible > *:nth-child(7) { opacity: 1; transform: none; transition-delay: 480ms; }
+    .stagger.visible > *:nth-child(8) { opacity: 1; transform: none; transition-delay: 560ms; }
+
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- TOP NAV -->
+  <nav class="top-nav" aria-label="Навігація курсу">
+    <div class="top-nav__inner">
+      <div class="top-nav__brand">
+        Yeremchuk <span>Dental</span> Education
+      </div>
+      <div class="top-nav__links">
+        <a href="#modules">Модулі</a>
+        <a href="#progress">Прогрес</a>
+        <a href="#materials">Матеріали</a>
+        <a href="final-test.html">Тест</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero__content">
+
+        <div class="hero__badge" aria-label="Тип курсу">
+          <span class="hero__badge-dot" aria-hidden="true"></span>
+          Курс для лікарів-стоматологів
+        </div>
+
+        <h1 class="hero__title" id="hero-title">
+          Лікар як ключ до<br>повторного пацієнта
+        </h1>
+
+        <p class="hero__subtitle">
+          <strong>6 модулів · 4 години · </strong>Реальні інструменти які змінюють цифри
+        </p>
+
+        <!-- Stats with animated counters -->
+        <div class="hero__stats stagger" id="hero-stats" aria-label="Ключові метрики курсу">
+          <div class="stat-card">
+            <div class="stat-card__value"
+                 data-counter
+                 data-from="30"
+                 data-to="60"
+                 data-suffix="%">30%</div>
+            <div class="stat-card__label">Повторність<br>пацієнтів</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value"
+                 data-counter
+                 data-from="50"
+                 data-to="80"
+                 data-suffix="%">50%</div>
+            <div class="stat-card__label">Прийняття плану<br>лікування</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value"
+                 data-counter
+                 data-from="10000"
+                 data-to="56000"
+                 data-currency="true">56&nbsp;000 грн</div>
+            <div class="stat-card__label">LTV одного<br>пацієнта</div>
+          </div>
+        </div>
+
+        <div class="hero__ctas">
+          <a href="self-analysis.html" class="btn btn--primary" id="btn-start-course">
+            <svg class="btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+            </svg>
+            Почати курс
+          </a>
+          <a href="module-00.html" class="btn btn--outline">
+            Вже проходжу &rarr; Модуль 0
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS TRACKER -->
+  <section class="section progress-section" id="progress" aria-labelledby="progress-title">
+    <div class="container">
+      <p class="section__eyebrow">Відстеження</p>
+      <h2 class="section__title" id="progress-title">Ваш прогрес</h2>
+      <p class="section__subtitle">Кроки зберігаються автоматично у браузері</p>
+
+      <div class="progress-grid stagger" id="progress-grid" role="list">
+
+        <a href="self-analysis.html" class="progress-item" role="listitem"
+           data-progress-key="self-analysis" aria-label="Самоаналіз">
+          <div class="progress-item__indicator" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" focusable="false">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+            </svg>
+          </div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Самоаналіз</div>
+            <div class="progress-item__status">До старту</div>
+          </div>
+        </a>
+
+        <a href="module-00.html" class="progress-item" role="listitem"
+           data-progress-key="module-00" aria-label="Модуль 0: Wake-up Call">
+          <div class="progress-item__indicator" aria-hidden="true">М0</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Wake-up Call</div>
+            <div class="progress-item__status">Скільки коштує пацієнт</div>
+          </div>
+        </a>
+
+        <a href="module-01.html" class="progress-item" role="listitem"
+           data-progress-key="module-01" aria-label="Модуль 1: Довіра в кріслі">
+          <div class="progress-item__indicator" aria-hidden="true">М1</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Довіра в кріслі</div>
+            <div class="progress-item__status">Комунікація</div>
+          </div>
+        </a>
+
+        <a href="module-02.html" class="progress-item" role="listitem"
+           data-progress-key="module-02" aria-label="Модуль 2: Протокол наступного візиту">
+          <div class="progress-item__indicator" aria-hidden="true">М2</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Протокол візиту &#11088;</div>
+            <div class="progress-item__status">Ключовий модуль</div>
+          </div>
+        </a>
+
+        <a href="module-03.html" class="progress-item" role="listitem"
+           data-progress-key="module-03" aria-label="Модуль 3: Презентація плану">
+          <div class="progress-item__indicator" aria-hidden="true">М3</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Презентація плану</div>
+            <div class="progress-item__status">Case Acceptance</div>
+          </div>
+        </a>
+
+        <a href="module-04.html" class="progress-item" role="listitem"
+           data-progress-key="module-04" aria-label="Модуль 4: Заперечення">
+          <div class="progress-item__indicator" aria-hidden="true">М4</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Заперечення</div>
+            <div class="progress-item__status">Дорого / Я подумаю</div>
+          </div>
+        </a>
+
+        <a href="module-05.html" class="progress-item" role="listitem"
+           data-progress-key="module-05" aria-label="Модуль 5: Допродажі">
+          <div class="progress-item__indicator" aria-hidden="true">М5</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Допродажі</div>
+            <div class="progress-item__status">Без тиску</div>
+          </div>
+        </a>
+
+        <a href="scripts.html" class="progress-item" role="listitem"
+           data-progress-key="scripts" aria-label="Скрипти КВП — бонусний матеріал">
+          <div class="progress-item__indicator" aria-hidden="true">КВП</div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Скрипти КВП</div>
+            <div class="progress-item__status">Бонус · Практика</div>
+          </div>
+        </a>
+
+        <a href="final-test.html" class="progress-item" role="listitem"
+           data-progress-key="final-test" aria-label="Підсумковий тест">
+          <div class="progress-item__indicator" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" focusable="false">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="progress-item__text">
+            <div class="progress-item__name">Підсумковий тест</div>
+            <div class="progress-item__status">15 питань · 80%</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES GRID -->
+  <section class="section" id="modules" aria-labelledby="modules-title">
+    <div class="container">
+
+      <p class="section__eyebrow">Програма</p>
+      <h2 class="section__title" id="modules-title">Модулі курсу</h2>
+      <p class="section__subtitle">Шість практичних модулів з реальними інструментами та скриптами</p>
+
+      <div class="modules-grid stagger">
+
+        <!-- M0 -->
+        <a href="module-00.html" class="module-card" aria-labelledby="card-m0-title">
+          <div class="module-card__header">
+            <span class="module-card__number">00</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <line x1="18" y1="20" x2="18" y2="10"/>
+                <line x1="12" y1="20" x2="12" y2="4"/>
+                <line x1="6"  y1="20" x2="6"  y2="14"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m0-title">Wake-up Call</h3>
+          <p class="module-card__subtitle">Скільки коштує один пацієнт</p>
+          <div class="module-card__meta">20 хв · 15 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag">LTV</span>
+            <span class="tag">Метрики</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- M1 -->
+        <a href="module-01.html" class="module-card" aria-labelledby="card-m1-title">
+          <div class="module-card__header">
+            <span class="module-card__number">01</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m1-title">Довіра в кріслі</h3>
+          <p class="module-card__subtitle">78% повертаються через лікаря</p>
+          <div class="module-card__meta">30 хв · 18 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag">Комунікація</span>
+            <span class="tag">Довіра</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- M2 KEY -->
+        <a href="module-02.html" class="module-card module-card--key" aria-labelledby="card-m2-title">
+          <div class="module-card__header">
+            <span class="module-card__number">02</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                <line x1="3"  y1="10" x2="21" y2="10"/>
+                <polygon points="12,14 13.5,17 17,17.5 14.5,20 15,23.5 12,22 9,23.5 9.5,20 7,17.5 10.5,17"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m2-title">Протокол наступного візиту</h3>
+          <p class="module-card__subtitle">Одна фраза яка вирішує все</p>
+          <div class="module-card__meta">30 хв · 17 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag tag--gold">&#11088; Ключовий</span>
+            <span class="tag">Скрипти</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- M3 -->
+        <a href="module-03.html" class="module-card" aria-labelledby="card-m3-title">
+          <div class="module-card__header">
+            <span class="module-card__number">03</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M2 3h20v13H2z"/>
+                <path d="M12 16v5M8 21h8"/>
+                <polyline points="7,13 10,9 13,11 17,6"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m3-title">Презентація плану</h3>
+          <p class="module-card__subtitle">Case Acceptance: від 50% до 80%</p>
+          <div class="module-card__meta">35 хв · 20 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag">Case Acceptance</span>
+            <span class="tag">Скрипти</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- M4 -->
+        <a href="module-04.html" class="module-card" aria-labelledby="card-m4-title">
+          <div class="module-card__header">
+            <span class="module-card__number">04</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m4-title">Заперечення</h3>
+          <p class="module-card__subtitle">Дорого / Я подумаю / Потім</p>
+          <div class="module-card__meta">30 хв · 17 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag">Заперечення</span>
+            <span class="tag">Діалоги</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- M5 -->
+        <a href="module-05.html" class="module-card" aria-labelledby="card-m5-title">
+          <div class="module-card__header">
+            <span class="module-card__number">05</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8"  y1="12" x2="16" y2="12"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-m5-title">Допродажі без тиску</h3>
+          <p class="module-card__subtitle">Рекомендуй як лікар, не як продавець</p>
+          <div class="module-card__meta">25 хв · 15 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag">Допродажі</span>
+            <span class="tag">Рекомендації</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Scripts (Bonus) -->
+        <a href="scripts.html" class="module-card module-card--scripts" aria-labelledby="card-scripts-title">
+          <div class="module-card__header">
+            <span class="module-card__number">КВП</span>
+            <div class="module-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" focusable="false">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="module-card__title" id="card-scripts-title">Скрипти КВП</h3>
+          <p class="module-card__subtitle">Готові фрази від комерційного директора — 11 ситуацій від першого дзвінка до допродажу</p>
+          <div class="module-card__meta">45 хв · 15 слайдів</div>
+          <div class="module-card__tags">
+            <span class="tag tag--scripts">Скрипти</span>
+            <span class="tag tag--scripts">КВП</span>
+            <span class="tag tag--scripts">Практика</span>
+          </div>
+          <span class="module-card__cta" aria-hidden="true">
+            Відкрити
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" focusable="false">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </a>
+
+      </div>
+
+      <!-- Final Test Card -->
+      <div class="final-test-card fade-in" aria-labelledby="final-test-title">
+        <div class="final-test-card__body">
+          <p class="final-test-card__eyebrow">Завершення курсу</p>
+          <h3 class="final-test-card__title" id="final-test-title">Підсумковий тест</h3>
+          <p class="final-test-card__subtitle">15 кейс-питань · Прохідний бал 80% · Перевіряє всі 6 модулів</p>
+          <p class="final-test-card__note">Рекомендується після проходження всіх модулів</p>
+        </div>
+        <div class="final-test-card__action">
+          <a href="final-test.html" class="btn btn--primary">
+            <svg class="btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+            </svg>
+            Пройти тест
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MATERIALS -->
+  <section class="section section--alt" id="materials" aria-labelledby="materials-title">
+    <div class="container">
+      <p class="section__eyebrow">Ресурси</p>
+      <h2 class="section__title" id="materials-title">Додаткові матеріали</h2>
+      <p class="section__subtitle">Практичні інструменти для застосування одразу після модулів</p>
+
+      <div class="materials-grid stagger">
+
+        <a href="self-analysis.html" class="material-card" aria-label="Стартовий самоаналіз">
+          <div class="material-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor" focusable="false">
+              <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="material-card__title">Стартовий самоаналіз</div>
+            <div class="material-card__desc">5 хвилин · До початку курсу</div>
+          </div>
+        </a>
+
+        <a href="materials.html" class="material-card" aria-label="Трекер, чекліст, картка лікаря">
+          <div class="material-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor" focusable="false">
+              <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+              <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div>
+            <div class="material-card__title">Трекер, чекліст, картка лікаря</div>
+            <div class="material-card__desc">Всі практичні бланки одним файлом</div>
+          </div>
+        </a>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" aria-labelledby="how-title">
+    <div class="container">
+      <p class="section__eyebrow">Інструкція</p>
+      <h2 class="section__title" id="how-title">Як проходити курс</h2>
+      <p class="section__subtitle">Чотири кроки для максимального результату</p>
+
+      <div class="timeline stagger" role="list">
+
+        <div class="timeline-step" role="listitem">
+          <div class="timeline-step__number" aria-hidden="true">1</div>
+          <h3 class="timeline-step__title">Заповніть самоаналіз</h3>
+          <p class="timeline-step__detail">5 хвилин, до старту. Чесна оцінка поточного рівня.</p>
+        </div>
+
+        <div class="timeline-step" role="listitem">
+          <div class="timeline-step__number" aria-hidden="true">2</div>
+          <h3 class="timeline-step__title">Проходьте модулі</h3>
+          <p class="timeline-step__detail">1 на тиждень, самостійно. У зручному темпі.</p>
+        </div>
+
+        <div class="timeline-step" role="listitem">
+          <div class="timeline-step__number" aria-hidden="true">3</div>
+          <h3 class="timeline-step__title">Виконуйте ДЗ</h3>
+          <p class="timeline-step__detail">Одне завдання після кожного модуля. Практика одразу.</p>
+        </div>
+
+        <div class="timeline-step" role="listitem">
+          <div class="timeline-step__number" aria-hidden="true">4</div>
+          <h3 class="timeline-step__title">Розбір з керівником</h3>
+          <p class="timeline-step__detail">Раз на місяць, за чеклістом. Закріплення результату.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+
+      <div class="footer__top">
+        <div>
+          <div class="footer__brand-name">Yeremchuk Dental Education</div>
+          <p class="footer__brand-desc">
+            Навчальний курс для лікарів-стоматологів. Практичні інструменти
+            для збільшення повторності пацієнтів та прийняття плану лікування.
+          </p>
+        </div>
+        <div class="footer__tip">
+          <strong>Для PDF-версії:</strong>
+          Відкрийте будь-який модуль &rarr; Ctrl+P &rarr; Зберегти як PDF.
+          Всі слайди оптимізовані для друку.
+        </div>
+      </div>
+
+      <div style="margin-bottom:2rem;">
+        <p class="footer__nav-title">Модулі</p>
+        <nav class="footer__links" aria-label="Посилання на модулі">
+          <a href="module-00.html">М0 · Wake-up Call</a>
+          <a href="module-01.html">М1 · Довіра в кріслі</a>
+          <a href="module-02.html">М2 · Протокол візиту</a>
+          <a href="module-03.html">М3 · Презентація плану</a>
+          <a href="module-04.html">М4 · Заперечення</a>
+          <a href="module-05.html">М5 · Допродажі</a>
+          <a href="scripts.html">КВП · Скрипти</a>
+        </nav>
+      </div>
+
+      <div style="margin-bottom:2rem;">
+        <p class="footer__nav-title">Матеріали</p>
+        <nav class="footer__links" aria-label="Посилання на матеріали">
+          <a href="self-analysis.html">Самоаналіз</a>
+          <a href="materials.html">Трекер та чекліст</a>
+          <a href="final-test.html">Підсумковий тест</a>
+          <a href="../docs/superpowers/specs/2026-04-01-doctors-training-design.md">Специфікація</a>
+        </nav>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">Yeremchuk Dental Education &middot; 2026</p>
+        <p class="footer__copy">Для внутрішнього використання</p>
+      </div>
+
+    </div>
+  </footer>
+
+</div><!-- /page-wrapper -->
+
+<!-- ============================================================
+     JAVASCRIPT — No external dependencies
+============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ============================================================
+     1. LOCALSTORAGE PROGRESS TRACKER
+  ============================================================ */
+  var STORAGE_PREFIX = 'dental_progress_';
+
+  var PROGRESS_KEYS = [
+    'self-analysis',
+    'module-00',
+    'module-01',
+    'module-02',
+    'module-03',
+    'module-04',
+    'module-05',
+    'final-test'
+  ];
+
+  function isVisited(key) {
+    try {
+      return localStorage.getItem(STORAGE_PREFIX + key) === '1';
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /* Build checkmark SVG via DOM — no innerHTML with variable content */
+  function buildCheckmark() {
+    var ns   = 'http://www.w3.org/2000/svg';
+    var svg  = document.createElementNS(ns, 'svg');
+    svg.setAttribute('width', '14');
+    svg.setAttribute('height', '14');
+    svg.setAttribute('viewBox', '0 0 20 20');
+    svg.setAttribute('fill', 'currentColor');
+    svg.setAttribute('focusable', 'false');
+    var path = document.createElementNS(ns, 'path');
+    path.setAttribute('fill-rule', 'evenodd');
+    path.setAttribute('d', 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z');
+    path.setAttribute('clip-rule', 'evenodd');
+    svg.appendChild(path);
+    return svg;
+  }
+
+  function applyProgressStates() {
+    var foundCurrent = false;
+
+    PROGRESS_KEYS.forEach(function (key) {
+      var el = document.querySelector('[data-progress-key="' + key + '"]');
+      if (!el) return;
+
+      el.classList.remove('progress-item--done', 'progress-item--current', 'progress-item--upcoming');
+      var statusEl = el.querySelector('.progress-item__status');
+      var ind      = el.querySelector('.progress-item__indicator');
+
+      if (isVisited(key)) {
+        el.classList.add('progress-item--done');
+        if (statusEl) statusEl.textContent = 'Пройдено';
+        /* Replace indicator content with checkmark using safe DOM methods */
+        while (ind.firstChild) { ind.removeChild(ind.firstChild); }
+        ind.appendChild(buildCheckmark());
+      } else if (!foundCurrent) {
+        foundCurrent = true;
+        el.classList.add('progress-item--current');
+        if (statusEl) statusEl.textContent = 'Далі';
+      } else {
+        el.classList.add('progress-item--upcoming');
+      }
+    });
+  }
+
+  applyProgressStates();
+
+  /* ============================================================
+     1b. DYNAMIC CTA BUTTON — point to next uncompleted step
+  ============================================================ */
+  var KEY_LABELS = {
+    'self-analysis': 'Почати: Самоаналіз',
+    'module-00':     'Продовжити: Модуль 0',
+    'module-01':     'Продовжити: Модуль 1',
+    'module-02':     'Продовжити: Модуль 2',
+    'module-03':     'Продовжити: Модуль 3',
+    'module-04':     'Продовжити: Модуль 4',
+    'module-05':     'Продовжити: Модуль 5',
+    'final-test':    'Фінальний тест'
+  };
+  var KEY_URLS = {
+    'self-analysis': 'self-analysis.html',
+    'module-00':     'module-00.html',
+    'module-01':     'module-01.html',
+    'module-02':     'module-02.html',
+    'module-03':     'module-03.html',
+    'module-04':     'module-04.html',
+    'module-05':     'module-05.html',
+    'final-test':    'final-test.html'
+  };
+
+  function updateStartBtn() {
+    var btn = document.getElementById('btn-start-course');
+    if (!btn) return;
+
+    /* Find the LAST completed step, then point to the one after it.
+       This handles cases where earlier steps were skipped (e.g. self-analysis
+       skipped but module-00 completed → button should go to module-01). */
+    var lastDoneIndex = -1;
+    for (var i = 0; i < PROGRESS_KEYS.length; i++) {
+      if (isVisited(PROGRESS_KEYS[i])) lastDoneIndex = i;
+    }
+
+    var nextKey;
+    if (lastDoneIndex === -1) {
+      /* Nothing done yet — start from the beginning */
+      nextKey = PROGRESS_KEYS[0];
+    } else if (lastDoneIndex >= PROGRESS_KEYS.length - 1) {
+      /* Everything done */
+      nextKey = null;
+    } else {
+      nextKey = PROGRESS_KEYS[lastDoneIndex + 1];
+    }
+
+    if (!nextKey) {
+      btn.href = 'final-test.html';
+    } else {
+      btn.href = KEY_URLS[nextKey];
+    }
+
+    var label = nextKey ? KEY_LABELS[nextKey] : 'Фінальний тест';
+    var nodes = btn.childNodes;
+    for (var n = nodes.length - 1; n >= 0; n--) {
+      if (nodes[n].nodeType === 3 && nodes[n].textContent.trim()) {
+        nodes[n].textContent = '\n            ' + label + '\n          ';
+        break;
+      }
+    }
+  }
+
+  updateStartBtn();
+
+  /* ============================================================
+     2. ANIMATED COUNTERS
+  ============================================================ */
+  function formatCurrency(v) {
+    /* Format number as "56 000 грн" with non-breaking thin space */
+    var s = Math.round(v).toString();
+    var result = '';
+    var offset = s.length % 3;
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (i - offset) % 3 === 0) { result += '\u202f'; }
+      result += s[i];
+    }
+    return result + '\u00a0грн';
+  }
+
+  function animateCounter(el) {
+    var from       = parseInt(el.getAttribute('data-from'), 10) || 0;
+    var to         = parseInt(el.getAttribute('data-to'),   10) || 0;
+    var suffix     = el.getAttribute('data-suffix') || '';
+    var isCurrency = el.getAttribute('data-currency') === 'true';
+    var duration   = 1800;
+    var startTime  = null;
+
+    function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function display(v) {
+      if (isCurrency) { return formatCurrency(v); }
+      return Math.round(v) + suffix;
+    }
+
+    function step(timestamp) {
+      if (!startTime) { startTime = timestamp; }
+      var elapsed  = timestamp - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      var current  = from + (to - from) * easeOut(progress);
+      el.textContent = display(current);
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = display(to);
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  var statsSection = document.getElementById('hero-stats');
+  if (statsSection && 'IntersectionObserver' in window) {
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var counters = entry.target.querySelectorAll('[data-counter]');
+          counters.forEach(function (counter) {
+            setTimeout(function () { animateCounter(counter); }, 400);
+          });
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    counterObserver.observe(statsSection);
+  }
+
+  /* ============================================================
+     3. SCROLL FADE-IN
+  ============================================================ */
+  if ('IntersectionObserver' in window) {
+    var fadeObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in, .stagger').forEach(function (el) {
+      fadeObserver.observe(el);
+    });
+  } else {
+    document.querySelectorAll('.fade-in, .stagger').forEach(function (el) {
+      el.classList.add('visible');
+    });
+  }
+
+  /* ============================================================
+     4. NAV BACKGROUND ON SCROLL
+  ============================================================ */
+  var nav = document.querySelector('.top-nav');
+  if (nav) {
+    window.addEventListener('scroll', function () {
+      nav.style.background = window.scrollY > 40
+        ? 'rgba(11, 18, 32, 0.97)'
+        : 'rgba(11, 18, 32, 0.85)';
+    }, { passive: true });
+  }
+
+})();
+</script>
+
+<script>window.DENTAL_SHOW_LOGIN = true;</script>
+<script src="supabase-config.js"></script>
+<script src="tracking.js"></script>
+</body>
+</html>

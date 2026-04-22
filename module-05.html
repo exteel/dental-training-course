@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Модуль 5 — Допродажі без тиску · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Module-05 specific styles ────────────────────────────── */
+
+    /* Comparison panel (slide 3) */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+
+    .comparison-panel {
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .comparison-panel--admin {
+      background: rgba(239,68,68,0.05);
+      border: 1.5px solid rgba(239,68,68,0.20);
+    }
+
+    .comparison-panel--doctor {
+      background: rgba(16,185,129,0.06);
+      border: 1.5px solid rgba(16,185,129,0.22);
+    }
+
+    .comparison-panel__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .comparison-panel--admin  .comparison-panel__label { color: #dc2626; }
+    .comparison-panel--doctor .comparison-panel__label { color: #059669; }
+
+    .comparison-panel__who {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+
+    .comparison-panel__says {
+      padding: var(--space-4) var(--space-5);
+      border-radius: var(--radius-lg);
+      font-size: var(--font-size-base);
+      font-style: italic;
+      line-height: var(--line-height-relaxed);
+    }
+
+    .comparison-panel--admin  .comparison-panel__says {
+      background: rgba(239,68,68,0.08);
+      color: #991b1b;
+    }
+
+    .comparison-panel--doctor .comparison-panel__says {
+      background: rgba(16,185,129,0.10);
+      color: #065f46;
+    }
+
+    .comparison-panel__hears-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .comparison-panel__hears {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--line-height-snug);
+    }
+
+    .comparison-panel--admin  .comparison-panel__hears { color: #dc2626; }
+    .comparison-panel--doctor .comparison-panel__hears { color: #059669; }
+
+    /* Conversion stat cards (slide 2) */
+    .conv-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+      width: 100%;
+    }
+
+    .conv-card {
+      padding: var(--space-6);
+      border-radius: var(--radius-xl);
+      border: 1.5px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: var(--space-3);
+    }
+
+    .conv-card--green { background: rgba(16,185,129,0.07);  border-color: rgba(16,185,129,0.25); }
+    .conv-card--amber { background: rgba(245,158,11,0.07);  border-color: rgba(245,158,11,0.25); }
+    .conv-card--blue  { background: rgba(37,99,235,0.07);   border-color: rgba(37,99,235,0.20); }
+
+    .conv-card__value {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-black);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .conv-card--green .conv-card__value { color: #10b981; }
+    .conv-card--amber .conv-card__value { color: #f59e0b; }
+    .conv-card--blue  .conv-card__value { color: #2563eb; }
+
+    .conv-card__label {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-snug);
+    }
+
+    /* Principles cards (slide 4) */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+
+    .principle-card {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-7) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .principle-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+      border-color: rgba(37,99,235,0.25);
+    }
+
+    .principle-card__num {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      background: var(--gradient-blue);
+      color: white;
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.30);
+    }
+
+    .principle-card__title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .principle-card__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Situations cards (slide 5) */
+    .situations-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+    }
+
+    .situation-card {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .situation-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .situation-card__emoji {
+      font-size: 1.75rem;
+      line-height: 1;
+    }
+
+    .situation-card__when {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+    }
+
+    .situation-card__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .situation-card__service {
+      font-size: var(--font-size-xs);
+      color: var(--color-primary-blue);
+      font-weight: var(--font-weight-semibold);
+      padding: var(--space-1) var(--space-3);
+      background: rgba(37,99,235,0.08);
+      border-radius: var(--radius-full);
+      width: fit-content;
+    }
+
+    /* Script dialogue (slides 6-9) */
+    .script-block {
+      background: var(--color-white);
+      border: 1.5px solid rgba(37,99,235,0.15);
+      border-left: 4px solid var(--color-primary-blue);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .script-block__speaker {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary-blue);
+    }
+
+    .script-block__text {
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .script-block__text em {
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .script-exchange {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .script-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.22);
+      border-radius: var(--radius-lg);
+    }
+
+    .script-tip__icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .script-tip__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .script-tip__text strong { color: #d97706; }
+
+    /* No-recommend list (slide 10) */
+    .no-rec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+
+    .no-rec-card {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: rgba(239,68,68,0.05);
+      border: 1.5px solid rgba(239,68,68,0.18);
+      border-radius: var(--radius-xl);
+    }
+
+    .no-rec-card__emoji {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+
+    .no-rec-card__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: #dc2626;
+      margin-bottom: var(--space-1);
+    }
+
+    .no-rec-card__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .timing-callout {
+      background: rgba(37,99,235,0.06);
+      border: 1.5px solid rgba(37,99,235,0.18);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      text-align: center;
+    }
+
+    .timing-callout em {
+      color: var(--color-primary-blue);
+      font-style: normal;
+      font-weight: var(--font-weight-bold);
+    }
+
+    /* Case study (slide 11) */
+    .case-feature {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .case-feature__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+    }
+
+    .case-person {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .case-person__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .case-person__name {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    .case-person__role {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+    }
+
+    .case-text {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .case-quote {
+      padding: var(--space-5) var(--space-6);
+      background: rgba(37,99,235,0.05);
+      border-left: 4px solid var(--color-primary-blue);
+      border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+      font-size: var(--font-size-base);
+      font-style: italic;
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .case-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .case-metric {
+      padding: var(--space-5);
+      border-radius: var(--radius-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .case-metric--blue  { background: rgba(37,99,235,0.07);  border: 1.5px solid rgba(37,99,235,0.18); }
+    .case-metric--green { background: rgba(16,185,129,0.07); border: 1.5px solid rgba(16,185,129,0.22); }
+
+    .case-metric__val {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-black);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .case-metric--blue  .case-metric__val { color: #2563eb; }
+    .case-metric--green .case-metric__val { color: #10b981; }
+
+    .case-metric__label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .case-lesson {
+      padding: var(--space-5);
+      background: rgba(245,158,11,0.07);
+      border: 1.5px solid rgba(245,158,11,0.22);
+      border-radius: var(--radius-xl);
+    }
+
+    .case-lesson__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #d97706;
+      margin-bottom: var(--space-2);
+    }
+
+    .case-lesson__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* Summary items (slide 14) */
+    .summary-items {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+    }
+
+    .summary-item {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .summary-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .summary-item__num {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      color: white;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.30);
+    }
+
+    .summary-item__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* HW + Final dark slide */
+    .hw-block {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      backdrop-filter: blur(8px);
+    }
+
+    .hw-block__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .hw-block__text {
+      font-size: var(--font-size-md);
+      color: rgba(255,255,255,0.82);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .final-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-6) var(--space-7);
+      background: var(--gradient-blue);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.35);
+      cursor: default;
+    }
+
+    .final-cta__text {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      color: white;
+    }
+
+    .final-cta__sub {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.75);
+      margin-top: var(--space-1);
+    }
+
+    .final-cta__arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.20);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .final-cta__arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- Progress bar -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Navigation -->
+  <button class="nav-btn nav-btn--prev" id="btnPrev" aria-label="Попередній слайд">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-btn nav-btn--next" id="btnNext" aria-label="Наступний слайд">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Slide counter -->
+  <div class="slide-counter" id="slideCounter">1 / 15</div>
+
+
+  <!-- ================================================================
+       SLIDE 1 — TITLE (dark)
+       ================================================================ -->
+  <section class="slide slide-title" data-slide="1">
+    <div class="slide__inner">
+
+      <div style="display:flex; align-items:center; gap:var(--space-3);" class="animate-in">
+        <div class="title-module-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          МОДУЛЬ 5
+        </div>
+      </div>
+
+      <p class="title-eyebrow animate-in">Курс для лікарів-стоматологів</p>
+
+      <h1 class="animate-in">
+        Допродажі<br/>
+        <span class="accent">без тиску</span>
+      </h1>
+
+      <p class="title-subtitle animate-in">
+        Як рекомендувати додаткові послуги так, щоб пацієнт сприйняв це як турботу — а не як продаж
+      </p>
+
+      <div class="title-meta animate-in">
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          15 слайдів
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          25–30 хвилин
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Конверсія рекомендації лікаря — 60–70%
+        </span>
+      </div>
+
+    </div>
+
+    <div class="title-decoration">
+      <svg viewBox="0 0 100 120" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5C28 5 18 22 18 36c0 10 4 20 8 30s7 20 10 28c1.5 4 3 5 5 5s3-1.5 4-5c1-3 1.5-8 5-8s4 5 5 8c1 3.5 2.5 5 4 5s3.5-1 5-5c3-8 6-18 10-28s8-20 8-30c0-14-10-31-32-31z"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 2 — STAT: 3×
+       ================================================================ -->
+  <section class="slide slide-stat" data-slide="2">
+    <div class="slide__inner">
+
+      <div class="stat-label-top animate-in">Дослідження конверсії рекомендацій</div>
+
+      <div class="stat-number stat--success animate-in" data-target="3" data-suffix="×">0×</div>
+
+      <div class="stat-divider animate-in" style="background:var(--gradient-success);"></div>
+
+      <div class="stat-headline animate-in">
+        вища конверсія рекомендації лікаря порівняно з дзвінком адміністратора
+      </div>
+
+      <div class="conv-cards animate-in">
+
+        <div class="conv-card conv-card--green">
+          <div class="conv-card__value">60–70%</div>
+          <div class="conv-card__label">Конверсія рекомендації лікаря в запис</div>
+        </div>
+
+        <div class="conv-card conv-card--amber">
+          <div class="conv-card__value">20–25%</div>
+          <div class="conv-card__label">Конверсія дзвінка адміністратора з нагадуванням</div>
+        </div>
+
+        <div class="conv-card conv-card--blue">
+          <div class="conv-card__value">= маркетинг</div>
+          <div class="conv-card__label">Ваша рекомендація коштує більше ніж будь-який маркетинг</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 3 — COMPARISON: медична рекомендація vs продаж
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="3">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--blue">Ключова різниця</span>
+        <h2>Медична рекомендація vs <span class="accent">комерційна пропозиція</span></h2>
+        <p>Одні й ті ж слова, але з різних уст — викликають зовсім різну реакцію пацієнта</p>
+      </div>
+
+      <div class="comparison-grid animate-in">
+
+        <div class="comparison-panel comparison-panel--admin">
+          <div class="comparison-panel__label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0 1 12 0v2"/></svg>
+            Адміністратор
+          </div>
+          <div class="comparison-panel__who">Дзвінок або розмова на ресепшені</div>
+          <div class="comparison-panel__says">«Хочете записатись на профгігієну? У нас зараз акція»</div>
+          <div class="comparison-panel__hears-label">Пацієнт чує:</div>
+          <div class="comparison-panel__hears">Комерційна пропозиція. Хочуть продати мені щось зайве.</div>
+        </div>
+
+        <div class="comparison-panel comparison-panel--doctor">
+          <div class="comparison-panel__label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+            Лікар
+          </div>
+          <div class="comparison-panel__who">В кінці прийому, після лікування</div>
+          <div class="comparison-panel__says">«Після цього лікування рекомендую профгігієну через 3 місяці — це збереже результат і захистить від повторного карієсу»</div>
+          <div class="comparison-panel__hears-label">Пацієнт чує:</div>
+          <div class="comparison-panel__hears">Медична необхідність. Лікар піклується про мій результат.</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--info animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Слова лікаря мають медичний авторитет</p>
+          <p class="highlight-box__text">Це не ваш бонус — це ваша відповідальність перед пацієнтом. Мовчання — не скромність. Це недбалість.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 4 — CONTENT: 3 принципи рекомендацій
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="4">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--teal">Основа підходу</span>
+        <h2>3 принципи рекомендацій <span class="accent">без тиску</span></h2>
+      </div>
+
+      <div class="principles-grid animate-in">
+
+        <div class="principle-card">
+          <div class="principle-card__num">1</div>
+          <div class="principle-card__title">Медична основа</div>
+          <div class="principle-card__text">Рекомендуєте тільки те, що реально потрібно пацієнту. Ніколи — для виконання плану продажів чи особистого бонусу. Один раз порушити — і довіра зникне назавжди.</div>
+        </div>
+
+        <div class="principle-card">
+          <div class="principle-card__num">2</div>
+          <div class="principle-card__title">Правильний момент</div>
+          <div class="principle-card__text">В кінці прийому, після завершення основного лікування. Не на початку — пацієнт ще не відчув турботи. Не в середині процедури — він думає про інше.</div>
+        </div>
+
+        <div class="principle-card">
+          <div class="principle-card__num">3</div>
+          <div class="principle-card__title">Формат турботи</div>
+          <div class="principle-card__text">«Я рекомендую це, тому що...» а не «у нас є послуга...». Пояснення причини перетворює пропозицію на медичну рекомендацію — не рекламу.</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 5 — CONTENT: топ-5 ситуацій
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="5">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--green">Практична карта</span>
+        <h2>5 органічних ситуацій для <span class="accent">рекомендації</span></h2>
+        <p>Коли рекомендація звучить природньо і має чітку медичну основу</p>
+      </div>
+
+      <div class="situations-grid animate-in">
+
+        <div class="situation-card">
+          <div class="situation-card__emoji">🦷</div>
+          <div class="situation-card__when">Після будь-якого лікування</div>
+          <div class="situation-card__title">Профгігієна через 3–6 місяців</div>
+          <div class="situation-card__service">Захищає результат</div>
+        </div>
+
+        <div class="situation-card">
+          <div class="situation-card__emoji">✨</div>
+          <div class="situation-card__when">Після профгігієни</div>
+          <div class="situation-card__title">Відбілювання — ідеальний момент</div>
+          <div class="situation-card__service">Зуби вже чисті</div>
+        </div>
+
+        <div class="situation-card">
+          <div class="situation-card__emoji">😬</div>
+          <div class="situation-card__when">При ознаках бруксизму</div>
+          <div class="situation-card__title">Захисна капа від стирання</div>
+          <div class="situation-card__service">Сліди на жувальних</div>
+        </div>
+
+        <div class="situation-card">
+          <div class="situation-card__emoji">🌡️</div>
+          <div class="situation-card__when">При чутливості</div>
+          <div class="situation-card__title">Фторування</div>
+          <div class="situation-card__service">Якщо скаржиться</div>
+        </div>
+
+        <div class="situation-card">
+          <div class="situation-card__emoji">🦷</div>
+          <div class="situation-card__when">При проблемах прикусу</div>
+          <div class="situation-card__title">Ортодонтична консультація</div>
+          <div class="situation-card__service">Тільки консультація</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 6 — SCRIPT: профгігієна після лікування
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="6">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--blue">Скрипт 1 з 4</span>
+        <h2>Скрипт: <span class="accent">Профгігієна після лікування</span></h2>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар — в кінці прийому</div>
+          <div class="script-block__text">«Лікування зроблено відмінно. Хочу дати вам одну рекомендацію: через 3 місяці зробіть професійну гігієну.</div>
+          <div class="script-block__text">Чому саме зараз важливо: після лікування на поверхні зубів легше накопичується наліт. Профгігієна видалить його до того як він перетвориться в камінь і спровокує новий карієс саме біля пломби.</div>
+          <div class="script-block__text">Це 40–60 хвилин, не боляче, і це — найдешевший спосіб захистити результат нашої сьогоднішньої роботи.</div>
+          <div class="script-block__text">Запишемо вас одразу?»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">💡</div>
+        <div class="script-tip__text"><strong>Зверніть увагу:</strong> Лікар пояснив <em>ЧОМУ</em>, а не просто запропонував послугу. «Запишемо вас одразу?» — закриваюче запитання без тиску. Пацієнт може сказати «ні» — і це нормально.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 7 — SCRIPT: відбілювання після гігієни
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="7">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--teal">Скрипт 2 з 4</span>
+        <h2>Скрипт: <span class="accent">Відбілювання</span></h2>
+        <p>Ситуація: щойно зробили профгігієну, пацієнт задоволений результатом</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар — після завершення гігієни</div>
+          <div class="script-block__text">«Гігієна зроблена — зуби вже освітлились на тон-два від видалення нальоту.</div>
+          <div class="script-block__text">Якщо ви хотіли б результат значно кращий — зараз ідеальний момент для відбілювання: зуби чисті, відкриті, ефект буде максимальним.</div>
+          <div class="script-block__text">Це не обов'язково — але якщо це питання вас цікавить, саме зараз найкращий час. Хочете я розкажу детальніше або покажу варіанти?»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">🔑</div>
+        <div class="script-tip__text"><strong>Ключові слова:</strong> «не обов'язково», «якщо цікавить» — це прибирає будь-яке відчуття тиску. Пацієнт розуміє що має вибір і лікар не продає заради продажу.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 8 — SCRIPT: капа при бруксизмі
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="8">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--amber">Скрипт 3 з 4</span>
+        <h2>Скрипт: <span class="accent">Захисна капа</span></h2>
+        <p>Ситуація: під час огляду виявили сліди стирання на жувальних зубах</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар — показує на знімку або на моделі</div>
+          <div class="script-block__text">«Я помітив під час огляду сліди стирання на жувальних поверхнях — ось тут <em>[показує].</em> Це типова ознака нічного бруксизму: ви стискаєте або скреготите зубами уночі, часто навіть не знаючи про це.</div>
+          <div class="script-block__text">Це може призвести до стирання, тріщин і дорогих реставрацій через 3–5 років.</div>
+          <div class="script-block__text">Є просте рішення — індивідуальна захисна капа. Вона не лікує причину, але надійно захищає зуби.</div>
+          <div class="script-block__text">Хочете я направлю вас до нашого спеціаліста по цій темі?»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">👁️</div>
+        <div class="script-tip__text"><strong>Чому це працює:</strong> Лікар говорить про те, що <em>сам побачив</em> — пацієнт не питав. Це демонструє уважність і турботу. «Направлю до спеціаліста» — не продаж, а координація допомоги.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 9 — SCRIPT: ортодонтична консультація
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="9">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--green">Скрипт 4 з 4</span>
+        <h2>Скрипт: <span class="accent">Ортодонтична консультація</span></h2>
+        <p>Ситуація: видима скупченість зубів у нижньому ряді</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар — після основного огляду</div>
+          <div class="script-block__text">«Під час огляду я бачу що у вас є скупченість зубів в нижньому ряді — ось тут. Це не тільки естетика: скупчені зуби важче чистити, там накопичується наліт і частіше виникає карієс.</div>
+          <div class="script-block__text">Я б рекомендував проконсультуватися з нашим ортодонтом — просто щоб отримати його думку. Це безоплатна консультація, жодних зобов'язань.</div>
+          <div class="script-block__text">Хочете я запишу вас?»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">✅</div>
+        <div class="script-tip__text"><strong>«Безоплатна консультація, жодних зобов'язань»</strong> — ці слова знімають будь-який бар'єр. Пацієнт відчуває: лікар пропонує інформацію, а не продаж. Рішення залишиться за ним.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 10 — CONTENT: коли НЕ рекомендувати
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="10">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--red" style="background:rgba(239,68,68,0.12);color:#dc2626;">Важливі обмеження</span>
+        <h2>Коли <span class="accent">НЕ треба</span> рекомендувати</h2>
+        <p>Рекомендація у правильний момент — турбота. У неправильний — тиск.</p>
+      </div>
+
+      <div class="no-rec-grid animate-in">
+
+        <div class="no-rec-card">
+          <div class="no-rec-card__emoji">🚨</div>
+          <div>
+            <div class="no-rec-card__title">Гострий біль або стрес</div>
+            <div class="no-rec-card__text">Пацієнт думає тільки про те щоб вийти. Будь-яка додаткова рекомендація сприймається як тиск. Зосередьтесь на вирішенні його проблеми.</div>
+          </div>
+        </div>
+
+        <div class="no-rec-card">
+          <div class="no-rec-card__emoji">😠</div>
+          <div>
+            <div class="no-rec-card__title">Пацієнт незадоволений прийомом</div>
+            <div class="no-rec-card__text">Спочатку вирішіть конфлікт або непорозуміння, потім — рекомендації. Нічого не рекомендуйте на тлі невирішеного напруження.</div>
+          </div>
+        </div>
+
+        <div class="no-rec-card">
+          <div class="no-rec-card__emoji">🤝</div>
+          <div>
+            <div class="no-rec-card__title">Перший візит — первинний пацієнт</div>
+            <div class="no-rec-card__text">Ще немає довіри. Зосередьтесь на основній проблемі і на тому щоб пацієнт відчув себе в надійних руках. Довіру будуємо спершу.</div>
+          </div>
+        </div>
+
+        <div class="no-rec-card">
+          <div class="no-rec-card__emoji">💳</div>
+          <div>
+            <div class="no-rec-card__title">Щойно погодився на великий план</div>
+            <div class="no-rec-card__text">Пацієнт тільки що прийняв важке фінансове рішення. Не навантажуйте ще більше. Одна велика покупка — достатньо на сьогодні.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="timing-callout animate-in">
+        <em>Рекомендація у правильний момент = турбота про здоров'я.</em><br/>
+        Рекомендація у неправильний момент = тиск і підрив довіри.
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 11 — CASE STUDY: лікар +23% за 2 місяці
+       ================================================================ -->
+  <section class="slide slide-case" data-slide="11">
+    <div class="slide__inner" style="display:flex;flex-direction:column;gap:var(--space-6);">
+
+      <div class="case-header animate-in">
+        <span class="badge badge--green">Реальний кейс</span>
+        <h2>Лікар який збільшив середній чек на <span style="color:var(--color-success)">23%</span> за 2 місяці</h2>
+      </div>
+
+      <div class="case-feature animate-in">
+
+        <div class="case-feature__body">
+
+          <div class="case-person">
+            <div class="case-person__avatar">👨‍⚕️</div>
+            <div>
+              <div class="case-person__name">Лікар-терапевт, досвід 6 років</div>
+              <div class="case-person__role">Впровадив систему органічних рекомендацій</div>
+            </div>
+          </div>
+
+          <div class="case-text">
+            Почав системно завершувати кожен прийом <strong>однією рекомендацією</strong> — тільки якщо є реальна медична підстава. Ніяких скриптів «для всіх». Тільки те, що справді бачив у конкретного пацієнта.
+          </div>
+
+          <div class="case-text">
+            Через 2 місяці керівник звернув увагу: зросли показники призначення профгігієни і звернень до суміжних спеціалістів. При цьому відгуки пацієнтів стали кращими — вони відчули більше уваги і піклування.
+          </div>
+
+          <div class="case-quote">
+            «Я просто почав говорити людям те, що бачив і що для них важливо. Раніше мовчав — думав що це не моя справа. Виявилось — якраз моя.»
+          </div>
+
+          <div class="case-lesson">
+            <div class="case-lesson__label">Урок</div>
+            <div class="case-lesson__text">Ваша рекомендація — це сервіс для пацієнта. Мовчання — це не скромність, це недбалість до здоров'я людини яка вам довіряє.</div>
+          </div>
+
+        </div>
+
+        <div class="case-metrics">
+          <div class="case-metric case-metric--blue">
+            <div class="case-metric__val">+23%</div>
+            <div class="case-metric__label">Середній чек за 2 місяці</div>
+          </div>
+          <div class="case-metric case-metric--green">
+            <div class="case-metric__val">+31%</div>
+            <div class="case-metric__label">Призначення профгігієни</div>
+          </div>
+          <div class="case-metric case-metric--blue" style="background:rgba(14,165,233,0.07);border-color:rgba(14,165,233,0.22);">
+            <div class="case-metric__val" style="color:#0ea5e9;">↑ NPS</div>
+            <div class="case-metric__label">Відгуки пацієнтів стали кращими</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 12 — QUIZ 1: після гігієни
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="12">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <span class="test-label">Ситуація 1 з 2</span>
+        <div class="test-question">Після профгігієни пацієнт каже: «Зуби стали значно білішими, мені подобається!» Ваша реакція?</div>
+      </div>
+
+      <div class="test-options animate-in" id="quiz1">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">A</div>
+          <div class="option-text">«Добре, тоді до побачення»</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">B</div>
+          <div class="option-text">«Це від гігієни. Якщо хочете ще білішими — зараз ідеальний момент для відбілювання, зуби чисті і ефект буде максимальним» ✓</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">C</div>
+          <div class="option-text">«Відбілювання у нас коштує [сума] гривень»</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">D</div>
+          <div class="option-text">Мовчите — пацієнт сам запитає якщо захоче</div>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal animate-in" id="quiz1-reveal">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильно: B.</strong> Пацієнт сам дав сигнал — він задоволений і говорить про зовнішній вигляд зубів. Це природній момент для рекомендації. Починаємо з пояснення «чому зараз ідеальний момент» — це не продаж, це інформація. Ціну не озвучуємо одразу — спочатку інтерес.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 13 — QUIZ 2: бруксизм
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="13">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <span class="test-label">Ситуація 2 з 2</span>
+        <div class="test-question">Під час огляду ви бачите ознаки бруксизму — стирання на жувальних зубах. Пацієнт про це не скаржився. Що робите?</div>
+      </div>
+
+      <div class="test-options animate-in" id="quiz2">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">A</div>
+          <div class="option-text">Нічого не кажете — пацієнт не питав</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">B</div>
+          <div class="option-text">«У вас бруксизм, потрібна капа — запишіть у адміністратора»</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">C</div>
+          <div class="option-text">«Я бачу ознаки нічного стискання зубів — ось тут. Це може призвести до серйозного стирання. Є просте рішення — захисна капа. Хочете я поясню детальніше?» ✓</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">D</div>
+          <div class="option-text">Чекаєте до наступного візиту — скажете якщо погіршає</div>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal animate-in" id="quiz2-reveal">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильно: C.</strong> Лікар бачить — лікар говорить. Мовчати коли ви бачите проблему = недбалість. Варіант B занадто директивний і не дає пояснення. Правильна відповідь — показати що ви бачите, пояснити ризик, запропонувати рішення і дати вибір пацієнту.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 14 — SUMMARY
+       ================================================================ -->
+  <section class="slide slide-summary" data-slide="14">
+    <div class="slide__inner">
+
+      <div class="summary-header animate-in">
+        <div class="summary-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Головне з модуля 5</h2>
+      </div>
+
+      <div class="summary-items animate-in">
+
+        <div class="summary-item">
+          <div class="summary-item__num">1</div>
+          <div class="summary-item__text">Конверсія рекомендації лікаря в 3× вища ніж дзвінок адміністратора</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">2</div>
+          <div class="summary-item__text">Рекомендуйте тільки те що реально потрібно — завжди з поясненням ЧОМУ</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">3</div>
+          <div class="summary-item__text">Топ-5 ситуацій: профгігієна, відбілювання, капа, фторування, ортодонт</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">4</div>
+          <div class="summary-item__text">Правильний момент — в кінці прийому, після основного лікування</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">5</div>
+          <div class="summary-item__text">Мовчання — це не скромність. Це недбалість до здоров'я пацієнта.</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 15 — DARK: ДЗ + Фінал курсу
+       ================================================================ -->
+  <section class="slide slide-dark" data-slide="15">
+
+    <div style="position:absolute;top:-20%;right:-10%;width:60vmin;height:60vmin;background:radial-gradient(circle,rgba(16,185,129,0.20) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-20%;left:-8%;width:45vmin;height:45vmin;background:radial-gradient(circle,rgba(37,99,235,0.18) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+    <div class="slide__inner" style="position:relative;z-index:1;">
+
+      <div style="display:flex;align-items:center;gap:var(--space-3);" class="animate-in">
+        <span class="badge badge--dark">Домашнє завдання</span>
+        <span class="badge" style="background:rgba(16,185,129,0.18);color:#34d399;border:1px solid rgba(16,185,129,0.30);">Останній модуль курсу</span>
+      </div>
+
+      <div class="hw-block animate-in">
+        <div class="hw-block__label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          ДЗ — цього тижня
+        </div>
+        <div class="hw-block__text">
+          Кожному пацієнту якому є реальна підстава — зробіть одну органічну рекомендацію.<br/><br/>
+          Занотуйте результат: скільки погодились, скільки відмовились, яка реакція. Наступного тижня порівняйте свої цифри — ви побачите різницю.
+        </div>
+      </div>
+
+      <div class="final-cta animate-in">
+        <div>
+          <div class="final-cta__text">→ Перейти до Підсумкового тесту</div>
+          <div class="final-cta__sub">Тест покаже наскільки курс вплинув на вашу картину роботи з пацієнтами</div>
+        </div>
+        <div class="final-cta__arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+      <div class="animate-in">
+        <button id="btn-complete-module" onclick="completeModule('module-05')"
+          style="display:inline-flex;align-items:center;gap:0.625rem;padding:0.875rem 2rem;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:12px;font-size:0.9375rem;font-weight:700;color:#fff;cursor:pointer;transition:opacity 200ms ease-out;box-shadow:0 4px 16px rgba(5,150,105,0.35)">
+          ✓ Завершити модуль 5
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+</div><!-- /presentation -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     1. STATE
+     --------------------------------------------------------------- */
+  const slides       = Array.from(document.querySelectorAll('.slide'));
+  const totalSlides  = slides.length;
+  let   currentIndex = 0;
+
+  const btnPrev      = document.getElementById('btnPrev');
+  const btnNext      = document.getElementById('btnNext');
+  const counter      = document.getElementById('slideCounter');
+  const progressFill = document.getElementById('progressFill');
+
+  /* ---------------------------------------------------------------
+     2. INIT
+     --------------------------------------------------------------- */
+  const animatedSlides = new Set();
+
+  slides[0].classList.add('slide--active');
+  updateUI();
+  triggerCounters(slides[0]);
+
+  /* ---------------------------------------------------------------
+     3. SLIDE TRANSITION
+     --------------------------------------------------------------- */
+  function goToSlide(newIndex) {
+    if (newIndex < 0 || newIndex >= totalSlides) return;
+
+    const prevSlide = slides[currentIndex];
+    const nextSlide = slides[newIndex];
+
+    prevSlide.classList.remove('slide--active');
+    prevSlide.classList.add('slide--prev');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        nextSlide.classList.add('slide--active');
+        nextSlide.classList.remove('slide--prev');
+      });
+    });
+
+    prevSlide.addEventListener('transitionend', function cleanup() {
+      prevSlide.classList.remove('slide--prev');
+      prevSlide.removeEventListener('transitionend', cleanup);
+    });
+
+    currentIndex = newIndex;
+    updateUI();
+    triggerCounters(nextSlide);
+  }
+
+  /* ---------------------------------------------------------------
+     4. UPDATE NAV & PROGRESS
+     --------------------------------------------------------------- */
+  function updateUI() {
+    counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+    const pct = ((currentIndex + 1) / totalSlides) * 100;
+    progressFill.style.width = `${pct}%`;
+    btnPrev.classList.toggle('nav-btn--disabled', currentIndex === 0);
+    btnNext.classList.toggle('nav-btn--disabled', currentIndex === totalSlides - 1);
+  }
+
+  /* ---------------------------------------------------------------
+     5. STAT COUNTER ANIMATION
+     --------------------------------------------------------------- */
+  function triggerCounters(slide) {
+    if (animatedSlides.has(slide)) return;
+    animatedSlides.add(slide);
+    slide.querySelectorAll('[data-target]').forEach(el => animateCounter(el));
+  }
+
+  function animateCounter(el) {
+    const rawTarget = el.dataset.target;
+    const target    = parseFloat(rawTarget.replace(/\s/g, ''));
+    const suffix    = el.dataset.suffix || '';
+    const isFloat   = rawTarget.includes('.');
+    const duration  = 1800;
+    const start     = performance.now();
+
+    function formatNum(n) {
+      if (n >= 1000) {
+        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+      }
+      return isFloat ? n.toFixed(1) : Math.round(n).toString();
+    }
+
+    function update(now) {
+      const elapsed  = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease     = 1 - Math.pow(1 - progress, 3);
+      const current  = target * ease;
+
+      el.textContent = formatNum(current) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = formatNum(target) + suffix;
+      }
+    }
+
+    setTimeout(() => requestAnimationFrame(update), 400);
+  }
+
+  /* ---------------------------------------------------------------
+     6. QUIZ HANDLER
+     --------------------------------------------------------------- */
+  window.handleQuiz = function(btn, isCorrect, quizId, expId) {
+    const container = document.getElementById(quizId);
+    const reveal    = document.getElementById(expId);
+
+    if (container.dataset.answered) return;
+    container.dataset.answered = 'true';
+
+    container.querySelectorAll('.test-option').forEach(opt => {
+      opt.style.pointerEvents = 'none';
+    });
+
+    if (isCorrect) {
+      btn.classList.add('option--correct');
+    } else {
+      btn.classList.add('option--wrong');
+      container.querySelectorAll('.test-option').forEach(opt => {
+        if (opt.getAttribute('onclick').includes('true')) {
+          opt.classList.add('option--correct');
+        }
+      });
+    }
+
+    if (reveal) {
+      reveal.classList.add('revealed');
+      setTimeout(() => {
+        reveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  };
+
+  /* ---------------------------------------------------------------
+     7. EVENT LISTENERS
+     --------------------------------------------------------------- */
+  btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+  btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        goToSlide(currentIndex - 1);
+        break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+        break;
+    }
+  });
+
+})();
+</script>
+
+<script>window.DENTAL_SHOW_SESSION_BAR = true;</script>
+<script src="supabase-config.js"></script>
+<script src="tracking.js"></script>
+<script>
+function completeModule(key) {
+  var btn = document.getElementById('btn-complete-module');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Збереження...'; }
+  window.DentalTracking.saveProgress(key).then(function() {
+    window.DentalTracking.showCompletionToast('Модуль 5 завершено! Прогрес збережено ✓');
+    setTimeout(function() { window.location.href = 'index.html'; }, 2200);
+  });
+}
+</script>
+</body>
+</html>

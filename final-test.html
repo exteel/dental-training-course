@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Підсумковий тест · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { overflow: auto; min-height: 100vh; background: var(--color-primary-dark); }
+
+    .test-shell {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--space-8) var(--space-6) var(--space-16);
+      position: relative;
+    }
+    .test-shell::before {
+      content: '';
+      position: fixed;
+      top: -20%; left: -10%;
+      width: 60%; height: 60%;
+      background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .test-shell::after {
+      content: '';
+      position: fixed;
+      bottom: -20%; right: -10%;
+      width: 50%; height: 50%;
+      background: radial-gradient(circle, rgba(14,165,233,0.05) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* Header */
+    .test-header {
+      width: 100%; max-width: 760px;
+      position: relative; z-index: 1;
+      margin-bottom: var(--space-8);
+    }
+    .test-header__top {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+    .test-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.30);
+      color: #93c5fd;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+    }
+    .test-badge svg {
+      width: 12px; height: 12px;
+      stroke: currentColor; fill: none; stroke-width: 2.5;
+    }
+    .test-question-counter {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.05em;
+    }
+    .test-question-counter .counter-highlight {
+      color: rgba(255,255,255,0.80);
+    }
+    .test-progress-track {
+      width: 100%; height: 6px;
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+    .test-progress-fill {
+      height: 100%;
+      background: var(--gradient-blue);
+      border-radius: var(--radius-full);
+      transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    /* Question card */
+    .question-card {
+      width: 100%; max-width: 760px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-10);
+      position: relative; z-index: 1;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      animation: cardIn 0.45s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-module-tag {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #7dd3fc;
+      margin-bottom: var(--space-5);
+      opacity: 0.70;
+    }
+    .question-scenario {
+      font-size: var(--font-size-md);
+      color: rgba(255,255,255,0.90);
+      line-height: var(--line-height-relaxed);
+      margin-bottom: var(--space-8);
+      padding: var(--space-6);
+      background: rgba(255,255,255,0.04);
+      border-left: 3px solid rgba(37,99,235,0.60);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    }
+
+    /* Options */
+    .options-list {
+      display: flex; flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    .option-btn {
+      display: flex; align-items: flex-start;
+      gap: var(--space-4);
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      cursor: pointer; text-align: left;
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-base);
+      font-family: var(--font-family);
+      line-height: var(--line-height-relaxed);
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast),
+                  transform var(--transition-fast);
+    }
+    .option-btn:hover:not(:disabled) {
+      background: rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.40);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+    .option-btn:disabled { cursor: default; }
+
+    .option-letter {
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.55);
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast);
+      margin-top: 1px;
+    }
+    .option-text { flex: 1; }
+
+    .option-btn.is-correct {
+      background: rgba(16,185,129,0.14);
+      border-color: rgba(16,185,129,0.55);
+      color: #a7f3d0;
+      transform: none;
+    }
+    .option-btn.is-correct .option-letter {
+      background: rgba(16,185,129,0.30);
+      border-color: rgba(16,185,129,0.60);
+      color: #6ee7b7;
+    }
+    .option-btn.is-wrong {
+      background: rgba(239,68,68,0.12);
+      border-color: rgba(239,68,68,0.45);
+      color: #fca5a5;
+      transform: none;
+    }
+    .option-btn.is-wrong .option-letter {
+      background: rgba(239,68,68,0.25);
+      border-color: rgba(239,68,68,0.55);
+      color: #f87171;
+    }
+    .option-btn.is-dimmed {
+      opacity: 0.35;
+      transform: none;
+    }
+
+    /* Explanation */
+    .explanation-box {
+      display: none;
+      gap: var(--space-3);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      margin-bottom: var(--space-6);
+      animation: fadeSlideIn 0.35s ease-out both;
+    }
+    .explanation-box.is-visible { display: flex; align-items: flex-start; }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .explanation-icon {
+      flex-shrink: 0; width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .explanation-icon svg {
+      width: 16px; height: 16px;
+      stroke: currentColor; fill: none; stroke-width: 2.5;
+    }
+    .explanation-box.result-correct .explanation-icon {
+      background: rgba(16,185,129,0.20); color: #6ee7b7;
+    }
+    .explanation-box.result-wrong .explanation-icon {
+      background: rgba(239,68,68,0.18); color: #f87171;
+    }
+    .explanation-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-1);
+    }
+    .explanation-box.result-correct .explanation-label { color: #6ee7b7; }
+    .explanation-box.result-wrong  .explanation-label { color: #f87171; }
+    .explanation-text {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.70);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Next button */
+    .btn-next {
+      display: none;
+      align-items: center; justify-content: center;
+      gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-5) var(--space-8);
+      background: var(--gradient-blue);
+      border: none; border-radius: var(--radius-lg);
+      color: #ffffff;
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      transition: opacity var(--transition-fast),
+                  transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+    .btn-next.is-visible { display: flex; }
+    .btn-next:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(37,99,235,0.40);
+    }
+    .btn-next:active { transform: translateY(0); }
+    .btn-next svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* Results */
+    .results-screen {
+      display: none;
+      width: 100%; max-width: 760px;
+      position: relative; z-index: 1;
+      animation: cardIn 0.55s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .results-screen.is-visible { display: block; }
+
+    .results-score-wrap {
+      text-align: center;
+      padding: var(--space-12) var(--space-8);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: var(--space-6);
+      position: relative; overflow: hidden;
+    }
+    .results-score-wrap::before {
+      content: '';
+      position: absolute; top: -60px; left: 50%;
+      transform: translateX(-50%);
+      width: 300px; height: 300px;
+      border-radius: 50%; opacity: 0.08; pointer-events: none;
+    }
+    .results-score-wrap.grade-pass::before { background: radial-gradient(circle, #10b981, transparent); }
+    .results-score-wrap.grade-ok::before   { background: radial-gradient(circle, #f59e0b, transparent); }
+    .results-score-wrap.grade-fail::before { background: radial-gradient(circle, #ef4444, transparent); }
+
+    .results-icon-wrap {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto var(--space-6);
+    }
+    .grade-pass .results-icon-wrap { background: rgba(16,185,129,0.18); border: 2px solid rgba(16,185,129,0.40); }
+    .grade-ok   .results-icon-wrap { background: rgba(245,158,11,0.18); border: 2px solid rgba(245,158,11,0.40); }
+    .grade-fail .results-icon-wrap { background: rgba(239,68,68,0.18);  border: 2px solid rgba(239,68,68,0.40); }
+    .results-icon-wrap svg {
+      width: 36px; height: 36px;
+      stroke: currentColor; fill: none; stroke-width: 2;
+    }
+    .grade-pass .results-icon-wrap svg { color: #34d399; }
+    .grade-ok   .results-icon-wrap svg { color: #fbbf24; }
+    .grade-fail .results-icon-wrap svg { color: #f87171; }
+
+    .results-score-number {
+      font-size: 5rem;
+      font-weight: var(--font-weight-black);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-2);
+    }
+    .grade-pass .results-score-number { color: #34d399; }
+    .grade-ok   .results-score-number { color: #fbbf24; }
+    .grade-fail .results-score-number { color: #f87171; }
+
+    .results-score-label {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-6);
+    }
+    .results-grade-badge {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: #ffffff;
+      margin-bottom: var(--space-4);
+      display: block;
+    }
+    .results-message {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.65);
+      line-height: var(--line-height-relaxed);
+      max-width: 520px; margin: 0 auto;
+    }
+
+    .results-breakdown {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      margin-bottom: var(--space-6);
+    }
+    .results-breakdown__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.40);
+      margin-bottom: var(--space-5);
+    }
+    .breakdown-list { display: flex; flex-direction: column; gap: var(--space-3); }
+    .breakdown-item {
+      display: flex; align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.18);
+      border-radius: var(--radius-md);
+    }
+    .breakdown-q-num {
+      flex-shrink: 0; width: 28px; height: 28px;
+      border-radius: var(--radius-sm);
+      background: rgba(239,68,68,0.20);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      color: #f87171; margin-top: 1px;
+    }
+    .breakdown-module {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: var(--space-1);
+    }
+    .breakdown-topic {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.65);
+      line-height: var(--line-height-snug);
+    }
+
+    .results-review-modules {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      margin-bottom: var(--space-6);
+    }
+    .results-review-modules__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.40);
+      margin-bottom: var(--space-5);
+    }
+    .review-modules-grid { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+    .review-module-pill {
+      display: inline-flex; align-items: center;
+      padding: var(--space-2) var(--space-4);
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.30);
+      border-radius: var(--radius-full);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      color: #fbbf24;
+      letter-spacing: 0.04em;
+    }
+
+    .btn-home {
+      display: flex; align-items: center; justify-content: center;
+      gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-5) var(--space-8);
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-lg);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: var(--space-4);
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast),
+                  transform var(--transition-fast);
+    }
+    .btn-home:hover {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.25);
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+    .btn-home svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .breakdown-empty {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+      padding: var(--space-4) 0;
+    }
+
+    @media (max-width: 600px) {
+      .test-shell { padding: var(--space-5) var(--space-4) var(--space-12); }
+      .question-card { padding: var(--space-6) var(--space-5); }
+      .results-score-wrap { padding: var(--space-8) var(--space-5); }
+      .results-breakdown, .results-review-modules { padding: var(--space-6) var(--space-5); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="test-shell">
+
+  <!-- Header -->
+  <div class="test-header" id="testHeader">
+    <div class="test-header__top">
+      <div class="test-badge">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Підсумковий тест
+      </div>
+      <div class="test-question-counter">
+        Питання <span class="counter-highlight" id="counterCurrent">1</span> / <span class="counter-highlight">15</span>
+      </div>
+    </div>
+    <div class="test-progress-track">
+      <div class="test-progress-fill" id="progressFill" style="width:6.67%"></div>
+    </div>
+  </div>
+
+  <!-- Question card -->
+  <div class="question-card" id="questionCard">
+    <div class="question-module-tag" id="questionModuleTag"></div>
+    <div class="question-scenario" id="questionScenario"></div>
+    <div class="options-list" id="optionsList"></div>
+
+    <div class="explanation-box" id="explanationBox">
+      <div class="explanation-icon" id="explanationIcon">
+        <svg id="explanationIconEl" viewBox="0 0 24 24"></svg>
+      </div>
+      <div>
+        <div class="explanation-label" id="explanationLabel"></div>
+        <div class="explanation-text" id="explanationText"></div>
+      </div>
+    </div>
+
+    <button class="btn-next" id="btnNext" type="button">
+      <span id="btnNextText">Далі</span>
+      <svg id="btnNextIcon" viewBox="0 0 24 24"></svg>
+    </button>
+  </div>
+
+  <!-- Results screen -->
+  <div class="results-screen" id="resultsScreen">
+
+    <div class="results-score-wrap" id="resultsScoreWrap">
+      <div class="results-icon-wrap">
+        <svg id="resultsIconEl" viewBox="0 0 24 24"></svg>
+      </div>
+      <div class="results-score-number" id="resultsScoreNumber"></div>
+      <div class="results-score-label">правильних відповідей</div>
+      <span class="results-grade-badge" id="resultsGradeBadge"></span>
+      <p class="results-message" id="resultsMessage"></p>
+    </div>
+
+    <div class="results-breakdown">
+      <div class="results-breakdown__title">Питання де допустили помилку</div>
+      <div class="breakdown-list" id="breakdownList"></div>
+    </div>
+
+    <div class="results-review-modules" id="resultsReviewModules" style="display:none">
+      <div class="results-review-modules__title">Повторіть ці модулі</div>
+      <div class="review-modules-grid" id="reviewModulesGrid"></div>
+    </div>
+
+    <a href="module-00.html" class="btn-home">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Повернутись на головну
+    </a>
+
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================================================================
+     DATA
+     ================================================================ */
+  var QUESTIONS = [
+    {
+      module: 'Модуль 0 — LTV',
+      scenario: 'Пацієнт прийшов на один прийом, заплатив 3\u00a0500\u00a0грн і більше не повернувся. Яку суму реально втратила клініка?',
+      options: [
+        '3\u00a0500 грн — він же заплатив',
+        'Нічого — він може повернутись сам',
+        '~56\u00a0000 грн — втрачений LTV за 5 років',
+        'Залежить від того чи він порекомендує клініку'
+      ],
+      correct: 2,
+      explanation: 'LTV = 3\u00a0500 × 3.2 візити × 5 років = 56\u00a0000 грн. Кожен пацієнт — це не один візит, а потенційні роки лікування.'
+    },
+    {
+      module: 'Модуль 0 — повторність',
+      scenario: 'Пацієнт прийшов раз і не повернувся. Найімовірніша причина?',
+      options: [
+        'Йому не сподобалась якість лікування',
+        'Він записався до конкурента',
+        'Лікар не призначив наступний візит і пацієнт не побачив причини повернутись',
+        'Занадто дорого'
+      ],
+      correct: 2,
+      explanation: '40% пацієнтів не повертаються саме тому що не отримали призначення наступного візиту. Це найконтрольованіша причина.'
+    },
+    {
+      module: 'Модуль 1 — довіра',
+      scenario: 'Під час складної процедури ваш асистент каже вам про нагальне питання. Пацієнт лежить у кріслі. Що правильно?',
+      options: [
+        'Відповідаєте асистенту повністю — пацієнт підожде',
+        'Ігноруєте асистента',
+        'Кажете асистенту "після прийому" і одразу звертаєтесь до пацієнта: "Все добре, продовжуємо"',
+        'Робите паузу і виходите з кабінету'
+      ],
+      correct: 2,
+      explanation: 'Розмови з асистентом під час процедури руйнують довіру пацієнта. Він відчуває що йому не приділяють уваги.'
+    },
+    {
+      module: 'Модуль 1 — техніка якорів',
+      scenario: 'Пацієнт прийшов вдруге. При першому візиті він згадував що хвилюється за здоров\'я дружини. Як ви починаєте прийом?',
+      options: [
+        '«Добрий день, сідайте, продовжимо лікування»',
+        '«Як здоров\'я дружини — краще?»',
+        '«Пам\'ятаю ви боялись — але сьогодні не боляче»',
+        '«Відкривайте рота»'
+      ],
+      correct: 1,
+      explanation: 'Техніка "маленьких якорів": згадати деталь з попереднього спілкування = показати що пацієнт — людина, а не картка.'
+    },
+    {
+      module: 'Модуль 2 — протокол',
+      scenario: 'Ви щойно завершили пломбування. Лікування повністю завершено. Що правильно зробити перед тим як пацієнт встане?',
+      options: [
+        '«Будьте здорові, все готово»',
+        '«Якщо щось — телефонуйте»',
+        'Сказати адміністратору щоб запропонував пацієнту записатись',
+        '«Рекомендую профгігієну через 3 місяці — збережемо результат. Марино, запишіть пацієнта через 3 місяці»'
+      ],
+      correct: 3,
+      explanation: 'Протокол завершення: підсумок → медична необхідність → термін → фраза-місток. Це займає 75 секунд і вирішує 40% втрат пацієнтів.'
+    },
+    {
+      module: 'Модуль 2 — фраза-місток',
+      scenario: 'Яка фраза-місток правильно побудована?',
+      options: [
+        '«Адміністраторе, цей пацієнт хоче записатись»',
+        '«Запишіть його колись наступного місяця»',
+        '«Марино, запишіть Олену через 10 днів — завершення лікування 36-го зуба»',
+        '«Пацієнт знає коли йому зручно — він сам скаже»'
+      ],
+      correct: 2,
+      explanation: 'Фраза-місток = ім\'я адміністратора + ім\'я пацієнта + конкретний термін + назва процедури. Усі 4 елементи.'
+    },
+    {
+      module: 'Модуль 3 — зрозуміла мова',
+      scenario: 'Як правильно пояснити пацієнту діагноз "карієс 36-го зуба"?',
+      options: [
+        '«У вас карієс 36-го зуба, потрібна адгезивна реставрація»',
+        '«Невеличка проблемка із зубом»',
+        '«Бачите на знімку цю темну пляму? Це глибока дірка — якщо закриємо зараз, зуб буде служити ще довго»',
+        '«Все нормально, просто пломба»'
+      ],
+      correct: 2,
+      explanation: 'Золоте правило: якщо бабуся не зрозуміє — перефразуйте. Показуйте на знімку, говоріть простою мовою.'
+    },
+    {
+      module: 'Модуль 3 — розбивка плану',
+      scenario: 'Пацієнту потрібне лікування на 42\u00a0000 грн. Він виглядає розгублено після того як ви назвали суму. Що робите?',
+      options: [
+        'Знижуєте ціну',
+        '«Розумію, але якість того варта»',
+        '«Давайте розіб\'ємо на кроки. Першочергово — ось цей зуб, це 9\u00a0000 грн. З цього і почнемо?»',
+        'Чекаєте поки пацієнт сам щось скаже'
+      ],
+      correct: 2,
+      explanation: 'Пацієнт погоджується на маленький перший крок. Психологія: краще 9\u00a0000 "зараз" ніж 42\u00a0000 "колись".'
+    },
+    {
+      module: 'Модуль 3 — 4 горизонти',
+      scenario: 'Пацієнт каже "не болить нічого — навіщо зараз?". Ваша відповідь?',
+      options: [
+        '«Ну якщо не болить — можете почекати»',
+        '«Це необхідно зробити — я лікар, мені видніше»',
+        '«Хочу показати що може статись. Зараз — маленька дірка і 2\u00a0000 грн. Через 6 місяців — нерв, 12\u00a0000 грн. Вибір ваш.»',
+        '«Запишіться коли заболить»'
+      ],
+      correct: 2,
+      explanation: 'Метод 4 горизонтів: зараз / 6 місяців / рік / 3 роки. Тон — доброзичливий, без залякування.'
+    },
+    {
+      module: 'Модуль 4 — заперечення «дорого»',
+      scenario: 'Пацієнт каже "дорогувато у вас". Яка перша правильна дія?',
+      options: [
+        'Одразу пропонуєте знижку',
+        '«Ціна стандартна по ринку»',
+        '«Давайте з\'ясуємо що саме здається дорогим — загальна сума чи конкретна процедура?»',
+        'Виправдовуєтесь і пояснюєте якість'
+      ],
+      correct: 2,
+      explanation: '"Дорого" у 67% — не про гроші. Спочатку зрозумійте що стоїть за цим словом.'
+    },
+    {
+      module: 'Модуль 4 — Feel Felt Found',
+      scenario: 'Пацієнт: "Мої знайомі теж казали що дорого у вас і не прийшли". Яка відповідь по фреймворку Feel→Felt→Found?',
+      options: [
+        '«Ваші знайомі помилилися»',
+        '«Ми дорожчі тому що якісніші»',
+        '«Розумію — багато людей спочатку так само реагують. І потім кажуть що не пошкодували, бо результат тримається роками.»',
+        '«Може вони не знали про наші акції»'
+      ],
+      correct: 2,
+      explanation: 'Feel (розуміємо) → Felt (нормалізуємо) → Found (ділимось позитивним досвідом) — без тиску і без виправдань.'
+    },
+    {
+      module: 'Модуль 4 — «я подумаю»',
+      scenario: 'Пацієнт: "Я подумаю і зателефоную". Що правильно?',
+      options: [
+        '«Добре, чекаємо»',
+        'Знижуєте ціну щоб він залишився',
+        'Наполягаєте що треба вирішити зараз',
+        '«Є щось конкретне що зупиняє? Якщо ні — наш менеджер нагадає вам за 2–3 тижні»'
+      ],
+      correct: 3,
+      explanation: 'Ніколи не відпускайте без наступного контакту. Або запис, або CRM-нагадування.'
+    },
+    {
+      module: 'Модуль 5 — рекомендації',
+      scenario: 'Після профгігієни пацієнт каже: "Зуби стали значно білішими!". Що правильно?',
+      options: [
+        'Мовчите — він сам запитає якщо захоче',
+        '«Відбілювання коштує X гривень»',
+        '«Зараз ідеальний момент для відбілювання — зуби чисті, ефект буде максимальним. Хочете розкажу?»',
+        '«Це лише від гігієни»'
+      ],
+      correct: 2,
+      explanation: 'Конверсія рекомендації лікаря — 60–70%. Мовчання = втрачена можливість допомогти пацієнту і клініці.'
+    },
+    {
+      module: 'Модуль 5 — коли НЕ рекомендувати',
+      scenario: 'Пацієнт прийшов з гострим болем. Після екстреної допомоги ви хочете порекомендувати профгігієну. Чи варто?',
+      options: [
+        'Так — прямо зараз, він все одно тут',
+        'Ні — пацієнт у стресі, зосередьтесь на екстреній допомозі і запишіть на наступний плановий візит',
+        'Запропонуєте знижку щоб він погодився',
+        'Попросіть адміністратора запропонувати'
+      ],
+      correct: 1,
+      explanation: 'Пацієнт у гострому стресі не сприймає додаткових рекомендацій. Спочатку — вирішіть його проблему. Рекомендації — наступного разу.'
+    },
+    {
+      module: 'Загальний — системний результат',
+      scenario: 'Лікар системно застосовує протокол наступного візиту і органічні рекомендації. Через 3 місяці очікуваний результат?',
+      options: [
+        'Нічого особливого — це і так мала бути норма',
+        'Пацієнти будуть скаржитись на тиск',
+        'Повторність зросте з ~33% до 60%+, середній чек зросте на 15–20%',
+        'Результат буде тільки якщо реклама також покращилась'
+      ],
+      correct: 2,
+      explanation: 'Протокол + рекомендації = системна зміна поведінки. Без реклами. Без знижок. Тільки якісна комунікація.'
+    }
+  ];
+
+  var LETTERS = ['A', 'B', 'C', 'D'];
+  var currentIndex = 0;
+  var answered = false;
+  var answers = [];
+  for (var i = 0; i < QUESTIONS.length; i++) { answers.push(null); }
+
+  /* ---- DOM refs ---- */
+  var elHeader        = document.getElementById('testHeader');
+  var elCard          = document.getElementById('questionCard');
+  var elModTag        = document.getElementById('questionModuleTag');
+  var elScenario      = document.getElementById('questionScenario');
+  var elOptionsList   = document.getElementById('optionsList');
+  var elExplBox       = document.getElementById('explanationBox');
+  var elExplIcon      = document.getElementById('explanationIcon');
+  var elExplIconEl    = document.getElementById('explanationIconEl');
+  var elExplLabel     = document.getElementById('explanationLabel');
+  var elExplText      = document.getElementById('explanationText');
+  var elBtnNext       = document.getElementById('btnNext');
+  var elBtnNextText   = document.getElementById('btnNextText');
+  var elBtnNextIcon   = document.getElementById('btnNextIcon');
+  var elCounter       = document.getElementById('counterCurrent');
+  var elProgress      = document.getElementById('progressFill');
+  var elResults       = document.getElementById('resultsScreen');
+
+  /* ---- SVG path helpers (no innerHTML) ---- */
+  function setSvgPath(svgEl, pathData, isPolyline) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var el = document.createElementNS(ns, isPolyline ? 'polyline' : 'path');
+    el.setAttribute(isPolyline ? 'points' : 'd', pathData);
+    el.setAttribute('stroke', 'currentColor');
+    el.setAttribute('fill', 'none');
+    el.setAttribute('stroke-width', '2.5');
+    el.setAttribute('stroke-linecap', 'round');
+    el.setAttribute('stroke-linejoin', 'round');
+    svgEl.appendChild(el);
+  }
+
+  function setSvgCheckmark(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var poly = document.createElementNS(ns, 'polyline');
+    poly.setAttribute('points', '20 6 9 17 4 12');
+    poly.setAttribute('stroke', 'currentColor');
+    poly.setAttribute('fill', 'none');
+    poly.setAttribute('stroke-width', '2.5');
+    poly.setAttribute('stroke-linecap', 'round');
+    svgEl.appendChild(poly);
+  }
+
+  function setSvgCross(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var l1 = document.createElementNS(ns, 'line');
+    l1.setAttribute('x1', '18'); l1.setAttribute('y1', '6');
+    l1.setAttribute('x2', '6');  l1.setAttribute('y2', '18');
+    l1.setAttribute('stroke', 'currentColor'); l1.setAttribute('fill', 'none');
+    l1.setAttribute('stroke-width', '2.5'); l1.setAttribute('stroke-linecap', 'round');
+    var l2 = document.createElementNS(ns, 'line');
+    l2.setAttribute('x1', '6');  l2.setAttribute('y1', '6');
+    l2.setAttribute('x2', '18'); l2.setAttribute('y2', '18');
+    l2.setAttribute('stroke', 'currentColor'); l2.setAttribute('fill', 'none');
+    l2.setAttribute('stroke-width', '2.5'); l2.setAttribute('stroke-linecap', 'round');
+    svgEl.appendChild(l1);
+    svgEl.appendChild(l2);
+  }
+
+  function setSvgArrow(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var l = document.createElementNS(ns, 'line');
+    l.setAttribute('x1', '5'); l.setAttribute('y1', '12');
+    l.setAttribute('x2', '19'); l.setAttribute('y2', '12');
+    l.setAttribute('stroke', 'currentColor'); l.setAttribute('fill', 'none');
+    l.setAttribute('stroke-width', '2.5'); l.setAttribute('stroke-linecap', 'round');
+    var poly = document.createElementNS(ns, 'polyline');
+    poly.setAttribute('points', '12 5 19 12 12 19');
+    poly.setAttribute('stroke', 'currentColor'); poly.setAttribute('fill', 'none');
+    poly.setAttribute('stroke-width', '2.5');
+    poly.setAttribute('stroke-linecap', 'round'); poly.setAttribute('stroke-linejoin', 'round');
+    svgEl.appendChild(l);
+    svgEl.appendChild(poly);
+  }
+
+  function setSvgFinish(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var poly = document.createElementNS(ns, 'polyline');
+    poly.setAttribute('points', '9 11 12 14 22 4');
+    poly.setAttribute('stroke', 'currentColor'); poly.setAttribute('fill', 'none');
+    poly.setAttribute('stroke-width', '2.5');
+    poly.setAttribute('stroke-linecap', 'round'); poly.setAttribute('stroke-linejoin', 'round');
+    var p = document.createElementNS(ns, 'path');
+    p.setAttribute('d', 'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11');
+    p.setAttribute('stroke', 'currentColor'); p.setAttribute('fill', 'none');
+    p.setAttribute('stroke-width', '2.5');
+    p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round');
+    svgEl.appendChild(poly);
+    svgEl.appendChild(p);
+  }
+
+  /* ---- Render question ---- */
+  function renderQuestion(idx) {
+    answered = false;
+    var q = QUESTIONS[idx];
+
+    elCounter.textContent = String(idx + 1);
+    elProgress.style.width = (((idx + 1) / QUESTIONS.length) * 100) + '%';
+    elModTag.textContent = q.module;
+    elScenario.textContent = q.scenario;
+
+    /* Clear options */
+    while (elOptionsList.firstChild) { elOptionsList.removeChild(elOptionsList.firstChild); }
+
+    q.options.forEach(function (opt, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-btn';
+      btn.dataset.optIdx = String(i);
+
+      var letterSpan = document.createElement('span');
+      letterSpan.className = 'option-letter';
+      letterSpan.textContent = LETTERS[i];
+
+      var textSpan = document.createElement('span');
+      textSpan.className = 'option-text';
+      textSpan.textContent = opt;
+
+      btn.appendChild(letterSpan);
+      btn.appendChild(textSpan);
+      btn.addEventListener('click', function () { selectOption(i); });
+      elOptionsList.appendChild(btn);
+    });
+
+    /* Reset explanation */
+    elExplBox.classList.remove('is-visible', 'result-correct', 'result-wrong');
+    elExplLabel.textContent = '';
+    elExplText.textContent = '';
+
+    /* Reset next button */
+    elBtnNext.classList.remove('is-visible');
+    elBtnNextText.textContent = 'Далі';
+    setSvgArrow(elBtnNextIcon);
+
+    /* Re-trigger animation */
+    elCard.style.animation = 'none';
+    void elCard.offsetWidth;
+    elCard.style.animation = 'cardIn 0.45s cubic-bezier(0.22,1,0.36,1) both';
+  }
+
+  /* ---- Select option ---- */
+  function selectOption(selectedIdx) {
+    if (answered) return;
+    answered = true;
+
+    var q = QUESTIONS[currentIndex];
+    var isCorrect = selectedIdx === q.correct;
+    answers[currentIndex] = { selected: selectedIdx, correct: isCorrect };
+
+    var btns = elOptionsList.querySelectorAll('.option-btn');
+    btns.forEach(function (btn, i) {
+      btn.disabled = true;
+      if (i === q.correct) {
+        btn.classList.add('is-correct');
+      } else if (i === selectedIdx && !isCorrect) {
+        btn.classList.add('is-wrong');
+      } else {
+        btn.classList.add('is-dimmed');
+      }
+    });
+
+    /* Explanation */
+    if (isCorrect) {
+      elExplBox.classList.add('result-correct');
+      elExplLabel.textContent = 'Правильно!';
+      setSvgCheckmark(elExplIconEl);
+    } else {
+      elExplBox.classList.add('result-wrong');
+      elExplLabel.textContent = 'Неправильно';
+      setSvgCross(elExplIconEl);
+    }
+    elExplText.textContent = q.explanation;
+    elExplBox.classList.add('is-visible');
+
+    /* Auto-scroll so mobile users see explanation */
+    setTimeout(function () {
+      elExplBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+
+    /* Next button */
+    var isLast = currentIndex === QUESTIONS.length - 1;
+    elBtnNextText.textContent = isLast ? 'Завершити тест' : 'Далі';
+    if (isLast) { setSvgFinish(elBtnNextIcon); } else { setSvgArrow(elBtnNextIcon); }
+    elBtnNext.classList.add('is-visible');
+  }
+
+  /* ---- Next question ---- */
+  elBtnNext.addEventListener('click', function () {
+    currentIndex++;
+    if (currentIndex >= QUESTIONS.length) {
+      showResults();
+    } else {
+      renderQuestion(currentIndex);
+    }
+  });
+
+  /* ---- Show results ---- */
+  function showResults() {
+    elCard.style.display  = 'none';
+    elHeader.style.display = 'none';
+    elResults.classList.add('is-visible');
+
+    var correctCount = 0;
+    answers.forEach(function (a) { if (a && a.correct) correctCount++; });
+
+    var wrap       = document.getElementById('resultsScoreWrap');
+    var iconEl     = document.getElementById('resultsIconEl');
+    var scoreNum   = document.getElementById('resultsScoreNumber');
+    var gradeBadge = document.getElementById('resultsGradeBadge');
+    var message    = document.getElementById('resultsMessage');
+
+    scoreNum.textContent = correctCount + ' / ' + QUESTIONS.length;
+
+    /* Save to Supabase */
+    var scorePct = Math.round((correctCount / QUESTIONS.length) * 100);
+    if (window.DentalTracking) {
+      window.DentalTracking.saveProgress('final-test', scorePct);
+    }
+
+    if (correctCount >= 12) {
+      wrap.classList.add('grade-pass');
+      setSvgCheckmark(iconEl);
+      gradeBadge.textContent = 'Відмінно!';
+      message.textContent = 'Ви готові застосовувати інструменти курсу. Роздрукуйте картку лікаря і тримайте її при собі першу неділю.';
+    } else if (correctCount >= 9) {
+      wrap.classList.add('grade-ok');
+      setSvgCircleInfo(iconEl);
+      gradeBadge.textContent = 'Добре';
+      message.textContent = 'Є зони де варто повторити. Перегляньте модулі за темами де допустили помилки.';
+    } else {
+      wrap.classList.add('grade-fail');
+      setSvgCircleCross(iconEl);
+      gradeBadge.textContent = 'Рекомендуємо повторити';
+      message.textContent = 'Рекомендуємо пройти курс ще раз. Поговоріть з керівником — він допоможе.';
+    }
+
+    /* Wrong answers breakdown */
+    var breakdownList = document.getElementById('breakdownList');
+    var wrongItems = [];
+    answers.forEach(function (a, i) { if (a && !a.correct) wrongItems.push({ a: a, i: i }); });
+
+    if (wrongItems.length === 0) {
+      var emptyDiv = document.createElement('div');
+      emptyDiv.className = 'breakdown-empty';
+      emptyDiv.textContent = 'Всі відповіді правильні — чудовий результат!';
+      breakdownList.appendChild(emptyDiv);
+    } else {
+      wrongItems.forEach(function (item) {
+        var q = QUESTIONS[item.i];
+        var row = document.createElement('div');
+        row.className = 'breakdown-item';
+
+        var numEl = document.createElement('div');
+        numEl.className = 'breakdown-q-num';
+        numEl.textContent = String(item.i + 1);
+
+        var info = document.createElement('div');
+        var modEl = document.createElement('div');
+        modEl.className = 'breakdown-module';
+        modEl.textContent = q.module;
+        var topicEl = document.createElement('div');
+        topicEl.className = 'breakdown-topic';
+        topicEl.textContent = 'Правильна відповідь: ' + LETTERS[q.correct] + ' — ' + q.options[q.correct];
+
+        info.appendChild(modEl);
+        info.appendChild(topicEl);
+        row.appendChild(numEl);
+        row.appendChild(info);
+        breakdownList.appendChild(row);
+      });
+    }
+
+    /* Modules to review */
+    var seenModules = {};
+    var modulesToReview = [];
+    wrongItems.forEach(function (item) {
+      var tag = QUESTIONS[item.i].module.split('—')[0].trim();
+      if (!seenModules[tag]) {
+        seenModules[tag] = true;
+        modulesToReview.push(tag);
+      }
+    });
+
+    if (modulesToReview.length > 0) {
+      var reviewSection = document.getElementById('resultsReviewModules');
+      var reviewGrid    = document.getElementById('reviewModulesGrid');
+      reviewSection.style.display = 'block';
+      modulesToReview.forEach(function (mod) {
+        var pill = document.createElement('span');
+        pill.className = 'review-module-pill';
+        pill.textContent = mod;
+        reviewGrid.appendChild(pill);
+      });
+    }
+  }
+
+  function setSvgCircleInfo(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', '12'); c.setAttribute('cy', '12'); c.setAttribute('r', '10');
+    c.setAttribute('stroke', 'currentColor'); c.setAttribute('fill', 'none'); c.setAttribute('stroke-width', '2');
+    var l1 = document.createElementNS(ns, 'line');
+    l1.setAttribute('x1', '12'); l1.setAttribute('y1', '8');
+    l1.setAttribute('x2', '12'); l1.setAttribute('y2', '12');
+    l1.setAttribute('stroke', 'currentColor'); l1.setAttribute('fill', 'none'); l1.setAttribute('stroke-width', '2'); l1.setAttribute('stroke-linecap', 'round');
+    var l2 = document.createElementNS(ns, 'line');
+    l2.setAttribute('x1', '12'); l2.setAttribute('y1', '16');
+    l2.setAttribute('x2', '12.01'); l2.setAttribute('y2', '16');
+    l2.setAttribute('stroke', 'currentColor'); l2.setAttribute('fill', 'none'); l2.setAttribute('stroke-width', '2'); l2.setAttribute('stroke-linecap', 'round');
+    svgEl.appendChild(c); svgEl.appendChild(l1); svgEl.appendChild(l2);
+  }
+
+  function setSvgCircleCross(svgEl) {
+    while (svgEl.firstChild) { svgEl.removeChild(svgEl.firstChild); }
+    var ns = 'http://www.w3.org/2000/svg';
+    var c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', '12'); c.setAttribute('cy', '12'); c.setAttribute('r', '10');
+    c.setAttribute('stroke', 'currentColor'); c.setAttribute('fill', 'none'); c.setAttribute('stroke-width', '2');
+    var l1 = document.createElementNS(ns, 'line');
+    l1.setAttribute('x1', '15'); l1.setAttribute('y1', '9');
+    l1.setAttribute('x2', '9');  l1.setAttribute('y2', '15');
+    l1.setAttribute('stroke', 'currentColor'); l1.setAttribute('fill', 'none'); l1.setAttribute('stroke-width', '2'); l1.setAttribute('stroke-linecap', 'round');
+    var l2 = document.createElementNS(ns, 'line');
+    l2.setAttribute('x1', '9');  l2.setAttribute('y1', '9');
+    l2.setAttribute('x2', '15'); l2.setAttribute('y2', '15');
+    l2.setAttribute('stroke', 'currentColor'); l2.setAttribute('fill', 'none'); l2.setAttribute('stroke-width', '2'); l2.setAttribute('stroke-linecap', 'round');
+    svgEl.appendChild(c); svgEl.appendChild(l1); svgEl.appendChild(l2);
+  }
+
+  /* ---- Init ---- */
+  renderQuestion(0);
+
+}());
+</script>
+
+<script>window.DENTAL_SHOW_SESSION_BAR = true;</script>
+<script src="supabase-config.js"></script>
+<script src="tracking.js"></script>
+</body>
+</html>

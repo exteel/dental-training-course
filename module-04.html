@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Модуль 4 — Заперечення: Дорого / Я подумаю / Потім · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Module-04 specific styles ────────────────────────────── */
+
+    /* Objection reason cards (slide 3) */
+    .objection-cards {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+    }
+
+    .objection-card {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      cursor: default;
+    }
+
+    .objection-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .objection-card__emoji {
+      font-size: 1.75rem;
+      line-height: 1;
+    }
+
+    .objection-card__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .objection-card__trigger {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .objection-card__solution {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-primary-blue);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Feel Felt Found framework (slide 4) */
+    .fff-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .fff-step {
+      display: flex;
+      gap: var(--space-6);
+      padding: var(--space-6);
+      position: relative;
+    }
+
+    .fff-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: calc(var(--space-6) + 22px);
+      bottom: 0;
+      width: 2px;
+      height: var(--space-6);
+      background: rgba(255,255,255,0.15);
+    }
+
+    .fff-step__bubble {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-black);
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .fff-step--feel .fff-step__bubble   { background: rgba(37,99,235,0.25);  color: #93c5fd; }
+    .fff-step--felt .fff-step__bubble   { background: rgba(14,165,233,0.25); color: #7dd3fc; }
+    .fff-step--found .fff-step__bubble  { background: rgba(16,185,129,0.25); color: #6ee7b7; }
+
+    .fff-step__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-black);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-1);
+    }
+
+    .fff-step--feel .fff-step__label  { color: #93c5fd; }
+    .fff-step--felt .fff-step__label  { color: #7dd3fc; }
+    .fff-step--found .fff-step__label { color: #6ee7b7; }
+
+    .fff-step__text {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.80);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .fff-example {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+    }
+
+    .fff-example__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+    }
+
+    .fff-example-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .fff-example-row__tag {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+      min-width: 52px;
+      padding-top: 2px;
+    }
+
+    .fff-example-row__text {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.75);
+      line-height: var(--line-height-relaxed);
+      font-style: italic;
+    }
+
+    /* Script dialogue boxes (slides 5-8) */
+    .script-block {
+      background: var(--color-white);
+      border: 1.5px solid rgba(37,99,235,0.15);
+      border-left: 4px solid var(--color-primary-blue);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .script-block--patient {
+      border-left-color: var(--color-accent-teal);
+      background: rgba(14,165,233,0.04);
+      border-color: rgba(14,165,233,0.15);
+    }
+
+    .script-block__speaker {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .script-block--patient .script-block__speaker { color: #0284c7; }
+    .script-block .script-block__speaker           { color: var(--color-primary-blue); }
+
+    .script-block__text {
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .script-block__text em {
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+
+    .script-branch {
+      background: rgba(37,99,235,0.04);
+      border: 1px solid rgba(37,99,235,0.14);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3) var(--space-5);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-style: italic;
+    }
+
+    .script-exchange {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    /* Script tip callout */
+    .script-tip {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.22);
+      border-radius: var(--radius-lg);
+    }
+
+    .script-tip__icon { font-size: 1.1rem; flex-shrink: 0; }
+
+    .script-tip__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .script-tip__text strong { color: #d97706; }
+
+    /* Stat cards for slide 2 */
+    .stat-breakdown-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      width: 100%;
+    }
+
+    .stat-breakdown-card {
+      padding: var(--space-5);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      text-align: center;
+    }
+
+    .stat-breakdown-card--1 { background: rgba(239,68,68,0.06);  border-color: rgba(239,68,68,0.20); }
+    .stat-breakdown-card--2 { background: rgba(245,158,11,0.06); border-color: rgba(245,158,11,0.20); }
+    .stat-breakdown-card--3 { background: rgba(16,185,129,0.06); border-color: rgba(16,185,129,0.20); }
+    .stat-breakdown-card--4 { background: rgba(14,165,233,0.06); border-color: rgba(14,165,233,0.20); }
+
+    .stat-breakdown-card__pct {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-black);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .stat-breakdown-card--1 .stat-breakdown-card__pct { color: #ef4444; }
+    .stat-breakdown-card--2 .stat-breakdown-card__pct { color: #f59e0b; }
+    .stat-breakdown-card--3 .stat-breakdown-card__pct { color: #10b981; }
+    .stat-breakdown-card--4 .stat-breakdown-card__pct { color: #0ea5e9; }
+
+    .stat-breakdown-card__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-snug);
+    }
+
+    /* Installment section (slide 9) */
+    .installment-reframe {
+      background: linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(14,165,233,0.06) 100%);
+      border: 2px solid rgba(16,185,129,0.25);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-7) var(--space-8);
+    }
+
+    .installment-reframe__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #059669;
+      margin-bottom: var(--space-3);
+    }
+
+    .installment-reframe__text {
+      font-size: clamp(var(--font-size-md), 2vw, var(--font-size-xl));
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    /* No-persuade red cards (slide 10) */
+    .no-persuade-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .no-persuade-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(239,68,68,0.05);
+      border: 1.5px solid rgba(239,68,68,0.18);
+      border-radius: var(--radius-xl);
+    }
+
+    .no-persuade-item__emoji {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .no-persuade-item__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: #dc2626;
+      margin-bottom: var(--space-1);
+    }
+
+    .no-persuade-item__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .respect-callout {
+      background: rgba(37,99,235,0.06);
+      border: 1.5px solid rgba(37,99,235,0.18);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      text-align: center;
+    }
+
+    .respect-callout em {
+      color: var(--color-primary-blue);
+      font-style: normal;
+      font-weight: var(--font-weight-bold);
+    }
+
+    /* Case study layout (slides 11-12) */
+    .case-story {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .case-story__main {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .case-story__person {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .case-story__avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .case-story__person-info__name {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    .case-story__person-info__role {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+    }
+
+    .case-story__text {
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .case-story__result {
+      padding: var(--space-5);
+      background: rgba(16,185,129,0.07);
+      border: 1.5px solid rgba(16,185,129,0.22);
+      border-radius: var(--radius-xl);
+    }
+
+    .case-story__result__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: #059669;
+      margin-bottom: var(--space-2);
+    }
+
+    .case-story__result__text {
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .case-story__lesson {
+      padding: var(--space-5);
+      background: rgba(37,99,235,0.06);
+      border: 1px solid rgba(37,99,235,0.16);
+      border-radius: var(--radius-xl);
+    }
+
+    .case-story__lesson__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--color-primary-blue);
+      margin-bottom: var(--space-2);
+    }
+
+    .case-story__lesson__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* Summary items (slide 16) */
+    .summary-items {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-4);
+    }
+
+    .summary-item {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .summary-item:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .summary-item__num {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      color: white;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.30);
+    }
+
+    .summary-item__text {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* HW + Next slide */
+    .hw-block {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      backdrop-filter: blur(8px);
+    }
+
+    .hw-block__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+      margin-bottom: var(--space-4);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .hw-block__text {
+      font-size: var(--font-size-md);
+      color: rgba(255,255,255,0.82);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .next-module-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(8px);
+      cursor: default;
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .next-module-card:hover {
+      background: rgba(37,99,235,0.18);
+      border-color: rgba(37,99,235,0.35);
+    }
+
+    .next-module-card__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-accent-teal);
+      margin-bottom: var(--space-1);
+    }
+
+    .next-module-card__title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: rgba(255,255,255,0.90);
+    }
+
+    .next-module-card__arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .next-module-card__arrow svg {
+      width: 18px;
+      height: 18px;
+      stroke: rgba(255,255,255,0.70);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- Progress bar -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Navigation -->
+  <button class="nav-btn nav-btn--prev" id="btnPrev" aria-label="Попередній слайд">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-btn nav-btn--next" id="btnNext" aria-label="Наступний слайд">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Slide counter -->
+  <div class="slide-counter" id="slideCounter">1 / 17</div>
+
+
+  <!-- ================================================================
+       SLIDE 1 — TITLE (dark)
+       ================================================================ -->
+  <section class="slide slide-title" data-slide="1">
+    <div class="slide__inner">
+
+      <div style="display:flex; align-items:center; gap:var(--space-3);" class="animate-in">
+        <div class="title-module-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          МОДУЛЬ 4
+        </div>
+      </div>
+
+      <p class="title-eyebrow animate-in">Курс для лікарів-стоматологів</p>
+
+      <h1 class="animate-in">
+        Заперечення<br/>
+        <span class="accent">пацієнта</span>
+      </h1>
+
+      <p class="title-subtitle animate-in">
+        Як залишатись лікарем — і не перетворюватись на продавця
+      </p>
+
+      <div class="title-meta animate-in">
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          17 слайдів
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          30–35 хвилин
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          «Дорого / Я подумаю / Потім»
+        </span>
+      </div>
+
+    </div>
+
+    <div class="title-decoration">
+      <svg viewBox="0 0 100 120" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5C28 5 18 22 18 36c0 10 4 20 8 30s7 20 10 28c1.5 4 3 5 5 5s3-1.5 4-5c1-3 1.5-8 5-8s4 5 5 8c1 3.5 2.5 5 4 5s3.5-1 5-5c3-8 6-18 10-28s8-20 8-30c0-14-10-31-32-31z"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 2 — STAT: 67%
+       ================================================================ -->
+  <section class="slide slide-stat" data-slide="2">
+    <div class="slide__inner">
+
+      <div class="stat-label-top animate-in">Case Acceptance Academy · дослідження причин відмов</div>
+
+      <div class="stat-number animate-in" data-target="67" data-suffix="%">0%</div>
+
+      <div class="stat-divider animate-in"></div>
+
+      <div class="stat-headline animate-in">
+        пацієнтів які сказали «дорого» — насправді мали інші причини відмови
+      </div>
+
+      <div class="stat-description animate-in">
+        За даними Case Acceptance Academy: тільки 33% відмов справді пов'язані з бюджетом.<br/>Решта — страх, недовіра, нерозуміння, неправильний момент.
+      </div>
+
+      <div class="stat-breakdown-cards animate-in">
+        <div class="stat-breakdown-card stat-breakdown-card--1">
+          <div class="stat-breakdown-card__pct">28%</div>
+          <div class="stat-breakdown-card__label">Страх / Невпевненість</div>
+        </div>
+        <div class="stat-breakdown-card stat-breakdown-card--2">
+          <div class="stat-breakdown-card__pct">21%</div>
+          <div class="stat-breakdown-card__label">Нерозуміння цінності</div>
+        </div>
+        <div class="stat-breakdown-card stat-breakdown-card--3">
+          <div class="stat-breakdown-card__pct">33%</div>
+          <div class="stat-breakdown-card__label">Реальний бюджет</div>
+        </div>
+        <div class="stat-breakdown-card stat-breakdown-card--4">
+          <div class="stat-breakdown-card__pct">18%</div>
+          <div class="stat-breakdown-card__label">Момент / Час</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 3 — CONTENT: 5 причин «дорого»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="3">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--blue">Психологія заперечення</span>
+        <h2>Коли пацієнт каже <span class="accent">«дорого»</span> — що він насправді має на увазі?</h2>
+      </div>
+
+      <div class="objection-cards animate-in">
+
+        <div class="objection-card">
+          <div class="objection-card__emoji">💭</div>
+          <div class="objection-card__title">«Я не розумію навіщо це»</div>
+          <div class="objection-card__trigger">Не бачить цінності — ціна здається довільною</div>
+          <div class="objection-card__solution">→ Поясніть чому</div>
+        </div>
+
+        <div class="objection-card">
+          <div class="objection-card__emoji">😨</div>
+          <div class="objection-card__title">«Я боюся що боляче»</div>
+          <div class="objection-card__trigger">Ціна = наближення до болю і дискомфорту</div>
+          <div class="objection-card__solution">→ Поговоріть про комфорт</div>
+        </div>
+
+        <div class="objection-card">
+          <div class="objection-card__emoji">🤔</div>
+          <div class="objection-card__title">«Не знаю чи можна вам довіряти»</div>
+          <div class="objection-card__trigger">Сумнів у необхідності лікування</div>
+          <div class="objection-card__solution">→ Покажіть знімок</div>
+        </div>
+
+        <div class="objection-card">
+          <div class="objection-card__emoji">⏰</div>
+          <div class="objection-card__title">«Зараз не вчасно»</div>
+          <div class="objection-card__trigger">Проблема часу і пріоритетів, а не ціни</div>
+          <div class="objection-card__solution">→ Перший маленький крок</div>
+        </div>
+
+        <div class="objection-card">
+          <div class="objection-card__emoji">💸</div>
+          <div class="objection-card__title">«Справді немає грошей»</div>
+          <div class="objection-card__trigger">Реальне фінансове обмеження</div>
+          <div class="objection-card__solution">→ Розтермінування, пріоритети</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--info animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Ключовий інсайт модуля</p>
+          <p class="highlight-box__text">«"Дорого" — майже ніколи не про гроші. За цим словом ховається страх, недовіра, непорозуміння або реальне обмеження. Завдання лікаря — зрозуміти яке саме.»</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 4 — FORMULA: Feel → Felt → Found (dark)
+       ================================================================ -->
+  <section class="slide slide-dark" data-slide="4">
+
+    <div style="position:absolute;top:-15%;right:-10%;width:55vmin;height:55vmin;background:radial-gradient(circle,rgba(37,99,235,0.20) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-20%;left:-8%;width:45vmin;height:45vmin;background:radial-gradient(circle,rgba(14,165,233,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+    <div class="slide__inner" style="position:relative;z-index:1;">
+
+      <div class="animate-in">
+        <span class="badge badge--dark">Універсальний фреймворк</span>
+        <h2 style="margin-top:var(--space-3);">Фреймворк <span style="color:var(--color-accent-teal);">Feel → Felt → Found</span></h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-8);">
+
+        <div class="fff-steps animate-in">
+          <div class="fff-step fff-step--feel">
+            <div class="fff-step__bubble">F1</div>
+            <div>
+              <div class="fff-step__label">FEEL</div>
+              <div class="fff-step__text">«Я розумію як ви себе почуваєте»<br/><span style="font-size:var(--font-size-sm);opacity:0.60;">Визнаємо відчуття, не заперечуємо</span></div>
+            </div>
+          </div>
+          <div class="fff-step fff-step--felt">
+            <div class="fff-step__bubble">F2</div>
+            <div>
+              <div class="fff-step__label">FELT</div>
+              <div class="fff-step__text">«Багато моїх пацієнтів почувались так само»<br/><span style="font-size:var(--font-size-sm);opacity:0.60;">Нормалізуємо, прибираємо самотність</span></div>
+            </div>
+          </div>
+          <div class="fff-step fff-step--found">
+            <div class="fff-step__bubble">F3</div>
+            <div>
+              <div class="fff-step__label">FOUND</div>
+              <div class="fff-step__text">«І вони виявили що...»<br/><span style="font-size:var(--font-size-sm);opacity:0.60;">Ділимось позитивним досвідом інших</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fff-example animate-in">
+          <div class="fff-example__label">Приклад: відповідь на «дорого»</div>
+          <div class="fff-example-row">
+            <div class="fff-example-row__tag">Feel</div>
+            <div class="fff-example-row__text">«Я розумію — сума справді відчутна»</div>
+          </div>
+          <div class="fff-example-row">
+            <div class="fff-example-row__tag">Felt</div>
+            <div class="fff-example-row__text">«Багато пацієнтів спочатку так само реагували»</div>
+          </div>
+          <div class="fff-example-row">
+            <div class="fff-example-row__tag">Found</div>
+            <div class="fff-example-row__text">«І потім казали що не пошкодували — тому що зуб збережений, і лікування не довелось повторювати»</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 5 — TECHNIQUE: «Приєднання» (перенести «дорого» на галузь)
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="5">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--teal">Техніка</span>
+        <h2>Техніка: <span class="accent">«Приєднання»</span></h2>
+        <p>Замість того щоб захищатись — стати на бік пацієнта. Перенести «дорого» з вашої клініки на всю стоматологію.</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block script-block--patient">
+          <div class="script-block__speaker">Пацієнт</div>
+          <div class="script-block__text">«Дорого у вас...»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Так, дійсно, я вас розумію. Стоматологія сьогодні є досить недешевою послугою.»</div>
+        </div>
+
+        <div class="script-branch">Далі — на вибір:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Варіант А — пояснити вартість</div>
+          <div class="script-block__text">«Дозвольте поясню з чого складається ця сума: матеріали, час лікаря, технологія. Я хочу щоб ви розуміли за що платите.»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Варіант Б — здешевити розумно</div>
+          <div class="script-block__text">«Давайте пріоритезуємо: найтерміновіше зробимо зараз, решту сплануємо поступово. Є опція розтермінування — без відсотків.»</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--success animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Ефект</p>
+          <p class="highlight-box__text">Ми не в опозиції — ми <strong>разом з пацієнтом проти проблеми</strong>. «Дорого» перенесено з вашої клініки на всю галузь — і далі розмова йде про рішення, а не про ціну.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 6 — SCRIPT: «Дорого»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="6">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--blue">Скрипт 1 з 4</span>
+        <h2>Скрипт: <span class="accent">«Дорого»</span></h2>
+        <p>Ситуація: «Пацієнт: "Щось дорогувато у вас..."»</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block script-block--patient">
+          <div class="script-block__speaker">Пацієнт</div>
+          <div class="script-block__text">«Щось дорогувато у вас...»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Розумію. Давайте подивимось разом — що саме здається дорогим? Загальна сума чи конкретна процедура?»</div>
+        </div>
+
+        <div class="script-branch">Якщо загальна сума:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Давайте розіб'ємо на кроки. Найтерміновіше — ось це, це [сума]. Все інше можемо планувати поступово. З чого зручніше почати?»</div>
+        </div>
+
+        <div class="script-branch">Якщо конкретна процедура:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Дозвольте поясню чому саме така вартість. <em>[Пояснює що входить — матеріали, час, технологія].</em> Я хочу щоб ви розуміли за що платите. Що для вас важливіше — вартість зараз чи результат на 10+ років?»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">💡</div>
+        <div class="script-tip__text"><strong>Ключове правило:</strong> Не виправдовуйтесь і не знижуйте ціну одразу. Спочатку — зрозумійте що саме стоїть за «дорого».</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 7 — SCRIPT: «Я подумаю»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="7">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--teal">Скрипт 2 з 4</span>
+        <h2>Скрипт: <span class="accent">«Я подумаю»</span></h2>
+        <p>Ситуація: «Пацієнт: "Дякую, я подумаю і зателефоную"»</p>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block script-block--patient">
+          <div class="script-block__speaker">Пацієнт</div>
+          <div class="script-block__text">«Дякую, я подумаю і зателефоную»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Звичайно — рішення ваше і я його поважаю. Дозвольте одне уточнення: є щось конкретне що зупиняє? Ціна, час, сумнів щодо необхідності?»</div>
+        </div>
+
+        <div class="script-branch">Якщо пацієнт відкривається — розмовляєте далі. Якщо каже «ні, просто треба подумати»:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Добре. Хочу лише нагадати: ситуація з [назва зуба] не покращиться сама. Наш менеджер зв'яжеться з вами через 2–3 тижні — якщо будуть питання, з радістю відповім.»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">🎯</div>
+        <div class="script-tip__text"><strong>Ключове:</strong> Не відпускайте без наступного контакту. Або запис, або передача в CRM для нагадування. «Подумаю» — це не відмова, це пауза.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 8 — SCRIPT: «Потім / Не зараз»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="8">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--amber">Скрипт 3 з 4</span>
+        <h2>Скрипт: <span class="accent">«Потім, зараз не на часі»</span></h2>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Розумію що зараз не зручний момент. Скажіть — що стоїть на шляху? Час, бюджет, щось ще?»</div>
+        </div>
+
+        <div class="script-branch">Якщо час:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Добре. Ось що я пропоную: зробимо тільки перший найтерміновіший крок — це займе 45 хвилин. А далі — плануємо в вашому темпі.»</div>
+        </div>
+
+        <div class="script-branch">Якщо бюджет:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Є опція розтермінування — без відсотків, зручними частинами. Адміністратор розкаже деталі.»</div>
+        </div>
+
+        <div class="script-branch">Якщо «взагалі потім»:</div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Я хочу бути з вами чесним: ось ця ситуація <em>[вказує на знімок]</em> — якщо зачекати 6 місяців, лікування буде складнішим і дорожчим. Не тисну — просто хочу щоб ви це знали.»</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 9 — SCRIPT: «У іншій клініці дешевше»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="9">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--green">Скрипт 4 з 4</span>
+        <h2>Скрипт: <span class="accent">«У іншій клініці дешевше»</span></h2>
+      </div>
+
+      <div class="script-exchange animate-in">
+
+        <div class="script-block script-block--patient">
+          <div class="script-block__speaker">Пацієнт</div>
+          <div class="script-block__text">«Я бачив у іншій клініці значно дешевше»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Це може бути правдою — ціни різні. Дозвольте пояснити що входить у нашу вартість. <em>[Пояснює: матеріали, технологія, гарантія].</em> Я не буду переконувати що ми "єдині правильні". Але я хочу щоб ви порівнювали не тільки ціну — а й що саме ви отримуєте.»</div>
+        </div>
+
+        <div class="script-block">
+          <div class="script-block__speaker">Лікар</div>
+          <div class="script-block__text">«Якщо після порівняння оберете іншу клініку — це ваше право. Якщо виникнуть питання — завжди можете повернутись.»</div>
+        </div>
+
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">⚠️</div>
+        <div class="script-tip__text"><strong>Золоте правило:</strong> Ніколи не знецінюйте конкурентів. Це виглядає непрофесійно і підриває довіру до вас особисто.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 10 — CONTENT: розтермінування
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="10">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--green">Інструмент лікаря</span>
+        <h2>Розтермінування — <span class="accent">медичний інструмент</span>, не поступка</h2>
+      </div>
+
+      <div class="installment-reframe animate-in">
+        <div class="installment-reframe__label">Правильний фрейм</div>
+        <div class="installment-reframe__text">«Розтермінування — це не "знижка через тиск". Це спосіб допомогти пацієнту почати лікування зараз, а не відкладати на рік.»</div>
+      </div>
+
+      <div class="slide-header animate-in" style="gap:var(--space-2);">
+        <span class="badge badge--teal">Як правильно пропонувати</span>
+      </div>
+
+      <div class="script-block animate-in">
+        <div class="script-block__speaker">Лікар</div>
+        <div class="script-block__text">«Є можливість розбити оплату — наприклад, 50% сьогодні і 50% на наступному візиті. Або розтермінування на кілька місяців через партнерський банк. Адміністратор розкаже деталі — я тільки хочу щоб ми почали лікування.»</div>
+      </div>
+
+      <div class="script-tip animate-in">
+        <div class="script-tip__icon">⏱️</div>
+        <div class="script-tip__text"><strong>Коли пропонувати:</strong> Тільки після того як ви зрозуміли що причина <em>справді</em> у грошах — не пропонуйте розтермінування одразу, це знецінює вашу рекомендацію та авторитет.</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 11 — CONTENT: коли НЕ треба переконувати
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="11">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--red" style="background:rgba(239,68,68,0.12);color:#dc2626;">Межа лікаря</span>
+        <h2>Коли <span class="accent">НЕ треба</span> намагатись переконати</h2>
+      </div>
+
+      <div class="no-persuade-list animate-in">
+
+        <div class="no-persuade-item">
+          <div class="no-persuade-item__emoji">🚫</div>
+          <div>
+            <div class="no-persuade-item__title">Пацієнт категорично відмовляється двічі</div>
+            <div class="no-persuade-item__text">Ви вже пояснили все двічі — продовжувати = тиск. Зафіксуйте відмову, поважте рішення.</div>
+          </div>
+        </div>
+
+        <div class="no-persuade-item">
+          <div class="no-persuade-item__emoji">😤</div>
+          <div>
+            <div class="no-persuade-item__title">Пацієнт у стресі або поганому настрої</div>
+            <div class="no-persuade-item__text">Дайте час, запропонуйте перенести розмову про план на наступний візит. Не змішуйте емоцію з рішенням.</div>
+          </div>
+        </div>
+
+        <div class="no-persuade-item">
+          <div class="no-persuade-item__emoji">👨‍👩‍👧</div>
+          <div>
+            <div class="no-persuade-item__title">«Мені треба порадитись з чоловіком / дружиною»</div>
+            <div class="no-persuade-item__text">Це реальна потреба, а не відмовка. Поважте процес прийняття рішення в родині. Запропонуйте час для порад.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="respect-callout animate-in">
+        Ваша задача — дати інформацію і зробити рекомендацію. Рішення — за пацієнтом.<br/>
+        <em>Пацієнт який відчув повагу до свого «ні» — повернеться. Пацієнт якого тиснули — не повернеться ніколи.</em>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 12 — CASE STUDY 1: «Дорого» але насправді страх
+       ================================================================ -->
+  <section class="slide slide-case" data-slide="12">
+    <div class="slide__inner" style="display:flex;flex-direction:column;gap:var(--space-6);">
+
+      <div class="case-header animate-in">
+        <span class="badge badge--blue">Кейс 1 з 2</span>
+        <h2>«Дорого» — але насправді <span style="color:var(--color-danger)">страх</span></h2>
+      </div>
+
+      <div class="case-story animate-in">
+        <div class="case-story__main">
+
+          <div class="case-story__person">
+            <div class="case-story__avatar">👩</div>
+            <div class="case-story__person-info">
+              <div class="case-story__person-info__name">Пацієнтка, 45 років</div>
+              <div class="case-story__person-info__role">Потребує імплантації</div>
+            </div>
+          </div>
+
+          <div class="case-story__text">
+            Пацієнтка прийшла на консультацію, почула план і сказала «дорого». Лікар застосував фреймворк Feel → Felt → Found і поставив уточнюючи питання. Виявилось — вона не проти суми, вона боїться самої операції і болю.
+          </div>
+
+          <div class="case-story__text">
+            Розмова природньо перейшла на тему комфорту, знеболення і того як виглядає процедура. Страх був знятий поясненням протоколу. Фінансове питання зникло само.
+          </div>
+
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+
+          <div class="case-story__result">
+            <div class="case-story__result__label">Результат</div>
+            <div class="case-story__result__text">Пацієнтка погодилась на імплантацію і записалась на перший етап</div>
+          </div>
+
+          <div class="case-story__lesson">
+            <div class="case-story__lesson__label">Урок</div>
+            <div class="case-story__lesson__text">«Питайте "що саме здається проблемою?" — і ви отримаєте справжню відповідь. "Дорого" — найчастіше лише вхідні ворота до справжнього заперечення.»</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 13 — CASE STUDY 2: «Я подумаю» і повернувся
+       ================================================================ -->
+  <section class="slide slide-case" data-slide="13">
+    <div class="slide__inner" style="display:flex;flex-direction:column;gap:var(--space-6);">
+
+      <div class="case-header animate-in">
+        <span class="badge badge--green">Кейс 2 з 2</span>
+        <h2>«Я подумаю» — і <span style="color:var(--color-success)">повернувся</span></h2>
+      </div>
+
+      <div class="case-story animate-in">
+        <div class="case-story__main">
+
+          <div class="case-story__person">
+            <div class="case-story__avatar">👨</div>
+            <div class="case-story__person-info">
+              <div class="case-story__person-info__name">Пацієнт, 38 років</div>
+              <div class="case-story__person-info__role">План лікування на 28 000 грн</div>
+            </div>
+          </div>
+
+          <div class="case-story__text">
+            Після детального пояснення плану пацієнт сказав: «Я подумаю». Лікар не тиснув — чітко пояснив ситуацію із зубом і прогноз якщо зачекати, поважив рішення і передав контакт в CRM з нотаткою.
+          </div>
+
+          <div class="case-story__text">
+            Через 3 тижні менеджер зателефонував із нагадуванням. Пацієнт сказав: «Так, якраз думав зателефонувати». Записався і погодився на повний план лікування.
+          </div>
+
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:var(--space-4);">
+
+          <div class="case-story__result">
+            <div class="case-story__result__label">Результат</div>
+            <div class="case-story__result__text">Повний план лікування прийнятий через 3 тижні після першого відвідування</div>
+          </div>
+
+          <div class="case-story__lesson">
+            <div class="case-story__lesson__label">Урок</div>
+            <div class="case-story__lesson__text">«"Я подумаю" — не кінець. Це початок нагадувального процесу. Система CRM + дзвінок менеджера перетворюють відкладене рішення на успішний запис.»</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 14 — QUIZ 1: «Це дуже дорого»
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="14">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <span class="test-label">Ситуація 1 з 3</span>
+        <div class="test-question">Пацієнт: «Це дуже дорого для мене». Що робите?</div>
+      </div>
+
+      <div class="test-options animate-in" id="quiz1">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">A</div>
+          <div class="option-text">«Ну, ціна — ціна, нічого не можу зробити»</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">B</div>
+          <div class="option-text">«Давайте з'ясуємо що саме здається дорогим, і подивимось як можна розбити на кроки» ✓</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">C</div>
+          <div class="option-text">Одразу пропонуєте знижку 10%</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz1', 'quiz1-reveal')">
+          <div class="option-letter">D</div>
+          <div class="option-text">«Це стандартна ціна по ринку»</div>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal animate-in" id="quiz1-reveal">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильно: B.</strong> Перший крок — уточнення. "Дорого" може означати що завгодно: загальну суму, конкретну процедуру, страх, недовіру. Перш ніж відповідати — зрозумійте що саме стоїть за словом. Знижка одразу знецінює вас і клініку.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 15 — QUIZ 2: «Я подумаю і зателефоную»
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="15">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <span class="test-label">Ситуація 2 з 3</span>
+        <div class="test-question">Пацієнт: «Я подумаю і зателефоную». Ваші дії?</div>
+      </div>
+
+      <div class="test-options animate-in" id="quiz2">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">A</div>
+          <div class="option-text">«Добре, чекаємо»</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">B</div>
+          <div class="option-text">Наполягаєте що треба вирішити зараз</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">C</div>
+          <div class="option-text">«Зрозумів. Є щось конкретне що зупиняє? Якщо ні — наш менеджер нагадає вам за 2–3 тижні» ✓</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz2', 'quiz2-reveal')">
+          <div class="option-letter">D</div>
+          <div class="option-text">Знижуєте ціну щоб він залишився</div>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal animate-in" id="quiz2-reveal">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильно: C.</strong> Поважаємо рішення, уточнюємо причину і обов'язково забезпечуємо наступний контакт через CRM. «Добре, чекаємо» — гарантований спосіб втратити пацієнта назавжди.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 16 — QUIZ 3: «Потім» вдруге
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="16">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <span class="test-label">Ситуація 3 з 3</span>
+        <div class="test-question">Пацієнт вже вдруге каже «потім». Що робите?</div>
+      </div>
+
+      <div class="test-options animate-in" id="quiz3">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz3', 'quiz3-reveal')">
+          <div class="option-letter">A</div>
+          <div class="option-text">Знову переконуєте і пояснюєте детально</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz3', 'quiz3-reveal')">
+          <div class="option-letter">B</div>
+          <div class="option-text">«Розумію. Хочу лише один раз нагадати про прогноз [показуєте знімок]. Рішення — ваше. Ми залишаємося на зв'язку.» ✓</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz3', 'quiz3-reveal')">
+          <div class="option-letter">C</div>
+          <div class="option-text">Відмовляєтесь від нього як від пацієнта</div>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz3', 'quiz3-reveal')">
+          <div class="option-letter">D</div>
+          <div class="option-text">Мовчите і просто відпускаєте</div>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal animate-in" id="quiz3-reveal">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильно: B.</strong> Після двох відмов третє переконування — це тиск. Одне фінальне нагадування про медичний прогноз + повага до рішення = правильна позиція. CRM забезпечить нагадування пізніше.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 17 — SUMMARY: 5 головних тез
+       ================================================================ -->
+  <section class="slide slide-summary" data-slide="17">
+    <div class="slide__inner">
+
+      <div class="summary-header animate-in">
+        <div class="summary-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Головне з модуля 4</h2>
+      </div>
+
+      <div class="summary-items animate-in">
+
+        <div class="summary-item">
+          <div class="summary-item__num">1</div>
+          <div class="summary-item__text">«Дорого» у 67% випадків — не про гроші. Спочатку запитайте «що саме?»</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">2</div>
+          <div class="summary-item__text">Фреймворк Feel → Felt → Found — універсальний для будь-якого заперечення</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">3</div>
+          <div class="summary-item__text">Не відпускайте без наступного контакту: запис або передача в CRM</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">4</div>
+          <div class="summary-item__text">Розтермінування — тільки коли причина реально у грошах, не одразу</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-item__num">5</div>
+          <div class="summary-item__text">Повага до «ні» = довіра на майбутнє. Пацієнт повернеться</div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 18 — DARK: ДЗ + Next Module
+       ================================================================ -->
+  <section class="slide slide-dark" data-slide="18">
+
+    <div style="position:absolute;top:-20%;right:-10%;width:60vmin;height:60vmin;background:radial-gradient(circle,rgba(37,99,235,0.25) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-20%;left:-8%;width:45vmin;height:45vmin;background:radial-gradient(circle,rgba(16,185,129,0.15) 0%,transparent 70%);border-radius:50%;pointer-events:none;"></div>
+
+    <div class="slide__inner" style="position:relative;z-index:1;">
+
+      <div style="display:flex;align-items:center;gap:var(--space-3);" class="animate-in">
+        <span class="badge badge--dark">Домашнє завдання</span>
+      </div>
+
+      <div class="hw-block animate-in">
+        <div class="hw-block__label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          ДЗ до наступного модуля
+        </div>
+        <div class="hw-block__text">
+          За тиждень — зафіксуйте 3 випадки заперечень: що сказав пацієнт, як ви відповіли, який результат.<br/><br/>
+          Принесіть на місячний розбір з керівником. Разом проаналізуємо і відшліфуємо відповіді.
+        </div>
+      </div>
+
+      <div class="next-module-card animate-in">
+        <div>
+          <div class="next-module-card__label">Наступний модуль</div>
+          <div class="next-module-card__title">Модуль 5 → Допродажі без тиску: як рекомендувати послуги так, щоб пацієнт сприйняв це як турботу</div>
+        </div>
+        <div class="next-module-card__arrow">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+      <div class="animate-in">
+        <button id="btn-complete-module" onclick="completeModule('module-04')"
+          style="display:inline-flex;align-items:center;gap:0.625rem;padding:0.875rem 2rem;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:12px;font-size:0.9375rem;font-weight:700;color:#fff;cursor:pointer;transition:opacity 200ms ease-out;box-shadow:0 4px 16px rgba(5,150,105,0.35)">
+          ✓ Завершити модуль 4
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+
+</div><!-- /presentation -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     1. STATE
+     --------------------------------------------------------------- */
+  const slides       = Array.from(document.querySelectorAll('.slide'));
+  const totalSlides  = slides.length;
+  let   currentIndex = 0;
+
+  const btnPrev      = document.getElementById('btnPrev');
+  const btnNext      = document.getElementById('btnNext');
+  const counter      = document.getElementById('slideCounter');
+  const progressFill = document.getElementById('progressFill');
+
+  /* ---------------------------------------------------------------
+     2. INIT
+     --------------------------------------------------------------- */
+  const animatedSlides = new Set();
+
+  slides[0].classList.add('slide--active');
+  updateUI();
+  triggerCounters(slides[0]);
+
+  /* ---------------------------------------------------------------
+     3. SLIDE TRANSITION
+     --------------------------------------------------------------- */
+  function goToSlide(newIndex) {
+    if (newIndex < 0 || newIndex >= totalSlides) return;
+
+    const prevSlide = slides[currentIndex];
+    const nextSlide = slides[newIndex];
+
+    prevSlide.classList.remove('slide--active');
+    prevSlide.classList.add('slide--prev');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        nextSlide.classList.add('slide--active');
+        nextSlide.classList.remove('slide--prev');
+      });
+    });
+
+    prevSlide.addEventListener('transitionend', function cleanup() {
+      prevSlide.classList.remove('slide--prev');
+      prevSlide.removeEventListener('transitionend', cleanup);
+    });
+
+    currentIndex = newIndex;
+    updateUI();
+    triggerCounters(nextSlide);
+  }
+
+  /* ---------------------------------------------------------------
+     4. UPDATE NAV & PROGRESS
+     --------------------------------------------------------------- */
+  function updateUI() {
+    counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+    const pct = ((currentIndex + 1) / totalSlides) * 100;
+    progressFill.style.width = `${pct}%`;
+    btnPrev.classList.toggle('nav-btn--disabled', currentIndex === 0);
+    btnNext.classList.toggle('nav-btn--disabled', currentIndex === totalSlides - 1);
+  }
+
+  /* ---------------------------------------------------------------
+     5. STAT COUNTER ANIMATION
+     --------------------------------------------------------------- */
+  function triggerCounters(slide) {
+    if (animatedSlides.has(slide)) return;
+    animatedSlides.add(slide);
+    slide.querySelectorAll('[data-target]').forEach(el => animateCounter(el));
+  }
+
+  function animateCounter(el) {
+    const rawTarget = el.dataset.target;
+    const target    = parseFloat(rawTarget.replace(/\s/g, ''));
+    const suffix    = el.dataset.suffix || '';
+    const isFloat   = rawTarget.includes('.');
+    const duration  = 1800;
+    const start     = performance.now();
+
+    function formatNum(n) {
+      if (n >= 1000) {
+        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+      }
+      return isFloat ? n.toFixed(1) : Math.round(n).toString();
+    }
+
+    function update(now) {
+      const elapsed  = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease     = 1 - Math.pow(1 - progress, 3);
+      const current  = target * ease;
+
+      el.textContent = formatNum(current) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = formatNum(target) + suffix;
+      }
+    }
+
+    setTimeout(() => requestAnimationFrame(update), 400);
+  }
+
+  /* ---------------------------------------------------------------
+     6. QUIZ HANDLER
+     --------------------------------------------------------------- */
+  window.handleQuiz = function(btn, isCorrect, quizId, expId) {
+    const container = document.getElementById(quizId);
+    const reveal    = document.getElementById(expId);
+
+    if (container.dataset.answered) return;
+    container.dataset.answered = 'true';
+
+    container.querySelectorAll('.test-option').forEach(opt => {
+      opt.style.pointerEvents = 'none';
+    });
+
+    if (isCorrect) {
+      btn.classList.add('option--correct');
+    } else {
+      btn.classList.add('option--wrong');
+      container.querySelectorAll('.test-option').forEach(opt => {
+        if (opt.getAttribute('onclick').includes('true')) {
+          opt.classList.add('option--correct');
+        }
+      });
+    }
+
+    if (reveal) {
+      reveal.classList.add('revealed');
+      setTimeout(() => {
+        reveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  };
+
+  /* ---------------------------------------------------------------
+     7. EVENT LISTENERS
+     --------------------------------------------------------------- */
+  btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+  btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        goToSlide(currentIndex - 1);
+        break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+        break;
+    }
+  });
+
+})();
+</script>
+
+<script>window.DENTAL_SHOW_SESSION_BAR = true;</script>
+<script src="supabase-config.js"></script>
+<script src="tracking.js"></script>
+<script>
+function completeModule(key) {
+  var btn = document.getElementById('btn-complete-module');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Збереження...'; }
+  window.DentalTracking.saveProgress(key).then(function() {
+    window.DentalTracking.showCompletionToast('Модуль 4 завершено! Прогрес збережено ✓');
+    setTimeout(function() { window.location.href = 'index.html'; }, 2200);
+  });
+}
+</script>
+</body>
+</html>

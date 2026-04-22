@@ -1,0 +1,2315 @@
+/* ============================================================
+   DENTAL CLINIC STAFF TRAINING — DESIGN SYSTEM
+   Version: 1.0.0
+   Description: Shared stylesheet for all 6 course modules.
+   Usage: <link rel="stylesheet" href="style.css">
+   ============================================================ */
+
+/* ============================================================
+   1. GOOGLE FONTS IMPORT
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   2. CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+   ============================================================ */
+:root {
+  /* — Color palette — */
+  --color-primary-dark:   #1a2332;
+  --color-primary-blue:   #2563eb;
+  --color-accent-teal:    #0ea5e9;
+  --color-success:        #10b981;
+  --color-warning:        #f59e0b;
+  --color-danger:         #ef4444;
+  --color-light-bg:       #f8fafc;
+  --color-white:          #ffffff;
+  --color-text-primary:   #0f172a;
+  --color-text-secondary: #64748b;
+  --color-text-muted:     #94a3b8;
+  --color-border:         #e2e8f0;
+
+  /* — Gradient presets — */
+  --gradient-title:   linear-gradient(135deg, #1a2332 0%, #0f172a 50%, #162036 100%);
+  --gradient-blue:    linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+  --gradient-teal:    linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+  --gradient-warm:    linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --gradient-card:    linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+
+  /* — Typography — */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs:   0.75rem;   /* 12px */
+  --font-size-sm:   0.875rem;  /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-md:   1.125rem;  /* 18px */
+  --font-size-lg:   1.25rem;   /* 20px */
+  --font-size-xl:   1.5rem;    /* 24px */
+  --font-size-2xl:  2rem;      /* 32px */
+  --font-size-3xl:  2.5rem;    /* 40px */
+  --font-size-4xl:  3rem;      /* 48px */
+  --font-size-5xl:  4rem;      /* 64px */
+  --font-size-hero: 5.5rem;    /* 88px */
+
+  --line-height-tight:  1.2;
+  --line-height-snug:   1.4;
+  --line-height-normal: 1.6;
+  --line-height-relaxed:1.75;
+
+  --font-weight-light:    300;
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+  --font-weight-extrabold:800;
+  --font-weight-black:    900;
+
+  /* — Spacing — */
+  --space-1:  0.25rem;  /* 4px  */
+  --space-2:  0.5rem;   /* 8px  */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+
+  /* — Border radius — */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-2xl:  24px;
+  --radius-full: 9999px;
+
+  /* — Shadows — */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg:   0 10px 30px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.06);
+  --shadow-xl:   0 20px 50px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
+  --shadow-card: 0 4px 24px rgba(37,99,235,0.08), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-glow-blue:  0 0 40px rgba(37,99,235,0.25);
+  --shadow-glow-teal:  0 0 40px rgba(14,165,233,0.25);
+
+  /* — Transitions — */
+  --transition-fast:   150ms ease-out;
+  --transition-normal: 250ms ease-out;
+  --transition-slow:   400ms ease-out;
+  --transition-slide:  350ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* — Slide dimensions — */
+  --slide-width:  100vw;
+  --slide-height: 100vh;
+  --content-max:  1200px;
+  --content-padding: clamp(var(--space-8), 5vw, var(--space-20));
+}
+
+/* ============================================================
+   3. RESET & BASE STYLES
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-primary-dark);
+  line-height: var(--line-height-normal);
+  overflow: hidden; /* slides handle their own overflow */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ============================================================
+   4. PRESENTATION SHELL
+   ============================================================ */
+
+/* Outer wrapper — hides all slides, shows only active */
+.presentation {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- Module progress bar (top edge) ---- */
+.progress-track {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.12);
+  z-index: 100;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-blue);
+  border-radius: 0 var(--radius-full) var(--radius-full) 0;
+  transition: width var(--transition-normal);
+}
+
+/* ---- Slide counter (bottom-right) ---- */
+.slide-counter {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-8);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.08em;
+  z-index: 100;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255,255,255,0.10);
+  transition: color var(--transition-fast);
+  user-select: none;
+}
+
+/* ---- Navigation arrows ---- */
+.nav-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  background: rgba(26,35,50,0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.70);
+  transition: background var(--transition-fast),
+              border-color var(--transition-fast),
+              color var(--transition-fast),
+              transform var(--transition-fast);
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-btn:hover {
+  background: rgba(37,99,235,0.50);
+  border-color: rgba(37,99,235,0.60);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.nav-btn:active {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.nav-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav-btn--prev { left: var(--space-5); }
+.nav-btn--next { right: var(--space-5); }
+
+.nav-btn--disabled {
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ============================================================
+   5. BASE SLIDE
+   ============================================================ */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: var(--slide-width);
+  /* height intentionally omitted — inset:0 fills the container,
+     avoids overflow when .presentation height is reduced by session bar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--content-padding);
+  overflow: hidden;
+
+  /* Entrance animation state */
+  opacity: 0;
+  transform: translateX(60px);
+  pointer-events: none;
+  transition:
+    opacity var(--transition-slide),
+    transform var(--transition-slide);
+}
+
+/* Previous slide (exiting left) */
+.slide.slide--prev {
+  opacity: 0;
+  transform: translateX(-60px);
+  pointer-events: none;
+}
+
+/* Active slide */
+.slide.slide--active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: all;
+  z-index: 10;
+}
+
+/* Content wrapper inside slide */
+.slide__inner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* Decorative background blob for slides */
+.slide::before {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-slow);
+}
+
+.slide--active::before {
+  opacity: 1;
+}
+
+/* ============================================================
+   6. SLIDE TYPE: TITLE (.slide-title)
+   Dark background, large headline, module badge, gradient accents
+   ============================================================ */
+.slide-title {
+  background: var(--gradient-title);
+  color: var(--color-white);
+  position: absolute; /* keep positioning context for ::before/::after, but don't override .slide */
+  overflow: hidden;
+}
+
+/* Decorative gradient orbs */
+.slide-title::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  right: -10%;
+  width: 55vmin;
+  height: 55vmin;
+  background: radial-gradient(circle, rgba(37,99,235,0.30) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.slide-title::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -8%;
+  width: 45vmin;
+  height: 45vmin;
+  background: radial-gradient(circle, rgba(14,165,233,0.20) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.slide-title .slide__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-title .title-module-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(8px);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-teal);
+  width: fit-content;
+}
+
+.slide-title .title-eyebrow {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.04em;
+}
+
+.slide-title h1 {
+  font-size: clamp(var(--font-size-3xl), 6vw, var(--font-size-hero));
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.025em;
+  color: var(--color-white);
+  max-width: 14ch;
+}
+
+.slide-title h1 span.accent {
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-title .title-subtitle {
+  font-size: clamp(var(--font-size-md), 2vw, var(--font-size-xl));
+  font-weight: var(--font-weight-normal);
+  color: rgba(255,255,255,0.65);
+  max-width: 52ch;
+  line-height: var(--line-height-relaxed);
+}
+
+.slide-title .title-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.slide-title .title-meta-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: rgba(255,255,255,0.45);
+}
+
+.slide-title .title-meta-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--color-accent-teal);
+  fill: none;
+  stroke-width: 2;
+}
+
+/* Decorative corner tooth icon */
+.slide-title .title-decoration {
+  position: absolute;
+  bottom: var(--space-12);
+  right: var(--content-padding);
+  opacity: 0.06;
+  transform: rotate(-12deg);
+}
+
+.slide-title .title-decoration svg {
+  width: clamp(80px, 15vw, 200px);
+  height: auto;
+}
+
+/* ============================================================
+   7. SLIDE TYPE: CONTENT (.slide-content)
+   Standard white/light slide, flexible layout
+   ============================================================ */
+.slide-content {
+  background: var(--color-light-bg);
+}
+
+.slide-content .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-content .slide-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.slide-content .slide-header h2 {
+  font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.slide-content .slide-header h2 .accent {
+  color: var(--color-primary-blue);
+}
+
+.slide-content .slide-header p {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  max-width: 60ch;
+}
+
+/* Two-column layout variant */
+.slide-content .content-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-10);
+  align-items: start;
+}
+
+.slide-content .content-cols--60-40 {
+  grid-template-columns: 3fr 2fr;
+}
+
+.slide-content .content-cols--40-60 {
+  grid-template-columns: 2fr 3fr;
+}
+
+/* ============================================================
+   8. SLIDE TYPE: STAT (.slide-stat)
+   Full-bleed stat spotlight — centered huge number
+   ============================================================ */
+.slide-stat {
+  background: var(--color-white);
+  text-align: center;
+}
+
+.slide-stat .slide__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+.slide-stat .stat-label-top {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.slide-stat .stat-number {
+  font-size: clamp(5rem, 18vw, 12rem);
+  font-weight: var(--font-weight-black);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* data-target + JS counter animation */
+}
+
+.slide-stat .stat-number.stat--success {
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.slide-stat .stat-number.stat--warning {
+  background: var(--gradient-warm);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.slide-stat .stat-headline {
+  font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  max-width: 22ch;
+}
+
+.slide-stat .stat-description {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  max-width: 48ch;
+  line-height: var(--line-height-relaxed);
+}
+
+.slide-stat .stat-divider {
+  width: 64px;
+  height: 4px;
+  background: var(--gradient-blue);
+  border-radius: var(--radius-full);
+}
+
+/* Multiple stats grid */
+.slide-stat .stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-8);
+  width: 100%;
+  text-align: center;
+}
+
+.slide-stat .stat-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6);
+  background: var(--color-light-bg);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+}
+
+.slide-stat .stat-grid-item .stat-value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-black);
+  letter-spacing: -0.03em;
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.slide-stat .stat-grid-item .stat-unit {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ============================================================
+   9. SLIDE TYPE: SCRIPT (.slide-script)
+   Dialogue between doctor and patient
+   ============================================================ */
+.slide-script {
+  background: var(--color-light-bg);
+}
+
+.slide-script .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.slide-script .script-header {
+  font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-2xl));
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.slide-script .script-header svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-primary-blue);
+}
+
+.slide-script .script-exchange {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ============================================================
+   10. SLIDE TYPE: CASE (.slide-case)
+   Case study / story format
+   ============================================================ */
+.slide-case {
+  background: var(--color-white);
+}
+
+.slide-case .slide__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+.slide-case .case-header {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.slide-case .case-header h2 {
+  font-size: clamp(var(--font-size-xl), 3.5vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.slide-case .case-panel {
+  background: var(--color-light-bg);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  border: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.slide-case .case-panel--success {
+  background: rgba(16,185,129,0.06);
+  border-color: rgba(16,185,129,0.20);
+}
+
+.slide-case .case-panel--danger {
+  background: rgba(239,68,68,0.05);
+  border-color: rgba(239,68,68,0.20);
+}
+
+.slide-case .case-panel-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.slide-case .case-panel--success .case-panel-label {
+  background: rgba(16,185,129,0.15);
+  color: #059669;
+}
+
+.slide-case .case-panel--danger .case-panel-label {
+  background: rgba(239,68,68,0.12);
+  color: #dc2626;
+}
+
+.slide-case .case-panel h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.slide-case .case-panel p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ============================================================
+   11. SLIDE TYPE: QUOTE (.slide-quote)
+   Pull quote highlight
+   ============================================================ */
+.slide-quote {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  position: absolute; /* keep positioning context for ::before, but don't override .slide */
+  overflow: hidden;
+}
+
+.slide-quote::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vmin;
+  height: 70vmin;
+  background: radial-gradient(circle, rgba(14,165,233,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.slide-quote .slide__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-8);
+}
+
+.slide-quote .quote-mark {
+  font-size: 8rem;
+  line-height: 0.6;
+  color: rgba(37,99,235,0.35);
+  font-family: Georgia, serif;
+  user-select: none;
+}
+
+.slide-quote blockquote {
+  font-size: clamp(var(--font-size-xl), 3.5vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-medium);
+  font-style: italic;
+  line-height: var(--line-height-snug);
+  color: rgba(255,255,255,0.92);
+  max-width: 26ch;
+  letter-spacing: -0.01em;
+}
+
+.slide-quote .quote-attribution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.slide-quote .quote-author {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent-teal);
+}
+
+.slide-quote .quote-role {
+  font-size: var(--font-size-sm);
+  color: rgba(255,255,255,0.40);
+}
+
+/* ============================================================
+   12. SLIDE TYPE: LIST (.slide-list)
+   Bullet / numbered list
+   ============================================================ */
+.slide-list {
+  background: var(--color-white);
+}
+
+.slide-list .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-list h2 {
+  font-size: clamp(var(--font-size-xl), 3.5vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+/* ============================================================
+   13. SLIDE TYPE: TABLE (.slide-table)
+   Data table presentation
+   ============================================================ */
+.slide-table {
+  background: var(--color-light-bg);
+}
+
+.slide-table .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-table h2 {
+  font-size: clamp(var(--font-size-xl), 3.5vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.slide-table .table-wrapper {
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+}
+
+.slide-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+}
+
+.slide-table thead {
+  background: var(--color-primary-dark);
+}
+
+.slide-table thead th {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  text-align: left;
+}
+
+.slide-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition-fast);
+}
+
+.slide-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.slide-table tbody tr:hover {
+  background: rgba(37,99,235,0.03);
+}
+
+.slide-table tbody td {
+  padding: var(--space-4) var(--space-6);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+.slide-table tbody td.td-secondary {
+  color: var(--color-text-secondary);
+}
+
+.slide-table tbody td.td-success {
+  color: var(--color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.slide-table tbody td.td-danger {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================================
+   14. SLIDE TYPE: FORMULA (.slide-formula)
+   Formula / calculation display
+   ============================================================ */
+.slide-formula {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+  position: absolute; /* keep positioning context for ::before, but don't override .slide */
+  overflow: hidden;
+}
+
+.slide-formula::before {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  right: -10%;
+  width: 60vmin;
+  height: 60vmin;
+  background: radial-gradient(circle, rgba(14,165,233,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.slide-formula .slide__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-formula h2 {
+  font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   15. SLIDE TYPE: SUMMARY (.slide-summary)
+   Module takeaways checklist
+   ============================================================ */
+.slide-summary {
+  background: var(--color-light-bg);
+}
+
+.slide-summary .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-summary .summary-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.slide-summary .summary-header h2 {
+  font-size: clamp(var(--font-size-xl), 3.5vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.slide-summary .summary-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--gradient-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.slide-summary .summary-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.slide-summary .summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+/* ============================================================
+   16. SLIDE TYPE: TEST / QUIZ (.slide-test)
+   Multiple choice, click to reveal answer
+   ============================================================ */
+.slide-test {
+  background: var(--color-white);
+}
+
+.slide-test .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-test .test-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.slide-test .test-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary-blue);
+}
+
+.slide-test .test-question {
+  font-size: clamp(var(--font-size-xl), 2.8vw, var(--font-size-2xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+  line-height: var(--line-height-snug);
+  max-width: 56ch;
+}
+
+.slide-test .test-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.test-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  background: var(--color-light-bg);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  text-align: left;
+  font-family: var(--font-family);
+  width: 100%;
+}
+
+.test-option:hover {
+  border-color: var(--color-primary-blue);
+  background: rgba(37,99,235,0.04);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.test-option:active {
+  transform: translateY(0);
+}
+
+.test-option .option-letter {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: rgba(37,99,235,0.10);
+  color: var(--color-primary-blue);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.test-option .option-text {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-snug);
+  padding-top: 0.1em;
+}
+
+/* Correct answer state (added via JS) */
+.test-option.option--correct {
+  border-color: var(--color-success);
+  background: rgba(16,185,129,0.08);
+}
+
+.test-option.option--correct .option-letter {
+  background: var(--color-success);
+  color: white;
+}
+
+/* Wrong answer state */
+.test-option.option--wrong {
+  border-color: var(--color-danger);
+  background: rgba(239,68,68,0.06);
+  opacity: 0.70;
+}
+
+.test-option.option--wrong .option-letter {
+  background: rgba(239,68,68,0.15);
+  color: var(--color-danger);
+}
+
+/* Answer explanation box (hidden until revealed) */
+.test-answer-reveal {
+  display: none;
+  padding: var(--space-5) var(--space-6);
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: var(--radius-xl);
+  animation: fadeSlideUp 0.35s ease-out;
+}
+
+.test-answer-reveal.revealed {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.test-answer-reveal .reveal-icon {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-success);
+  fill: none;
+  stroke-width: 2.5;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.test-answer-reveal p {
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-relaxed);
+}
+
+.test-answer-reveal strong {
+  color: var(--color-success);
+}
+
+/* ============================================================
+   17. SLIDE TYPE: DARK VARIANT (.slide-dark)
+   Dark emphasis slide
+   ============================================================ */
+.slide-dark {
+  background: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
+.slide-dark .slide__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.slide-dark h2 {
+  font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--color-white);
+}
+
+.slide-dark p {
+  font-size: var(--font-size-md);
+  color: rgba(255,255,255,0.65);
+  line-height: var(--line-height-relaxed);
+  max-width: 60ch;
+}
+
+/* ============================================================
+   18. UI COMPONENT: .badge
+   Pill badge for labels, module numbers, categories
+   ============================================================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.badge--blue {
+  background: rgba(37,99,235,0.12);
+  color: var(--color-primary-blue);
+}
+
+.badge--teal {
+  background: rgba(14,165,233,0.12);
+  color: #0284c7;
+}
+
+.badge--green {
+  background: rgba(16,185,129,0.12);
+  color: #059669;
+}
+
+.badge--amber {
+  background: rgba(245,158,11,0.12);
+  color: #d97706;
+}
+
+.badge--red {
+  background: rgba(239,68,68,0.12);
+  color: #dc2626;
+}
+
+.badge--dark {
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.80);
+}
+
+.badge--outline {
+  background: transparent;
+  border: 1.5px solid currentColor;
+}
+
+/* ============================================================
+   19. UI COMPONENT: .highlight-box
+   Colored callout/alert box
+   ============================================================ */
+.highlight-box {
+  display: flex;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid transparent;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+}
+
+.highlight-box__icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+}
+
+.highlight-box__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.highlight-box__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.highlight-box__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.04em;
+}
+
+.highlight-box__text {
+  color: inherit;
+  opacity: 0.85;
+}
+
+/* Variants */
+.highlight-box--info {
+  background: rgba(37,99,235,0.07);
+  border-left-color: var(--color-primary-blue);
+  color: var(--color-text-primary);
+}
+.highlight-box--info .highlight-box__icon svg { stroke: var(--color-primary-blue); }
+.highlight-box--info .highlight-box__title { color: var(--color-primary-blue); }
+
+.highlight-box--success {
+  background: rgba(16,185,129,0.08);
+  border-left-color: var(--color-success);
+  color: var(--color-text-primary);
+}
+.highlight-box--success .highlight-box__icon svg { stroke: var(--color-success); }
+.highlight-box--success .highlight-box__title { color: #059669; }
+
+.highlight-box--warning {
+  background: rgba(245,158,11,0.09);
+  border-left-color: var(--color-warning);
+  color: var(--color-text-primary);
+}
+.highlight-box--warning .highlight-box__icon svg { stroke: var(--color-warning); }
+.highlight-box--warning .highlight-box__title { color: #d97706; }
+
+.highlight-box--danger {
+  background: rgba(239,68,68,0.07);
+  border-left-color: var(--color-danger);
+  color: var(--color-text-primary);
+}
+.highlight-box--danger .highlight-box__icon svg { stroke: var(--color-danger); }
+.highlight-box--danger .highlight-box__title { color: #dc2626; }
+
+/* ============================================================
+   20. UI COMPONENT: .script-box
+   Formatted doctor/patient dialogue bubble
+   ============================================================ */
+.script-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.script-box .script-speaker {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.avatar-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.avatar-label .avatar-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-label .avatar-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.avatar-label .avatar-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.04em;
+}
+
+/* Doctor variant — blue */
+.avatar-label--doctor .avatar-icon {
+  background: rgba(37,99,235,0.12);
+}
+.avatar-label--doctor .avatar-icon svg { stroke: var(--color-primary-blue); }
+.avatar-label--doctor .avatar-name { color: var(--color-primary-blue); }
+
+/* Patient variant — teal */
+.avatar-label--patient .avatar-icon {
+  background: rgba(14,165,233,0.12);
+}
+.avatar-label--patient .avatar-icon svg { stroke: #0284c7; }
+.avatar-label--patient .avatar-name { color: #0284c7; }
+
+.script-box .speech-bubble {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5) var(--space-6);
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-relaxed);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  margin-left: 50px; /* offset for avatar */
+}
+
+.script-box .speech-bubble--doctor {
+  border-color: rgba(37,99,235,0.20);
+  border-left-width: 4px;
+  border-left-color: var(--color-primary-blue);
+}
+
+.script-box .speech-bubble--patient {
+  border-color: rgba(14,165,233,0.20);
+  border-left-width: 4px;
+  border-left-color: var(--color-accent-teal);
+}
+
+/* Emphasis inside speech bubble */
+.script-box .speech-bubble strong,
+.script-box .speech-bubble b {
+  color: var(--color-primary-blue);
+}
+
+.script-box .speech-bubble em {
+  color: var(--color-text-secondary);
+  font-style: normal;
+  font-size: var(--font-size-sm);
+}
+
+/* ============================================================
+   21. UI COMPONENT: .metric-card
+   KPI card with value, label, optional trend
+   ============================================================ */
+.metric-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-8);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+.metric-card .metric-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.metric-card .metric-value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-black);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.metric-card .metric-trend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.metric-card .metric-trend--up {
+  color: var(--color-success);
+}
+
+.metric-card .metric-trend--down {
+  color: var(--color-danger);
+}
+
+.metric-card .metric-trend svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.metric-cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-5);
+}
+
+/* ============================================================
+   22. UI COMPONENT: .comparison
+   Side-by-side good vs bad / before vs after
+   ============================================================ */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+}
+
+.comparison-side {
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.comparison-side--good {
+  background: rgba(16,185,129,0.07);
+  border: 1.5px solid rgba(16,185,129,0.25);
+}
+
+.comparison-side--bad {
+  background: rgba(239,68,68,0.06);
+  border: 1.5px solid rgba(239,68,68,0.22);
+}
+
+.comparison-side .comparison-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.comparison-side--good .comparison-label { color: #059669; }
+.comparison-side--bad .comparison-label  { color: #dc2626; }
+
+.comparison-side .comparison-label svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.comparison-side .comparison-text {
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-relaxed);
+  font-style: italic;
+}
+
+.comparison-side .comparison-note {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  padding-top: var(--space-2);
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ============================================================
+   23. UI COMPONENT: .timeline
+   Horizontal or vertical step timeline
+   ============================================================ */
+
+/* — Vertical timeline — */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.timeline-step {
+  display: flex;
+  gap: var(--space-5);
+  position: relative;
+}
+
+.timeline-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 40px;
+  bottom: -8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-primary-blue), transparent);
+  opacity: 0.25;
+}
+
+.timeline-step .timeline-node {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-blue);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-md);
+}
+
+.timeline-step .timeline-body {
+  padding-bottom: var(--space-8);
+  flex: 1;
+}
+
+.timeline-step .timeline-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-1);
+  padding-top: 0.45em; /* align with node center */
+}
+
+.timeline-step .timeline-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* — Horizontal timeline — */
+.timeline--horizontal {
+  flex-direction: row;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: var(--space-4);
+}
+
+.timeline--horizontal .timeline-step {
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  text-align: center;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.timeline--horizontal .timeline-step:not(:last-child)::before {
+  left: 60%;
+  right: auto;
+  top: 19px;
+  bottom: auto;
+  width: calc(100% - 40px);
+  height: 2px;
+  background: linear-gradient(to right, var(--color-primary-blue), transparent);
+}
+
+.timeline--horizontal .timeline-body {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+/* ============================================================
+   24. UI COMPONENT: .formula-box
+   Formula / calculation display
+   ============================================================ */
+.formula-box {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8) var(--space-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  backdrop-filter: blur(8px);
+}
+
+/* On light backgrounds */
+.formula-box--light {
+  background: var(--color-white);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+.formula-box .formula-display {
+  font-size: clamp(var(--font-size-xl), 3vw, var(--font-size-3xl));
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+  letter-spacing: -0.01em;
+  line-height: var(--line-height-snug);
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.formula-box--light .formula-display {
+  color: var(--color-text-primary);
+}
+
+/* Highlighted variables inside formula */
+.formula-var {
+  color: var(--color-accent-teal);
+  font-weight: var(--font-weight-extrabold);
+}
+
+.formula-var--result {
+  color: var(--color-success);
+}
+
+.formula-var--input {
+  color: var(--color-warning);
+}
+
+.formula-box .formula-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-3) var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.formula-box--light .formula-legend {
+  border-top-color: var(--color-border);
+}
+
+.formula-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+}
+
+.formula-legend-item .legend-key {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-accent-teal);
+  min-width: 30px;
+}
+
+.formula-legend-item .legend-val {
+  color: rgba(255,255,255,0.65);
+}
+
+.formula-box--light .formula-legend-item .legend-val {
+  color: var(--color-text-secondary);
+}
+
+.formula-result-box {
+  background: var(--gradient-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-6);
+  text-align: center;
+  box-shadow: var(--shadow-glow-blue);
+}
+
+.formula-result-box .result-label {
+  font-size: var(--font-size-sm);
+  color: rgba(255,255,255,0.70);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-1);
+}
+
+.formula-result-box .result-value {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-black);
+  color: white;
+  letter-spacing: -0.03em;
+}
+
+/* ============================================================
+   25. UI COMPONENT: .checklist
+   Styled checklist with animated checkmarks
+   ============================================================ */
+.checklist {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.checklist-item:hover {
+  border-color: rgba(16,185,129,0.30);
+  transform: translateX(4px);
+}
+
+.checklist-item.checklist-item--checked {
+  border-color: rgba(16,185,129,0.25);
+  background: rgba(16,185,129,0.04);
+}
+
+.checklist-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--gradient-success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.checklist-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: white;
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Pending (unchecked) item */
+.checklist-item--pending .checklist-icon {
+  background: var(--color-light-bg);
+  border: 2px solid var(--color-border);
+}
+
+.checklist-item--pending .checklist-icon svg {
+  stroke: var(--color-border);
+}
+
+.checklist-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.checklist-body .checklist-title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-snug);
+}
+
+.checklist-body .checklist-desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+/* Two-column checklist grid */
+.checklist--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+
+.checklist--grid .checklist-item {
+  padding: var(--space-4);
+}
+
+/* ============================================================
+   26. UI COMPONENT: .tag
+   Small category / label tag
+   ============================================================ */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.03em;
+  background: rgba(37,99,235,0.08);
+  color: var(--color-primary-blue);
+  border: 1px solid rgba(37,99,235,0.15);
+  white-space: nowrap;
+}
+
+.tag--green   { background: rgba(16,185,129,0.08); color: #059669; border-color: rgba(16,185,129,0.18); }
+.tag--amber   { background: rgba(245,158,11,0.10); color: #d97706; border-color: rgba(245,158,11,0.20); }
+.tag--red     { background: rgba(239,68,68,0.08);  color: #dc2626; border-color: rgba(239,68,68,0.15); }
+.tag--gray    { background: rgba(100,116,139,0.08); color: var(--color-text-secondary); border-color: rgba(100,116,139,0.15); }
+
+.tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* ============================================================
+   27. UI COMPONENT: .progress-bar
+   Visual progress indicator
+   ============================================================ */
+.progress-bar-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.progress-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.progress-bar-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.progress-bar-value {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.progress-bar-track {
+  height: 10px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--gradient-blue);
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+  width: 0%; /* set via --progress CSS var or inline style */
+}
+
+.progress-bar-fill--success { background: var(--gradient-success); }
+.progress-bar-fill--warning { background: linear-gradient(90deg, var(--color-warning), #f97316); }
+.progress-bar-fill--danger  { background: linear-gradient(90deg, var(--color-danger), #f97316); }
+
+/* ============================================================
+   28. ANIMATIONS & KEYFRAMES
+   ============================================================ */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,99,235,0.30); }
+  50%       { box-shadow: 0 0 0 12px rgba(37,99,235,0); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* animate-in: content is visible immediately when a slide is active.
+   The slide wrapper (.slide) handles the entrance animation (opacity+translateX).
+   Individual elements do NOT fade-in separately — avoids blank-slide flicker. */
+.animate-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* No stagger delays needed — slide entrance is the only animation */
+
+/* ============================================================
+   29. TYPOGRAPHY UTILITIES
+   ============================================================ */
+.text-gradient {
+  background: var(--gradient-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient--teal {
+  background: var(--gradient-teal);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-xs  { font-size: var(--font-size-xs);  }
+.text-sm  { font-size: var(--font-size-sm);  }
+.text-md  { font-size: var(--font-size-md);  }
+.text-lg  { font-size: var(--font-size-lg);  }
+.text-xl  { font-size: var(--font-size-xl);  }
+.text-2xl { font-size: var(--font-size-2xl); }
+.text-3xl { font-size: var(--font-size-3xl); }
+
+.font-medium   { font-weight: var(--font-weight-medium);   }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold     { font-weight: var(--font-weight-bold);     }
+.font-extrabold{ font-weight: var(--font-weight-extrabold);}
+
+.text-muted    { color: var(--color-text-secondary); }
+.text-on-dark  { color: rgba(255,255,255,0.70); }
+
+/* ============================================================
+   30. LAYOUT UTILITIES
+   ============================================================ */
+.flex         { display: flex; }
+.flex-col     { flex-direction: column; }
+.items-center { align-items: center; }
+.items-start  { align-items: flex-start; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-2  { gap: var(--space-2); }
+.gap-4  { gap: var(--space-4); }
+.gap-6  { gap: var(--space-6); }
+.gap-8  { gap: var(--space-8); }
+.gap-10 { gap: var(--space-10); }
+
+.w-full   { width: 100%; }
+.max-w-prose { max-width: 65ch; }
+.mx-auto  { margin-left: auto; margin-right: auto; }
+.mt-4     { margin-top: var(--space-4); }
+.mb-4     { margin-bottom: var(--space-4); }
+.mb-6     { margin-bottom: var(--space-6); }
+.mb-8     { margin-bottom: var(--space-8); }
+
+/* ============================================================
+   31. DIVIDER
+   ============================================================ */
+.divider {
+  height: 1px;
+  background: var(--color-border);
+  border: none;
+  margin: var(--space-2) 0;
+}
+
+.divider--dark {
+  background: rgba(255,255,255,0.08);
+}
+
+/* ============================================================
+   32. RESPONSIVE — 768px breakpoint
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --content-padding: var(--space-5);
+  }
+
+  /* ── Bottom nav bar: [< Назад]  2/18  [Далі >] ── */
+  .nav-btn {
+    width: calc(50% - 48px);
+    height: 52px;
+    border-radius: 14px;
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: none !important;
+    background: rgba(37,99,235,0.92);
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.35);
+  }
+
+  .nav-btn:hover  { background: rgba(37,99,235,1); }
+  .nav-btn:active { opacity: 0.8; }
+
+  .nav-btn svg { width: 24px; height: 24px; }
+
+  .nav-btn--prev { left: 12px; right: auto; }
+  .nav-btn--next { right: 12px; left: auto; }
+
+  .nav-btn--disabled {
+    background: rgba(255,255,255,0.08) !important;
+    box-shadow: none;
+    opacity: 0.4;
+  }
+
+  /* Counter sits centered between the two buttons */
+  .slide-counter {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    font-size: 13px;
+    background: rgba(15,23,42,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 4px 14px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* Stack ALL two-column grids */
+  .content-cols,
+  .slide-case .slide__inner,
+  .comparison,
+  .slide-test .test-options,
+  .slide-content .content-cols--60-40,
+  .slide-content .content-cols--40-60 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stat grid: 3 cols → 1 col */
+  .stat-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-3);
+  }
+
+  /* Checklist */
+  .checklist--grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Summary cards grid */
+  .summary-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Title slide */
+  .slide-title h1 {
+    font-size: clamp(var(--font-size-2xl), 9vw, var(--font-size-3xl));
+    line-height: 1.15;
+  }
+
+  .slide-title .title-meta {
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* Stat number */
+  .slide-stat .stat-number {
+    font-size: clamp(3.5rem, 20vw, 5.5rem);
+  }
+
+  /* Formula slide */
+  .formula-display {
+    font-size: clamp(0.875rem, 3vw, 1.25rem) !important;
+    flex-wrap: wrap;
+  }
+
+  /* Case panels */
+  .case-panel { padding: var(--space-4) !important; }
+
+  /* Timeline: reduce gap */
+  .timeline { gap: var(--space-4); }
+  .timeline-node { width: 32px; height: 32px; font-size: 0.75rem; }
+
+  /* Comparison sides */
+  .comparison-side { padding: var(--space-4); }
+
+  /* Slide inner: less gap on mobile */
+  .slide__inner { gap: var(--space-4) !important; }
+
+  /* Slide content: allow vertical scroll on overflow */
+  .slide {
+    overflow-y: auto;
+    align-items: flex-start;
+    padding-top: var(--space-8);
+    padding-bottom: var(--space-8);
+  }
+
+  /* Hide decorative elements on mobile */
+  .slide-title .title-decoration { display: none; }
+
+  /* Script bubbles */
+  .script-box .speech-bubble { margin-left: 0; }
+
+  /* Script speaker avatar stack */
+  .script-speaker { flex-wrap: wrap; }
+}
+
+/* ── Extra small phones (< 480px) ─────────────────────────── */
+@media (max-width: 480px) {
+  :root {
+    --content-padding: var(--space-4);
+  }
+
+  /* Small phones — same bottom bar layout */
+  .nav-btn {
+    width: calc(50% - 44px);
+    height: 50px;
+    border-radius: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .nav-btn svg { width: 24px; height: 24px; }
+
+  .nav-btn--prev { left: 10px; right: auto; }
+  .nav-btn--next { right: 10px; left: auto; }
+
+  .slide-counter {
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .slide-title h1 {
+    font-size: clamp(var(--font-size-xl), 8vw, var(--font-size-2xl));
+  }
+
+  .slide-stat .stat-number {
+    font-size: clamp(3rem, 18vw, 4.5rem);
+  }
+
+  /* Title meta: single item per row */
+  .title-meta { flex-direction: column; gap: var(--space-2); }
+
+  /* Highlight boxes: reduce padding */
+  .highlight-box { padding: var(--space-3) var(--space-4); }
+
+  /* Summary stats: 2 cols */
+  .summary-grid { grid-template-columns: 1fr 1fr !important; gap: var(--space-3); }
+
+  /* Summary cards: less padding */
+  .summary-card { padding: var(--space-4) var(--space-3); }
+  .summary-card__val { font-size: 1.5rem; }
+
+  /* Inline grid overrides for 2-col divs in slides */
+  [style*="grid-template-columns: 1fr 1fr"],
+  [style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Allow active slides to scroll vertically; clear bottom nav bar */
+  .slide.slide--active {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    align-items: flex-start;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ============================================================
+   32.5 MOBILE RESPONSIVE — horizontal card rows → vertical stack
+   Applies to all course-specific card grids across modules
+   ============================================================ */
+@media (max-width: 700px) {
+  /* Module-specific card row grids: force single column on mobile */
+  .scenario-cards,
+  .phrases-grid,
+  .horizon-grid,
+  .reason-cards,
+  .viz-tools,
+  .objection-cards,
+  .calc-breakdown,
+  .fff-steps,
+  .summary-items-grid,
+  .review-modules-grid,
+  .metric-cards-row,
+  .key-points,
+  .methods-cards,
+  .cards-row,
+  .stat-cards {
+    grid-template-columns: 1fr !important;
+    gap: var(--space-3) !important;
+  }
+
+  /* Generic fallback: any inline style with N-column repeat → single column */
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns:repeat(3"],
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(4"],
+  [style*="grid-template-columns: repeat(5"],
+  [style*="grid-template-columns:repeat(5"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Next-module promo card: let arrow wrap below text instead of being cropped */
+  .next-module-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3) !important;
+  }
+
+  /* Title-meta inline grid inside slides */
+  .title-meta { flex-wrap: wrap; }
+}
+
+/* ============================================================
+   32.6 MOBILE SAFE-AREA — ensure browser chrome doesn't cover content
+   ============================================================ */
+@media (max-width: 700px) {
+  .slide.slide--active {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Spacer inside every slide (injected via CSS ::after to avoid DOM churn) */
+  .slide .slide__inner::after {
+    content: '';
+    display: block;
+    height: 60px;
+    flex-shrink: 0;
+  }
+}
+
+/* ============================================================
+   33. PRINT STYLES
+   Show all slides stacked, hide nav controls
+   ============================================================ */
+@media print {
+  body {
+    overflow: visible;
+    background: white;
+  }
+
+  .presentation {
+    height: auto;
+    overflow: visible;
+  }
+
+  .slide {
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    page-break-after: always;
+    opacity: 1 !important;
+    transform: none !important;
+    pointer-events: all;
+    padding: 40px 60px;
+  }
+
+  .nav-btn,
+  .slide-counter,
+  .progress-track {
+    display: none !important;
+  }
+
+  .slide-title {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

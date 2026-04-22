@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін — Yeremchuk Dental Education</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #070e1a;
+      color: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    /* ══ LOGIN ═══════════════════════════════════════════════════ */
+    #login-screen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(37,99,235,0.18) 0%, transparent 60%), #070e1a;
+    }
+    .login-card {
+      background: #0f1b2d;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 20px;
+      padding: clamp(1.5rem,4vw,2.5rem);
+      width: 100%; max-width: 380px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    .login-logo {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px; border-radius: 16px;
+      background: linear-gradient(135deg,#1d4ed8,#0ea5e9);
+      margin-bottom: 1.25rem; font-size: 1.5rem;
+    }
+    .login-card h1 { font-size: 1.25rem; font-weight: 800; color: #fff; margin-bottom: 0.375rem; }
+    .login-card .sub { font-size: 0.8125rem; color: rgba(255,255,255,0.40); margin-bottom: 1.75rem; }
+    .login-error {
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px; padding: 0.625rem 0.875rem;
+      font-size: 0.8125rem; color: #f87171; margin-bottom: 1rem; display: none;
+      text-align: left;
+    }
+    .field { margin-bottom: 1rem; text-align: left; }
+    .field label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      color: rgba(255,255,255,0.45); text-transform: uppercase;
+      letter-spacing: 0.06em; margin-bottom: 0.375rem;
+    }
+    .field input {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+      padding: 0.75rem 1rem; font-size: 0.9375rem; color: #fff; outline: none;
+      transition: border-color 200ms, box-shadow 200ms;
+    }
+    .field input:focus {
+      border-color: rgba(96,165,250,0.6);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+    .btn-primary {
+      width: 100%; padding: 0.875rem;
+      background: linear-gradient(135deg,#1d4ed8,#0ea5e9);
+      border: none; border-radius: 10px;
+      font-size: 0.9375rem; font-weight: 700; color: #fff;
+      cursor: pointer; transition: opacity 200ms;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+
+    /* ══ DASHBOARD ══════════════════════════════════════════════ */
+    #dashboard-screen { display: none; }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(7,14,26,0.95);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px;
+    }
+    .topbar-title {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .topbar-title .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: linear-gradient(135deg,#1d4ed8,#0ea5e9);
+    }
+    .topbar-title h1 { font-size: 0.9375rem; font-weight: 700; color: #fff; }
+    .topbar-title span { font-size: 0.8125rem; color: rgba(255,255,255,0.30); }
+    .topbar-actions { display: flex; gap: 0.625rem; align-items: center; }
+
+    .btn-sm {
+      padding: 0.4375rem 0.875rem; border-radius: 8px;
+      font-size: 0.8125rem; font-weight: 600; cursor: pointer;
+      transition: opacity 200ms; border: none;
+    }
+    .btn-sm:hover { opacity: 0.80; }
+    .btn-outline { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.70); }
+    .btn-green   { background: linear-gradient(135deg,#059669,#10b981); color: #fff; }
+    .btn-ghost   { background: none; border: none; font-size: 0.8125rem; color: rgba(255,255,255,0.28); cursor: pointer; }
+
+    .main { padding: 1.75rem 2rem; }
+
+    /* ── Summary stats ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .summary-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 1.125rem 1.375rem;
+    }
+    .summary-card__val {
+      font-size: 1.875rem; font-weight: 900; color: #60a5fa;
+      letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.3rem;
+    }
+    .summary-card__label { font-size: 0.8125rem; color: rgba(255,255,255,0.38); }
+
+    /* ── Clinic cards ── */
+    .section-title {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.30);
+      margin-bottom: 0.875rem;
+    }
+    .clinics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .clinic-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px; padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      transition: border-color 200ms, background 200ms, transform 150ms;
+      position: relative; overflow: hidden;
+    }
+    .clinic-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #1d4ed8, #0ea5e9);
+      opacity: 0; transition: opacity 200ms;
+    }
+    .clinic-card:hover { background: rgba(255,255,255,0.06); transform: translateY(-1px); }
+    .clinic-card.active {
+      border-color: rgba(96,165,250,0.35);
+      background: rgba(37,99,235,0.08);
+    }
+    .clinic-card.active::before { opacity: 1; }
+    .clinic-card__name {
+      font-size: 0.9375rem; font-weight: 700; color: #fff;
+      margin-bottom: 0.875rem; line-height: 1.3;
+    }
+    .clinic-card__stats { display: flex; gap: 1.25rem; }
+    .clinic-stat__val {
+      font-size: 1.375rem; font-weight: 800;
+      color: #60a5fa; letter-spacing: -0.02em; line-height: 1;
+    }
+    .clinic-stat__label {
+      font-size: 0.6875rem; color: rgba(255,255,255,0.35);
+      margin-top: 0.2rem; white-space: nowrap;
+    }
+    .clinic-bar {
+      height: 4px; background: rgba(255,255,255,0.08);
+      border-radius: 2px; margin-top: 1rem; overflow: hidden;
+    }
+    .clinic-bar__fill {
+      height: 100%; border-radius: 2px;
+      background: linear-gradient(90deg,#1d4ed8,#0ea5e9);
+      transition: width 500ms ease-out;
+    }
+
+    /* ── Filter row ── */
+    .filter-row {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem; flex-wrap: wrap;
+    }
+    .filter-label { font-size: 0.8125rem; color: rgba(255,255,255,0.40); }
+    .filter-row select {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 0.4375rem 0.75rem;
+      font-size: 0.8125rem; color: #fff; outline: none;
+    }
+    .btn-clear-filter {
+      background: none; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px; padding: 0.4375rem 0.75rem;
+      font-size: 0.8125rem; color: rgba(255,255,255,0.45);
+      cursor: pointer; display: none;
+    }
+    .btn-clear-filter:hover { color: #fff; border-color: rgba(255,255,255,0.25); }
+
+    /* ── Table ── */
+    .table-section-title {
+      font-size: 0.875rem; font-weight: 600; color: rgba(255,255,255,0.55);
+      margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .table-section-title strong { color: #fff; }
+
+    .table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.07); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; min-width: 820px; }
+    thead th {
+      text-align: left; padding: 0.75rem 1rem;
+      font-size: 0.6875rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.02);
+      white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 120ms; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.025); }
+    tbody td { padding: 0.8125rem 1rem; color: rgba(255,255,255,0.70); vertical-align: middle; }
+
+    .td-name { color: #fff; font-weight: 600; font-size: 0.9375rem; }
+    .td-sub  { font-size: 0.75rem; color: rgba(255,255,255,0.32); margin-top: 0.2rem; }
+    .td-clinic-tag {
+      display: inline-block;
+      background: rgba(37,99,235,0.15); color: #93c5fd;
+      border-radius: 6px; padding: 0.2rem 0.5rem;
+      font-size: 0.75rem; font-weight: 600; white-space: nowrap;
+    }
+    .mod-done {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(16,185,129,0.15); color: #34d399;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .mod-empty {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.18);
+      font-size: 0.75rem;
+    }
+    .score-badge {
+      display: inline-block; padding: 0.2rem 0.55rem;
+      border-radius: 6px; font-size: 0.75rem; font-weight: 700;
+    }
+    .score-pass { background: rgba(16,185,129,0.15); color: #34d399; }
+    .score-fail { background: rgba(239,68,68,0.12); color: #f87171; }
+    .score-none { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.18); font-weight: 400; }
+
+    .pct-cell { font-weight: 800; font-size: 0.9375rem; color: #60a5fa; }
+    .pct-bar {
+      height: 3px; background: rgba(255,255,255,0.08);
+      border-radius: 2px; width: 60px; margin-top: 0.3rem; overflow: hidden;
+    }
+    .pct-bar__fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#1d4ed8,#0ea5e9); }
+
+    .empty-state {
+      padding: 3.5rem 2rem; text-align: center;
+      color: rgba(255,255,255,0.28); font-size: 0.9375rem;
+    }
+    .empty-state small { display: block; font-size: 0.8125rem; margin-top: 0.5rem; }
+
+    @media (max-width: 900px) {
+      .summary-grid { grid-template-columns: repeat(2,1fr); }
+      .clinics-grid { grid-template-columns: 1fr; }
+      .main { padding: 1rem; }
+      .topbar { padding: 0 1rem; }
+    }
+    @media (max-width: 600px) {
+      .summary-grid { grid-template-columns: repeat(2,1fr); }
+      .topbar-title span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ LOGIN ═════════════════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🦷</div>
+    <h1>Адмін-панель</h1>
+    <p class="sub">Yeremchuk Dental Education</p>
+
+    <div class="login-error" id="mgr-error"></div>
+
+    <div class="field">
+      <label>Пароль</label>
+      <input type="password" id="mgr-password" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="btn-primary" id="mgr-login-btn">Увійти →</button>
+  </div>
+</div>
+
+<!-- ══ DASHBOARD ══════════════════════════════════════════════════ -->
+<div id="dashboard-screen">
+
+  <div class="topbar">
+    <div class="topbar-title">
+      <div class="dot"></div>
+      <h1>Прогрес лікарів</h1>
+      <span>Yeremchuk Dental Education</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-sm btn-outline" id="btn-refresh">↻ Оновити</button>
+      <button class="btn-sm btn-green"   id="btn-export">⬇ CSV</button>
+      <button class="btn-ghost"          id="btn-mgr-logout">Вийти</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-card__val" id="stat-total">—</div>
+        <div class="summary-card__label">Лікарів всього</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card__val" id="stat-completed">—</div>
+        <div class="summary-card__label">Курс завершили</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card__val" id="stat-avg-pct">—</div>
+        <div class="summary-card__label">Сер. прогрес</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card__val" id="stat-avg-score">—</div>
+        <div class="summary-card__label">Сер. бал тесту</div>
+      </div>
+    </div>
+
+    <div class="section-title">Клініки — натисніть для фільтру</div>
+    <div class="clinics-grid" id="clinics-grid"></div>
+
+    <div class="filter-row">
+      <span class="filter-label">Статус:</span>
+      <select id="filter-status">
+        <option value="">Всі</option>
+        <option value="completed">Завершили курс</option>
+        <option value="in_progress">В процесі</option>
+        <option value="not_started">Не почали</option>
+      </select>
+      <button class="btn-clear-filter" id="btn-clear">✕ Скинути</button>
+    </div>
+
+    <div class="table-section-title" id="table-title"></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Лікар</th>
+            <th>Клініка</th>
+            <th>М0</th>
+            <th>М1</th>
+            <th>М2</th>
+            <th>М3</th>
+            <th>М4</th>
+            <th>М5</th>
+            <th>Тест</th>
+            <th>Прогрес</th>
+            <th>Активність</th>
+          </tr>
+        </thead>
+        <tbody id="doctors-tbody"></tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<script src="supabase-config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var SB_URL     = window.DENTAL_SUPABASE_URL || '';
+  var SB_KEY     = window.DENTAL_SUPABASE_KEY || '';
+  var CONFIGURED = SB_URL && SB_URL !== 'REPLACE_WITH_YOUR_SUPABASE_URL';
+
+  var MGR_PASSWORD    = 'dental2026';
+  var MGR_SESSION_KEY = 'dental_mgr_session';
+
+  var CLINICS = ['Yeremchuk Dental IF', 'Yeremchuk Dental CV', 'Stomeconom'];
+  var MODULES = ['module-00','module-01','module-02','module-03','module-04','module-05','final-test'];
+  var TOTAL   = MODULES.length;
+
+  /* ── Supabase ── */
+  function sbHeaders() {
+    return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
+  }
+  function sbGet(table, q) {
+    return fetch(SB_URL + '/rest/v1/' + table + '?' + (q || ''), { headers: sbHeaders() })
+      .then(function (r) { return r.ok ? r.json() : []; });
+  }
+
+  /* ── Auth ── */
+  var loginScreen = document.getElementById('login-screen');
+  var dashScreen  = document.getElementById('dashboard-screen');
+  var mgrError    = document.getElementById('mgr-error');
+  var mgrPassEl   = document.getElementById('mgr-password');
+  var mgrLoginBtn = document.getElementById('mgr-login-btn');
+
+  function showDash() {
+    loginScreen.style.display = 'none';
+    dashScreen.style.display  = 'block';
+    loadData();
+  }
+
+  if (sessionStorage.getItem(MGR_SESSION_KEY) === '1') { showDash(); }
+
+  mgrLoginBtn.addEventListener('click', function () {
+    if (mgrPassEl.value === MGR_PASSWORD) {
+      sessionStorage.setItem(MGR_SESSION_KEY, '1');
+      showDash();
+    } else {
+      mgrError.textContent = 'Невірний пароль';
+      mgrError.style.display = 'block';
+    }
+  });
+  mgrPassEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { mgrLoginBtn.click(); } });
+
+  document.getElementById('btn-mgr-logout').addEventListener('click', function () {
+    sessionStorage.removeItem(MGR_SESSION_KEY);
+    window.location.reload();
+  });
+
+  /* ── State ── */
+  var allDoctors   = [];
+  var allProgress  = [];
+  var activeClinic = null;
+
+  function loadData() {
+    if (!CONFIGURED) {
+      renderClinicCards([]);
+      renderTable([]);
+      updateStats([]);
+      setTableTitle(null, 0);
+      return;
+    }
+    Promise.all([
+      sbGet('doctors',  'select=*&order=created_at.asc'),
+      sbGet('progress', 'select=*')
+    ]).then(function (res) {
+      allDoctors  = res[0] || [];
+      allProgress = res[1] || [];
+      renderClinicCards(allDoctors);
+      updateStats(allDoctors);
+      applyFilters();
+    }).catch(function () {
+      renderTable([]);
+      setTableTitle(null, 0);
+    });
+  }
+
+  document.getElementById('btn-refresh').addEventListener('click', loadData);
+
+  /* ── Helpers ── */
+  function docProgress(id) {
+    return allProgress.filter(function (p) { return p.doctor_id === id; });
+  }
+  function doneCount(id) { return docProgress(id).length; }
+  function pct(id) { return Math.round((doneCount(id) / TOTAL) * 100); }
+  function testScore(id) {
+    var row = allProgress.find(function (p) { return p.doctor_id === id && p.module_key === 'final-test'; });
+    return row ? row.score : null;
+  }
+  function lastActivity(id) {
+    var rows = docProgress(id);
+    var latest = null;
+    rows.forEach(function (p) {
+      var d = new Date(p.completed_at);
+      if (!latest || d > latest) { latest = d; }
+    });
+    return latest;
+  }
+  function fmtDate(iso) {
+    if (!iso) { return '—'; }
+    try { return new Date(iso).toLocaleDateString('uk-UA', { day: '2-digit', month: '2-digit', year: 'numeric' }); }
+    catch (e) { return iso.slice(0, 10); }
+  }
+
+  /* ── Clinic cards ── */
+  function renderClinicCards(doctors) {
+    var grid = document.getElementById('clinics-grid');
+    while (grid.firstChild) { grid.removeChild(grid.firstChild); }
+
+    CLINICS.forEach(function (clinic) {
+      var cDocs = doctors.filter(function (d) { return d.clinic === clinic; });
+      var total = cDocs.length;
+      var completed = cDocs.filter(function (d) { return doneCount(d.id) >= TOTAL; }).length;
+      var avgPct = total > 0
+        ? Math.round(cDocs.reduce(function (acc, d) { return acc + pct(d.id); }, 0) / total)
+        : 0;
+
+      var card = document.createElement('div');
+      card.className = 'clinic-card' + (activeClinic === clinic ? ' active' : '');
+      card.dataset.clinic = clinic;
+
+      var nameEl = document.createElement('div');
+      nameEl.className = 'clinic-card__name';
+      nameEl.textContent = clinic;
+
+      var statsEl = document.createElement('div');
+      statsEl.className = 'clinic-card__stats';
+
+      function mkStat(val, label) {
+        var wrap = document.createElement('div');
+        var v = document.createElement('div');
+        v.className = 'clinic-stat__val';
+        v.textContent = val;
+        var l = document.createElement('div');
+        l.className = 'clinic-stat__label';
+        l.textContent = label;
+        wrap.appendChild(v); wrap.appendChild(l);
+        return wrap;
+      }
+
+      statsEl.appendChild(mkStat(total, 'Лікарів'));
+      statsEl.appendChild(mkStat(completed, 'Завершили'));
+      statsEl.appendChild(mkStat(avgPct + '%', 'Прогрес'));
+
+      var bar = document.createElement('div');
+      bar.className = 'clinic-bar';
+      var fill = document.createElement('div');
+      fill.className = 'clinic-bar__fill';
+      fill.style.width = '0%';
+      bar.appendChild(fill);
+      setTimeout(function () { fill.style.width = avgPct + '%'; }, 80);
+
+      card.appendChild(nameEl);
+      card.appendChild(statsEl);
+      card.appendChild(bar);
+
+      card.addEventListener('click', function () {
+        activeClinic = (activeClinic === clinic) ? null : clinic;
+        document.querySelectorAll('.clinic-card').forEach(function (c) {
+          c.classList.toggle('active', c.dataset.clinic === activeClinic);
+        });
+        document.getElementById('btn-clear').style.display = activeClinic ? 'inline-block' : 'none';
+        applyFilters();
+      });
+
+      grid.appendChild(card);
+    });
+  }
+
+  document.getElementById('btn-clear').addEventListener('click', function () {
+    activeClinic = null;
+    document.querySelectorAll('.clinic-card').forEach(function (c) { c.classList.remove('active'); });
+    document.getElementById('filter-status').value = '';
+    this.style.display = 'none';
+    applyFilters();
+  });
+
+  /* ── Filters ── */
+  document.getElementById('filter-status').addEventListener('change', applyFilters);
+
+  function applyFilters() {
+    var statusVal = document.getElementById('filter-status').value;
+
+    var filtered = allDoctors.filter(function (doc) {
+      if (activeClinic && doc.clinic !== activeClinic) { return false; }
+      if (statusVal) {
+        var dc = doneCount(doc.id);
+        if (statusVal === 'completed'   && dc < TOTAL)               { return false; }
+        if (statusVal === 'in_progress' && (dc === 0 || dc >= TOTAL)) { return false; }
+        if (statusVal === 'not_started' && dc > 0)                   { return false; }
+      }
+      return true;
+    });
+
+    setTableTitle(activeClinic, filtered.length);
+    renderTable(filtered);
+    updateStats(filtered);
+  }
+
+  /* ── Table title ── */
+  function setTableTitle(clinic, count) {
+    var el = document.getElementById('table-title');
+    while (el.firstChild) { el.removeChild(el.firstChild); }
+    if (clinic) {
+      el.appendChild(document.createTextNode('Лікарі: '));
+      var strong = document.createElement('strong');
+      strong.textContent = clinic;
+      el.appendChild(strong);
+      el.appendChild(document.createTextNode(' — ' + count));
+    } else {
+      el.appendChild(document.createTextNode('Всі лікарі — '));
+      var s2 = document.createElement('strong');
+      s2.textContent = count;
+      el.appendChild(s2);
+    }
+  }
+
+  /* ── Stats ── */
+  function updateStats(doctors) {
+    var total = doctors.length;
+    var completed = doctors.filter(function (d) { return doneCount(d.id) >= TOTAL; }).length;
+    var avgPct = total > 0
+      ? Math.round(doctors.reduce(function (acc, d) { return acc + pct(d.id); }, 0) / total)
+      : 0;
+    var scores = allProgress.filter(function (p) {
+      return p.module_key === 'final-test' && p.score !== null &&
+             doctors.some(function (d) { return d.id === p.doctor_id; });
+    });
+    var avgScore = scores.length > 0
+      ? Math.round(scores.reduce(function (a, p) { return a + p.score; }, 0) / scores.length)
+      : null;
+
+    document.getElementById('stat-total').textContent     = total;
+    document.getElementById('stat-completed').textContent = completed;
+    document.getElementById('stat-avg-pct').textContent   = avgPct + '%';
+    document.getElementById('stat-avg-score').textContent = avgScore !== null ? avgScore + '%' : '—';
+  }
+
+  /* ── Table ── */
+  function renderTable(doctors) {
+    var tbody = document.getElementById('doctors-tbody');
+    while (tbody.firstChild) { tbody.removeChild(tbody.firstChild); }
+
+    if (!CONFIGURED) {
+      renderEmpty(tbody, 'Supabase не підключено', 'Налаштуйте supabase-config.js'); return;
+    }
+    if (doctors.length === 0) {
+      renderEmpty(tbody, 'Лікарів не знайдено', 'Змініть фільтр або дочекайтесь реєстрації'); return;
+    }
+
+    doctors.forEach(function (doc) {
+      var prog = docProgress(doc.id);
+      var doneMap = {};
+      prog.forEach(function (p) { doneMap[p.module_key] = true; });
+      var p    = pct(doc.id);
+      var ts   = testScore(doc.id);
+      var la   = lastActivity(doc.id);
+
+      var tr = document.createElement('tr');
+
+      /* Name */
+      var tdName = document.createElement('td');
+      var nameDiv = document.createElement('div');
+      nameDiv.className = 'td-name';
+      nameDiv.textContent = doc.name;
+      var subDiv = document.createElement('div');
+      subDiv.className = 'td-sub';
+      subDiv.textContent = 'З ' + fmtDate(doc.created_at);
+      tdName.appendChild(nameDiv);
+      tdName.appendChild(subDiv);
+      tr.appendChild(tdName);
+
+      /* Clinic */
+      var tdClinic = document.createElement('td');
+      var tag = document.createElement('span');
+      tag.className = 'td-clinic-tag';
+      tag.textContent = doc.clinic;
+      tdClinic.appendChild(tag);
+      tr.appendChild(tdClinic);
+
+      /* Modules */
+      ['module-00','module-01','module-02','module-03','module-04','module-05'].forEach(function (key) {
+        var td = document.createElement('td');
+        var badge = document.createElement('span');
+        badge.className = doneMap[key] ? 'mod-done' : 'mod-empty';
+        badge.textContent = doneMap[key] ? '✓' : '·';
+        td.appendChild(badge);
+        tr.appendChild(td);
+      });
+
+      /* Test */
+      var tdTest = document.createElement('td');
+      var scoreBadge = document.createElement('span');
+      if (doneMap['final-test']) {
+        scoreBadge.className = 'score-badge ' + (ts !== null && ts >= 80 ? 'score-pass' : 'score-fail');
+        scoreBadge.textContent = ts !== null ? (ts + '%') : '✓';
+      } else {
+        scoreBadge.className = 'score-badge score-none';
+        scoreBadge.textContent = '—';
+      }
+      tdTest.appendChild(scoreBadge);
+      tr.appendChild(tdTest);
+
+      /* Pct */
+      var tdPct = document.createElement('td');
+      var pctDiv = document.createElement('div');
+      pctDiv.className = 'pct-cell';
+      pctDiv.textContent = p + '%';
+      var pctBar = document.createElement('div');
+      pctBar.className = 'pct-bar';
+      var pctFill = document.createElement('div');
+      pctFill.className = 'pct-bar__fill';
+      pctFill.style.width = p + '%';
+      pctBar.appendChild(pctFill);
+      tdPct.appendChild(pctDiv);
+      tdPct.appendChild(pctBar);
+      tr.appendChild(tdPct);
+
+      /* Activity */
+      var tdLast = document.createElement('td');
+      tdLast.style.cssText = 'font-size:0.8125rem;color:rgba(255,255,255,0.32)';
+      tdLast.textContent = la ? fmtDate(la.toISOString()) : '—';
+      tr.appendChild(tdLast);
+
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderEmpty(tbody, title, sub) {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.setAttribute('colspan', '11');
+    var div = document.createElement('div');
+    div.className = 'empty-state';
+    div.textContent = title;
+    var sm = document.createElement('small');
+    sm.textContent = sub;
+    div.appendChild(sm);
+    td.appendChild(div);
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+  }
+
+  /* ── CSV Export ── */
+  document.getElementById('btn-export').addEventListener('click', function () {
+    var rows = [['Прізвище та імя','Клініка','М0','М1','М2','М3','М4','М5','Тест','%','Дата реєстрації']];
+    allDoctors.forEach(function (doc) {
+      var prog = docProgress(doc.id);
+      var doneMap = {};
+      var ts = null;
+      prog.forEach(function (p) {
+        doneMap[p.module_key] = true;
+        if (p.module_key === 'final-test') { ts = p.score; }
+      });
+      rows.push([
+        doc.name, doc.clinic,
+        doneMap['module-00'] ? '+' : '-',
+        doneMap['module-01'] ? '+' : '-',
+        doneMap['module-02'] ? '+' : '-',
+        doneMap['module-03'] ? '+' : '-',
+        doneMap['module-04'] ? '+' : '-',
+        doneMap['module-05'] ? '+' : '-',
+        ts !== null ? (ts + '%') : (doneMap['final-test'] ? '+' : '-'),
+        pct(doc.id) + '%',
+        fmtDate(doc.created_at)
+      ]);
+    });
+    var csv = rows.map(function (r) {
+      return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(',');
+    }).join('\r\n');
+    var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement('a');
+    a.href   = url;
+    a.setAttribute('download', 'dental-progress-' + new Date().toISOString().slice(0, 10) + '.csv');
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+})();
+</script>
+
+</body>
+</html>

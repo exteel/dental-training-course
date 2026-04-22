@@ -1,0 +1,2249 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Скрипти для лікарів — перспектива КВП · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── scripts.html specific styles ─────────────────────────── */
+
+    /* Allow slides to scroll vertically — override style.css overflow:hidden + centering */
+    .presentation .slide {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+    }
+    .presentation .slide__inner {
+      min-height: auto;
+    }
+    /* Ensure presentation container clips horizontally only */
+    .presentation {
+      overflow-x: hidden !important;
+    }
+
+    /* Markers (✅ / ❌ / 💡) for do/don't/why blocks */
+    .marker-card {
+      border-radius: var(--radius-xl);
+      padding: var(--space-5) var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      border: 1.5px solid transparent;
+    }
+
+    .marker-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .marker-card__icon {
+      font-size: 1.125rem;
+      line-height: 1;
+    }
+
+    .marker-card--do {
+      background: rgba(16,185,129,0.06);
+      border-color: rgba(16,185,129,0.22);
+    }
+    .marker-card--do .marker-card__header { color: #059669; }
+
+    .marker-card--dont {
+      background: rgba(239,68,68,0.05);
+      border-color: rgba(239,68,68,0.20);
+    }
+    .marker-card--dont .marker-card__header { color: #dc2626; }
+
+    .marker-card--why {
+      background: rgba(245,158,11,0.08);
+      border-color: rgba(245,158,11,0.22);
+    }
+    .marker-card--why .marker-card__header { color: #d97706; }
+
+    /* Chat-like speech bubble for quoted phrases */
+    .phrase-bubble {
+      position: relative;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-5);
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-text-primary);
+      font-style: italic;
+      box-shadow: var(--shadow-sm);
+      border-left: 3px solid transparent;
+    }
+
+    .marker-card--do .phrase-bubble {
+      border-left-color: var(--color-success);
+    }
+
+    .marker-card--dont .phrase-bubble {
+      border-left-color: var(--color-danger);
+      opacity: 0.92;
+    }
+
+    .phrase-bubble::before {
+      content: '\201C';
+      position: absolute;
+      top: -6px;
+      left: 10px;
+      font-family: Georgia, serif;
+      font-size: 2rem;
+      line-height: 1;
+      color: rgba(37,99,235,0.25);
+      font-style: normal;
+    }
+
+    .phrase-bubble__note {
+      display: block;
+      margin-top: var(--space-2);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-style: normal;
+    }
+
+    .marker-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      font-size: var(--font-size-base);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .marker-card--why .marker-card__body {
+      font-style: normal;
+    }
+
+    .marker-card__body > p {
+      margin: 0;
+    }
+
+    /* Two-column do/dont layout */
+    .do-dont-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+
+    .do-dont-grid--stack {
+      grid-template-columns: 1fr;
+    }
+
+    /* Section TOC cards (slide 2) */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .toc-card {
+      background: var(--color-white);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      display: flex;
+      gap: var(--space-4);
+      cursor: pointer;
+      transition: transform var(--transition-fast),
+                  border-color var(--transition-fast),
+                  box-shadow var(--transition-fast);
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    .toc-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37,99,235,0.35);
+      box-shadow: var(--shadow-card);
+    }
+
+    .toc-card__num {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      flex-shrink: 0;
+    }
+
+    .toc-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toc-card__title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .toc-card__desc {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    /* Scenario block: sub-section container */
+    .scenario {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding: var(--space-5) var(--space-6);
+      background: var(--color-white);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .scenario__title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      letter-spacing: -0.01em;
+      line-height: var(--line-height-snug);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .scenario__num {
+      font-family: 'Courier New', Courier, monospace;
+      color: var(--color-primary-blue);
+      font-weight: var(--font-weight-black);
+      font-size: var(--font-size-sm);
+      background: rgba(37,99,235,0.10);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .scenario__context {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Variants list for "Дорого" / "Я подумаю" slides */
+    .variants-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+
+    .variant-card {
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .variant-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(37,99,235,0.30);
+    }
+
+    .variant-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .variant-card__num {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      flex-shrink: 0;
+    }
+
+    .variant-card__title {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-snug);
+    }
+
+    .variant-card__phrase {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      font-style: italic;
+      line-height: var(--line-height-relaxed);
+      padding: var(--space-3) var(--space-4);
+      background: rgba(16,185,129,0.06);
+      border-left: 3px solid var(--color-success);
+      border-radius: var(--radius-md);
+    }
+
+    .variant-card__why {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+    }
+
+    .variant-card__why strong {
+      color: #d97706;
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* HEARD protocol steps */
+    .heard-steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .heard-step {
+      display: flex;
+      gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      align-items: flex-start;
+    }
+
+    .heard-step__letter {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: var(--gradient-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-black);
+      flex-shrink: 0;
+    }
+
+    .heard-step__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      flex: 1;
+    }
+
+    .heard-step__title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+
+    .heard-step__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Protocol 75 sec — vertical timeline steps */
+    .protocol-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .protocol-step {
+      display: flex;
+      gap: var(--space-5);
+      padding: var(--space-4) 0;
+      position: relative;
+    }
+
+    .protocol-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 21px;
+      top: 54px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--color-primary-blue), rgba(37,99,235,0.15));
+    }
+
+    .protocol-step__node {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      flex-shrink: 0;
+      box-shadow: var(--shadow-md);
+      z-index: 1;
+    }
+
+    .protocol-step__body {
+      flex: 1;
+      padding-top: var(--space-1);
+    }
+
+    .protocol-step__title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-1);
+    }
+
+    .protocol-step__duration {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-primary-blue);
+      margin-bottom: var(--space-2);
+    }
+
+    .protocol-step__phrase {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      font-style: italic;
+      padding: var(--space-3) var(--space-4);
+      background: rgba(37,99,235,0.05);
+      border-left: 3px solid var(--color-primary-blue);
+      border-radius: var(--radius-md);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Forbidden phrases table */
+    .forbidden-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: transparent;
+    }
+
+    .forbidden-table thead th {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      text-align: left;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .forbidden-table tbody td {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
+      vertical-align: top;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .forbidden-table tbody tr:last-child td { border-bottom: none; }
+
+    .forbidden-table .td-bad {
+      color: #dc2626;
+      background: rgba(239,68,68,0.04);
+      font-style: italic;
+    }
+
+    .forbidden-table .td-good {
+      color: var(--color-text-primary);
+      background: rgba(16,185,129,0.04);
+      font-style: italic;
+    }
+
+    .forbidden-table .td-num {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-secondary);
+      width: 36px;
+    }
+
+    .forbidden-table .td-cat {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--color-light-bg);
+      padding-top: var(--space-3);
+    }
+
+    /* Category row */
+    .forbidden-table tr.category-row td {
+      padding-top: var(--space-4);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary-blue);
+      font-size: var(--font-size-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(37,99,235,0.05);
+      border-bottom: 2px solid rgba(37,99,235,0.15);
+    }
+
+    /* KPI metric cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-5);
+    }
+
+    .kpi-card {
+      background: var(--color-white);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      border: 1px solid var(--color-border);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .kpi-card__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .kpi-card__row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-3);
+    }
+
+    .kpi-card__base {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+      text-decoration: line-through;
+      text-decoration-color: rgba(100,116,139,0.40);
+    }
+
+    .kpi-card__arrow {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-lg);
+    }
+
+    .kpi-card__target {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-black);
+      letter-spacing: -0.02em;
+      background: var(--gradient-success);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .kpi-card__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Stats pills on title slide */
+    .title-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+    }
+
+    .title-stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-full);
+      backdrop-filter: blur(8px);
+    }
+
+    .title-stat-pill__num {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-black);
+      color: var(--color-accent-teal);
+      letter-spacing: -0.02em;
+    }
+
+    .title-stat-pill__label {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* Three-basket layout (slide 5) */
+    .basket-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-4);
+    }
+
+    .basket-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding: var(--space-5);
+      background: var(--color-white);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      border-top: 4px solid var(--color-primary-blue);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .basket-card--1 { border-top-color: var(--color-success); }
+    .basket-card--2 { border-top-color: var(--color-accent-teal); }
+    .basket-card--3 { border-top-color: var(--color-warning); }
+
+    .basket-card__header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .basket-card__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .basket-card__amount {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-black);
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .basket-card__type {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-medium);
+    }
+
+    .basket-card__rule {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--color-border);
+    }
+
+    /* Follow-up protocol stages */
+    .followup-stages {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .followup-stage {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: var(--space-5);
+      padding: var(--space-4) var(--space-5);
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+      align-items: flex-start;
+    }
+
+    .followup-stage__when {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary-blue);
+      letter-spacing: -0.01em;
+    }
+
+    .followup-stage__desc {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Final takeaway block */
+    .takeaway {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      padding: var(--space-6);
+      background: rgba(37,99,235,0.06);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(37,99,235,0.18);
+    }
+
+    .takeaway__label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-primary-blue);
+    }
+
+    .takeaway__text {
+      font-size: var(--font-size-md);
+      color: var(--color-text-primary);
+      line-height: var(--line-height-relaxed);
+      font-weight: var(--font-weight-medium);
+    }
+
+    /* ── Universal slide inner — covers ALL slide types ────────── */
+    .presentation .slide .slide__inner {
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      box-sizing: border-box;
+      padding-left: 40px;
+      padding-right: 40px;
+      padding-bottom: max(100px, calc(var(--space-16, 64px) + 60px));
+    }
+
+    /* Mobile responsive overrides */
+    @media (max-width: 768px) {
+      .presentation .slide .slide__inner {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .toc-grid,
+      .variants-grid,
+      .basket-grid,
+      .do-dont-grid {
+        grid-template-columns: 1fr !important;
+      }
+
+      .followup-stage {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+      }
+
+      .forbidden-table thead { display: none; }
+
+      .forbidden-table,
+      .forbidden-table tbody,
+      .forbidden-table tr,
+      .forbidden-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .forbidden-table tbody tr {
+        margin-bottom: var(--space-3);
+        padding: var(--space-3);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-white);
+      }
+
+      .forbidden-table tbody td {
+        padding: var(--space-2) 0;
+        border-bottom: none;
+      }
+
+      .forbidden-table .td-num { display: inline-block; width: auto; }
+      .forbidden-table tr.category-row { padding: var(--space-3); }
+
+      .heard-step__letter { width: 36px; height: 36px; font-size: var(--font-size-md); }
+      .protocol-step__node { width: 36px; height: 36px; }
+      .protocol-step:not(:last-child)::before { left: 17px; top: 46px; }
+
+      .title-stats { padding-top: var(--space-3); }
+    }
+
+    @media (max-width: 480px) {
+      .presentation .slide .slide__inner {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .marker-card { padding: var(--space-4); }
+      .phrase-bubble { padding: var(--space-3) var(--space-4); font-size: var(--font-size-sm); }
+      .scenario { padding: var(--space-4); }
+
+      /* Shrink headings on small screens */
+      .slide-content .slide-header h2,
+      .slide-title h1 {
+        font-size: 1.4rem;
+      }
+
+      /* Compact TOC cards */
+      .toc-card {
+        padding: 12px;
+      }
+      .toc-card__num {
+        width: 32px;
+        height: 32px;
+        font-size: 12px;
+      }
+    }
+
+    /* ── Tablet (769–1024px): 2-column grids ────────────────────── */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .toc-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .variants-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- Progress bar -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Navigation -->
+  <button class="nav-btn nav-btn--prev" id="btnPrev" aria-label="Попередній слайд">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-btn nav-btn--next" id="btnNext" aria-label="Наступний слайд">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Slide counter -->
+  <div class="slide-counter" id="slideCounter">1 / 15</div>
+
+
+  <!-- ================================================================
+       SLIDE 1 — TITLE
+       ================================================================ -->
+  <section class="slide slide-title" data-slide="1">
+    <div class="slide__inner">
+
+      <div class="animate-in">
+        <div class="title-module-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          ДОВІДНИК СКРИПТІВ
+        </div>
+      </div>
+
+      <div class="title-eyebrow animate-in">Практичний додаток до курсу</div>
+
+      <h1 class="animate-in">
+        Скрипти <span class="accent">для лікарів</span>
+      </h1>
+
+      <p class="title-subtitle animate-in">
+        Перспектива комерційного директора мережі «Єремчук» (Івано-Франківськ).
+        Живі фрази, перевірені на українських пацієнтах у&nbsp;2024–2025&nbsp;роках.
+        Без теорії — тільки те, що можна сказати завтра.
+      </p>
+
+      <div class="title-stats animate-in">
+        <div class="title-stat-pill">
+          <span class="title-stat-pill__num">11</span>
+          <span class="title-stat-pill__label">розділів</span>
+        </div>
+        <div class="title-stat-pill">
+          <span class="title-stat-pill__num">30+</span>
+          <span class="title-stat-pill__label">сценаріїв</span>
+        </div>
+        <div class="title-stat-pill">
+          <span class="title-stat-pill__num">30</span>
+          <span class="title-stat-pill__label">заборонених фраз</span>
+        </div>
+        <div class="title-stat-pill">
+          <span class="title-stat-pill__num">75%</span>
+          <span class="title-stat-pill__label">цільовий case acceptance</span>
+        </div>
+      </div>
+
+      <div class="title-meta animate-in">
+        <div class="title-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+          45 хв читання
+        </div>
+        <div class="title-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3z"/><path d="M3 19a2 2 0 0 0 2 2h1v-6H3z"/></svg>
+          Для лікарів-стоматологів
+        </div>
+        <div class="title-meta-item">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          ✅ / ❌ / 💡 формат
+        </div>
+      </div>
+    </div>
+
+    <div class="title-decoration">
+      <svg viewBox="0 0 100 100" fill="currentColor" stroke="none" style="color:white;">
+        <path d="M50 10c-15 0-25 8-25 20 0 8 3 15 5 25s0 30 10 30c5 0 5-15 10-15s5 15 10 15c10 0 8-20 10-30s5-17 5-25c0-12-10-20-25-20z"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 2 — TABLE OF CONTENTS
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="2">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <h2>11 розділів — <span class="accent">від першого дзвінка до лояльності</span></h2>
+        <p>Кожен блок — окрема ситуація у вашому робочому дні. Клікайте, щоб перейти одразу до потрібної теми.</p>
+      </div>
+
+      <div class="toc-grid animate-in">
+        <button class="toc-card" data-goto="3">
+          <div class="toc-card__num">1</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Перший дзвінок</div>
+            <div class="toc-card__desc">Запис пацієнта — що говорить адміністратор</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="4">
+          <div class="toc-card__num">2</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Перші 2 хвилини в кабінеті</div>
+            <div class="toc-card__desc">7 секунд, які визначають довіру</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="5">
+          <div class="toc-card__num">3</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Презентація плану лікування</div>
+            <div class="toc-card__desc">Три кошики: до 5к / 5–20к / 20к+</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="6">
+          <div class="toc-card__num">4</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">«Дорого» — 7 варіантів</div>
+            <div class="toc-card__desc">Робота з ціновим запереченням</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="7">
+          <div class="toc-card__num">5</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">«Я подумаю» — 5 варіантів</div>
+            <div class="toc-card__desc">Прихована відмова у 80% випадків</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="8">
+          <div class="toc-card__num">6</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">«У конкурентів дешевше»</div>
+            <div class="toc-card__desc">3 варіанти без критики колег</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="9">
+          <div class="toc-card__num">7</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Агресія — протокол HEARD</div>
+            <div class="toc-card__desc">Деескалація за 5 кроків</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="10">
+          <div class="toc-card__num">8</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Протокол 75 секунд</div>
+            <div class="toc-card__desc">Фіксація наступного візиту</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="11">
+          <div class="toc-card__num">9</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Дзвінок-нагадування</div>
+            <div class="toc-card__desc">Через 2–3 тижні після «подумаю»</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="12">
+          <div class="toc-card__num">10</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Органічні допродажі</div>
+            <div class="toc-card__desc">5 ситуацій, які не звучать як продаж</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="13">
+          <div class="toc-card__num">11</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Топ-30 заборонених фраз</div>
+            <div class="toc-card__desc">Що не казати — і чим замінити</div>
+          </div>
+        </button>
+
+        <button class="toc-card" data-goto="14">
+          <div class="toc-card__num">12</div>
+          <div class="toc-card__body">
+            <div class="toc-card__title">Метрики впровадження</div>
+            <div class="toc-card__desc">KPI, які вимірюємо через 6 місяців</div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 3 — РОЗДІЛ 1: ПЕРШИЙ ДЗВІНОК
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="3">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--blue">РОЗДІЛ 1</span>
+          <span class="text-muted text-sm">Хто говорить: адміністратор</span>
+        </div>
+        <h2>Перший дзвінок — <span class="accent">запис нового пацієнта</span></h2>
+        <p>
+          Мета дзвінка — <strong>записати на прийом, а не відповісти на всі питання по телефону</strong>.
+          Ціна НЕ обговорюється по телефону, крім орієнтиру «від». Деталі — тільки після огляду.
+        </p>
+      </div>
+
+      <div class="scenario animate-in">
+        <div class="scenario__title">
+          <span class="scenario__num">1.2</span>
+          Ціновий шопер: «Скільки коштує пломба?»
+        </div>
+
+        <div class="do-dont-grid">
+          <div class="marker-card marker-card--do">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">✅</span> ПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Чудове питання. Ціна залежить від розміру та стану зуба — точну суму лікар назве після огляду. Орієнтовно пломба у нас <strong style="font-style:normal;">від 1&nbsp;800&nbsp;грн</strong>. Щоб не витрачати ваш час — запишемо на огляд. 20–30 хв, 300 грн, включає план з цінами. Коли вам зручно?
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card marker-card--dont">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">❌</span> НЕПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Точно сказати не можемо, потрібен огляд.
+                <span class="phrase-bubble__note">Сухо. Пацієнт кладе трубку і дзвонить далі.</span>
+              </div>
+              <div class="phrase-bubble">
+                2&nbsp;000&nbsp;грн.
+                <span class="phrase-bubble__note">Одна цифра — пацієнт порівняв з 1&nbsp;500 у конкурентів і пішов туди.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="marker-card marker-card--why">
+          <div class="marker-card__header">
+            <span class="marker-card__icon">💡</span> ЧОМУ
+          </div>
+          <div class="marker-card__body">
+            Pricing-shopper — це не «халявщик», це людина, яка не знає як вибирати. Дайте їй:
+            <ul style="margin: 6px 0 8px 18px; padding: 0; list-style: disc;">
+              <li><strong>вилку «від»</strong></li>
+              <li><strong>логіку, чому точна цифра тільки після огляду</strong></li>
+              <li><strong>одразу дату наступного кроку</strong></li>
+            </ul>
+            <p><strong>67%</strong> цінових шоперів записуються за такою формулою. Без орієнтиру — лише 18%.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario animate-in">
+        <div class="scenario__title">
+          <span class="scenario__num">1.3</span>
+          Екстрена: «Маю сильний біль, коли можна?»
+        </div>
+
+        <div class="do-dont-grid">
+          <div class="marker-card marker-card--do">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">✅</span> ПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Співчуваю, зараз допоможу. Де саме болить? <em>…</em> У нас на сьогодні є вікно о 14:30 у доктора Іваненка, він спеціалізується саме на гострих випадках. Встигаєте?
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card marker-card--dont">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">❌</span> НЕПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Найближче вільне — післязавтра.
+                <span class="phrase-bubble__note">Пацієнт піде до іншої клініки. Ви втратили life-time value.</span>
+              </div>
+              <div class="phrase-bubble">
+                Випийте знеболюючого і приходьте завтра.
+                <span class="phrase-bubble__note">Медичний + репутаційний ризик.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="marker-card marker-card--why">
+          <div class="marker-card__header">
+            <span class="marker-card__icon">💡</span> ЧОМУ
+          </div>
+          <div class="marker-card__body">
+            <p>Пацієнт з гострим болем — <strong>найцінніший контакт</strong>: (а) прийде сьогодні, (б) заплатить не торгуючись, (в) після вирішення болю — <strong>на все життя ваш</strong>, бо ви його «врятували». Завжди тримайте 1–2 екстренних слоти в день.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 4 — РОЗДІЛ 2: ПЕРШІ 2 ХВИЛИНИ В КАБІНЕТІ
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="4">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--blue">РОЗДІЛ 2</span>
+          <span class="text-muted text-sm">120 секунд, які визначають все</span>
+        </div>
+        <h2>Перший прийом — <span class="accent">перші 2 хвилини в кабінеті</span></h2>
+        <p>
+          Нейробіологія: префронтальна кора «оцінює лікаря» за перші
+          <strong>7 секунд</strong>, далі — шукає підтвердження свого висновку.
+          Ці 120 секунд визначають, чи погодиться пацієнт на план на 25&nbsp;000&nbsp;грн через півгодини.
+        </p>
+      </div>
+
+      <div class="do-dont-grid animate-in">
+        <div class="marker-card marker-card--do">
+          <div class="marker-card__header">
+            <span class="marker-card__icon">✅</span> ПРАВИЛЬНО — вхід пацієнта
+          </div>
+          <div class="marker-card__body">
+            <ol style="display:flex; flex-direction:column; gap:var(--space-2); padding-left:0; list-style:decimal inside;">
+              <li><strong>Встати</strong> від столу коли пацієнт заходить</li>
+              <li><strong>Зоровий контакт + усмішка</strong> 2 секунди</li>
+              <li><strong>Привітання на ім'я:</strong> <em>«Вітаю, Олено! Проходьте, сідайте зручно»</em></li>
+              <li><strong>Представлення:</strong> <em>«Я Андрій, буду вашим лікарем сьогодні»</em></li>
+              <li><strong>Неформальне питання:</strong> <em>«Як добрались? Не складно було знайти?»</em></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="marker-card marker-card--dont">
+          <div class="marker-card__header">
+            <span class="marker-card__icon">❌</span> НЕПРАВИЛЬНО
+          </div>
+          <div class="marker-card__body">
+            <ul style="display:flex; flex-direction:column; gap:var(--space-2); padding-left:0;">
+              <li>Сидіти за столом, не встаючи <em style="color:var(--color-text-muted); font-size:var(--font-size-sm);">— «Ви для мене черговий»</em></li>
+              <li>Дивитись у монітор коли пацієнт заходить</li>
+              <li><em>«Так, на що скаржимось?»</em> <em style="color:var(--color-text-muted); font-size:var(--font-size-sm);">— поліклініка 1987</em></li>
+              <li><em>«Сідайте, зараз гляну»</em> <em style="color:var(--color-text-muted); font-size:var(--font-size-sm);">— без імені, знеособлює</em></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="scenario animate-in">
+        <div class="scenario__title">
+          <span class="scenario__num">2.2</span>
+          Перехід до скарги — витримати 90 секунд без перебивання
+        </div>
+
+        <div class="marker-card marker-card--do" style="border: none; padding: 0; background: transparent;">
+          <div class="phrase-bubble">
+            Розкажіть, з чим ви прийшли сьогодні? <em>(пауза, слухаєте не перебиваючи 90 секунд)</em>
+            Отже, вже три тижні ниючий біль у нижньому лівому зубі, посилюється від холодного, з'явився набряк. Все правильно?
+          </div>
+        </div>
+
+        <div class="marker-card marker-card--why">
+          <div class="marker-card__header">
+            <span class="marker-card__icon">💡</span> ЧОМУ — дослідження Beckman &amp; Frankel (1984)
+          </div>
+          <div class="marker-card__body">
+            <p>Лікарі в середньому перебивають пацієнта через <strong>18 секунд</strong>. Якщо витримати <strong>90 секунд</strong> — пацієнт викладе <strong>весь</strong> список проблем. Перші 7 секунд = 80% враження. Встати + усмішка + ім'я — три акти за 2&nbsp;сек, які дають <strong>+40% до case acceptance</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 5 — РОЗДІЛ 3: ПРЕЗЕНТАЦІЯ ПЛАНУ (3 КОШИКИ)
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="5">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--blue">РОЗДІЛ 3</span>
+          <span class="text-muted text-sm">Правило трьох кошиків</span>
+        </div>
+        <h2>Презентація плану — <span class="accent">різні суми, різна логіка</span></h2>
+        <p>Чим більша сума, тим більше структури потрібно. До 5к — вирішення у кріслі. 20к+ — три опції, фінансування, часто другий візит.</p>
+      </div>
+
+      <div class="basket-grid animate-in">
+        <div class="basket-card basket-card--1">
+          <div class="basket-card__header">
+            <div class="basket-card__label">Кошик 1</div>
+            <div class="basket-card__amount">до 5&nbsp;000&nbsp;грн</div>
+            <div class="basket-card__type">Легке рішення — у кріслі</div>
+          </div>
+          <div class="basket-card__rule">
+            Пацієнт приймає рішення <strong>емоційно, на місці</strong>. Коротко, конкретно, впевнено. Без діаграм і опцій. Одна пауза — і він каже «так».
+          </div>
+          <div class="phrase-bubble" style="margin-top:0; font-size:var(--font-size-sm);">
+            У вас одна пломба на 26-му, зробимо за один візит. 2&nbsp;400&nbsp;грн з матеріалом і гарантією 2 роки. Завтра о 10:00 зручно?
+          </div>
+        </div>
+
+        <div class="basket-card basket-card--2">
+          <div class="basket-card__header">
+            <div class="basket-card__label">Кошик 2</div>
+            <div class="basket-card__amount">5–20&nbsp;тис.&nbsp;грн</div>
+            <div class="basket-card__type">Середнє — loss aversion</div>
+          </div>
+          <div class="basket-card__rule">
+            Покажіть <strong>на знімку</strong>. Дайте 2 варіанти з різницею у наслідках: «14 зараз vs 35 потім».
+            <strong>Ніколи не давайте знижку одразу.</strong>
+          </div>
+          <div class="phrase-bubble" style="margin-top:0; font-size:var(--font-size-sm);">
+            Лікуємо канали + коронка — 14&nbsp;000 за два візити. Якщо зачекати — зуб розвалиться, і тоді імплант від 35&nbsp;000 і 4 місяці часу.
+          </div>
+        </div>
+
+        <div class="basket-card basket-card--3">
+          <div class="basket-card__header">
+            <div class="basket-card__label">Кошик 3</div>
+            <div class="basket-card__amount">20&nbsp;000+ грн</div>
+            <div class="basket-card__type">Серйозне — 3 опції + фін.</div>
+          </div>
+          <div class="basket-card__rule">
+            <strong>Decoy effect:</strong> три опції перетворюють «брати/не брати» на «яку саме». Рекомендуйте середню («80% моїх пацієнтів»). Фінансування <strong>до</strong> ціни.
+          </div>
+          <div class="phrase-bubble" style="margin-top:0; font-size:var(--font-size-sm);">
+            Premium (Straumann) 95к / Standard (Neodent) 75к — те що я ставлю 80% пацієнтам / Basic (Osstem) 55к. Розтермінування — 6&nbsp;250/міс без переплат.
+          </div>
+        </div>
+      </div>
+
+      <div class="marker-card marker-card--why animate-in">
+        <div class="marker-card__header">
+          <span class="marker-card__icon">💡</span> 4 УНІВЕРСАЛЬНІ ПРАВИЛА ДЛЯ ВСІХ КОШИКІВ
+        </div>
+        <div class="marker-card__body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3);">
+            <div>✅ Завжди починайте зі <strong>знімка</strong> — «давайте покажу, що я бачу»</div>
+            <div>✅ Називайте <strong>перший крок</strong>, а не загальну суму</div>
+            <div>✅ Закінчуйте <strong>відкритим питанням</strong> — «з чого зручніше почати?»</div>
+            <div>✅ Пропонуйте <strong>роздрукувати план</strong> — активує правило взаємності</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 6 — РОЗДІЛ 4: «ДОРОГО» — 7 ВАРІАНТІВ
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="6">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--red">РОЗДІЛ 4</span>
+          <span class="text-muted text-sm">7 варіантів відповіді</span>
+        </div>
+        <h2>«Дорого» — <span class="accent">67% випадків це НЕ про гроші</span></h2>
+        <p>
+          Це про страх («а раптом не допоможе?»), сумнів («чи справді треба?»), брак цінності.
+          <strong>Ніколи не робіть знижку</strong> до того, як з'ясуєте реальну причину.
+        </p>
+      </div>
+
+      <div class="variants-grid animate-in">
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">1</div>
+            <div class="variant-card__title">Уточнююче питання (завжди перше)</div>
+          </div>
+          <div class="variant-card__phrase">
+            Давайте разом розберемось — що саме здається дорогим? Загальна сума чи конкретна процедура?
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> у 67% випадків відповідь розкриє реальну причину. Лише ~30% — «справді не можу дозволити» (→ розтермінування).
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">2</div>
+            <div class="variant-card__title">Приєднання — «ми разом проти проблеми»</div>
+          </div>
+          <div class="variant-card__phrase">
+            Так, я вас розумію. Стоматологія — недешева послуга, і я не буду робити вигляд, що це копійки. Давайте подумаємо, як розрулити.
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> помилка — переходити в оборону («у нас матеріали…»). Правильна позиція: «ми разом проти проблеми», не «я проти вас».
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">3</div>
+            <div class="variant-card__title">Feel → Felt → Found</div>
+          </div>
+          <div class="variant-card__phrase">
+            Сума справді відчутна (feel). Багато моїх пацієнтів спочатку так само реагували (felt). І потім казали, що не пошкодували — бо зуб збережений (found).
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> Xerox sales training (1980s). Валідує емоцію, нормалізує через social proof, показує позитивний кінець. Історія має бути <strong>реальна</strong>.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">4</div>
+            <div class="variant-card__title">Маленький перший крок</div>
+          </div>
+          <div class="variant-card__phrase">
+            Розіб'ємо на кроки. Найтерміновіше — оце, 8&nbsp;000 грн. Все решту плануємо поступово. З чого зручніше почати?
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> 20к одразу активує страх, 8к + план — активує планування. Перший крок = <strong>+70% імовірність доведення плану до кінця</strong>.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">5</div>
+            <div class="variant-card__title">Цінність замість ціни (на рік)</div>
+          </div>
+          <div class="variant-card__phrase">
+            Коронка 12&nbsp;000 грн — 15–20 років. Це ~700 грн/рік за збереження зуба. Відкласти — через рік імплант від 35&nbsp;000.
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> reframing — та сама цифра іншими очима. Не використовуйте для преміум-послуг (естетика — це не про раціональну економію).
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">6</div>
+            <div class="variant-card__title">Розтермінування (НЕ знижка)</div>
+          </div>
+          <div class="variant-card__phrase">
+            50% сьогодні + 50% через 2 тижні (без банку) / 6 міс через Приват — без переплат / 12 міс через Моно — комісія ~3%.
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> знижка — програш, забирає маржу. Розтермінування — забирає тільки час. <strong>Ніколи не перша відповідь</strong> — тільки коли підтверджено, що причина у грошах.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">7</div>
+            <div class="variant-card__title">Обґрунтування вартості</div>
+          </div>
+          <div class="variant-card__phrase">
+            Композит 3M, США — 10–15 років без зміни кольору. Альтернатива за 300 грн тримається 2–3 роки. Особиста гарантія 2 роки.
+          </div>
+          <div class="variant-card__why">
+            <strong>Формула:</strong> [виробник] + [країна] + [термін служби] + [особиста гарантія] + [як відрізняється від дешевого]. Конкретика працює, «у нас найкращі» — ні.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 7 — РОЗДІЛ 5: «Я ПОДУМАЮ»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="7">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--amber">РОЗДІЛ 5</span>
+          <span class="text-muted text-sm">5 варіантів відповіді</span>
+        </div>
+        <h2>«Я подумаю» — <span class="accent">прихована відмова у 80% випадків</span></h2>
+        <p>
+          Але не тисніть — тиск вбиває можливість повернення.
+          Задача: <strong>з'ясувати причину + зафіксувати наступний contact-point</strong>.
+        </p>
+      </div>
+
+      <div class="variants-grid animate-in">
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">1</div>
+            <div class="variant-card__title">Уточнюючі питання</div>
+          </div>
+          <div class="variant-card__phrase">
+            Звичайно, рішення ваше. Дозвольте уточнення: що саме обдумуєте? Ціна, час, сумнів щодо необхідності — щось із цього?
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> у 40% випадків пацієнт називає реальну причину. У 30% — розкривається сумнів, який знімається одразу.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">2</div>
+            <div class="variant-card__title">Бінарний вибір: час чи бюджет?</div>
+          </div>
+          <div class="variant-card__phrase">
+            Просто щоб я знав, як допомогти — це більше про те, що треба виділити час, чи про те, що треба вкладати в бюджет цього місяця?
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> Burkhart Dental training. Бінарний вибір простіший за відкрите питання. «Час» → графік, «бюджет» → розтермінування.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">3</div>
+            <div class="variant-card__title">«Треба порадитись з чоловіком/дружиною»</div>
+          </div>
+          <div class="variant-card__phrase">
+            Звичайно, сімейне рішення. Я дам план у роздрукованому вигляді — нехай чоловік/дружина зателефонує, поясню напряму.
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> в укр. культурі витрати 10к+ — сімейне рішення. «Нехай зателефонує, поясню» — знімає з пацієнта роль переказувача. Часто після 5 хв з лікарем — «так, роби».
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">4</div>
+            <div class="variant-card__title">Попередній запис з правом скасування</div>
+          </div>
+          <div class="variant-card__phrase">
+            Думайте спокійно. У доктора графік заповнений на 2–3 тижні. Зафіксую за вами час через 10 днів — якщо передумаєте, скасуєте за день.
+          </div>
+          <div class="variant-card__why">
+            <strong>Чому:</strong> Commitment without pressure. Легкий якір активує loss aversion. <strong>65%</strong> з попереднім записом приходять, проти <strong>~15%</strong> без.
+          </div>
+        </div>
+
+        <div class="variant-card" style="grid-column: span 2;">
+          <div class="variant-card__header">
+            <div class="variant-card__num">5</div>
+            <div class="variant-card__title">Передача у CRM для нагадування + soft-close</div>
+          </div>
+          <div class="variant-card__phrase">
+            Ситуація з 36-м зубом не покращиться сама — це біологія. Менеджер зателефонує через 2–3 тижні, м'яко, без тиску. Якщо питання — пишіть мені у Viber особисто.
+          </div>
+          <div class="variant-card__why">
+            <strong>Три елементи:</strong> м'яка urgency («не покращиться») + структурований follow-up + персональний канал. <strong>30–40%</strong> «я подумаю» конвертуються через 2–3 тижні, якщо дзвінок м'який.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 8 — РОЗДІЛ 6: «У КОНКУРЕНТІВ ДЕШЕВШЕ»
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="8">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--teal">РОЗДІЛ 6</span>
+          <span class="text-muted text-sm">3 варіанти — без критики колег</span>
+        </div>
+        <h2>«У конкурентів дешевше» — <span class="accent">говоріть про себе</span></h2>
+        <p>
+          <strong>Ніколи не критикуйте конкурентів.</strong> «А у них там все зроблено абияк» —
+          знецінює пацієнта (він же туди планував) і вас (ви дрібний).
+        </p>
+      </div>
+
+      <div class="do-dont-grid do-dont-grid--stack animate-in">
+
+        <div class="scenario">
+          <div class="scenario__title">
+            <span class="scenario__num">В1</span>
+            Повага до вибору + різниця у «що входить»
+          </div>
+          <div class="marker-card marker-card--do" style="border:none; padding:0; background:transparent;">
+            <div class="phrase-bubble">
+              У кожної клініки своя політика. Якщо у вас є конкретна пропозиція — поглянемо, що туди входить: матеріал, гарантія, виробник пломби, чи включена коректура прикусу. Можливо, ми говоримо про різні обсяги роботи.
+            </div>
+          </div>
+          <div class="marker-card marker-card--why" style="margin-top:var(--space-2);">
+            <div class="marker-card__body">
+              <p><strong>💡 Чому:</strong> пацієнт порівнює 3 клініки у 80% випадків. Задача — не перевести у режим торгу, а <strong>допомогти порівняти як слід</strong>. Часто «дешевше» = неповна послуга.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="scenario">
+          <div class="scenario__title">
+            <span class="scenario__num">В2</span>
+            «Я не про конкурентів — я про ваш результат»
+          </div>
+          <div class="marker-card marker-card--do" style="border:none; padding:0; background:transparent;">
+            <div class="phrase-bubble">
+              Я не буду говорити про колег. Моя задача — щоб ви через 10 років згадували цей зуб тільки у кріслі. Моя ціна — це гарантія цього результату. Я особисто відповідатиму за коронку 7 років.
+            </div>
+          </div>
+          <div class="marker-card marker-card--why" style="margin-top:var(--space-2);">
+            <div class="marker-card__body">
+              <p><strong>💡 Чому:</strong> перенесіть розмову з «ми vs вони» на <strong>«ми з вами про ваш результат»</strong>. Слоган КВП: «ми не боремось за ціну, ми боремось за довгострокового пацієнта».</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="scenario">
+          <div class="scenario__title">
+            <span class="scenario__num">В3</span>
+            Прозорість — «звідки такі ціни»
+          </div>
+          <div class="marker-card marker-card--do" style="border:none; padding:0; background:transparent;">
+            <div class="phrase-bubble">
+              Покажу чесно. Імплант коштує клініці N грн. Робота лікаря з курсами у Мюнхені — M. Техніка — K. Амортизація мікроскопа — L. Плюс 3% на гарантійні переробки. Коли у 2 рази менше — хтось з пунктів випав.
+            </div>
+          </div>
+          <div class="marker-card marker-card--why" style="margin-top:var(--space-2);">
+            <div class="marker-card__body">
+              <p><strong>💡 Чому:</strong> <strong>прозорість руйнує підозру</strong>. Пацієнт сам розсіює недовіру, коли бачить структуру ціни. Особливо сильно для імплантів/ортодонтії.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 9 — РОЗДІЛ 7: АГРЕСИВНИЙ ПАЦІЄНТ — HEARD
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="9">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--red">РОЗДІЛ 7</span>
+          <span class="text-muted text-sm">Протокол деескалації</span>
+        </div>
+        <h2>Агресивний пацієнт — <span class="accent">протокол HEARD</span></h2>
+        <p>
+          Одна правильно оброблена ситуація = врятоване LTV + лояльний пацієнт.
+          Неправильно оброблена = <strong>50+ людей, які не прийдуть</strong> (Google, сарафан).
+        </p>
+      </div>
+
+      <div class="heard-steps animate-in">
+
+        <div class="heard-step">
+          <div class="heard-step__letter">H</div>
+          <div class="heard-step__body">
+            <div class="heard-step__title">Hear — почути, не перебиваючи (30 секунд)</div>
+            <div class="heard-step__desc">
+              <em>Мовчіть. Дивіться прямо в очі. Киваєте. НЕ відповідаєте, поки він не видихне.</em>
+              Кричуща людина не чує логіку перші 90 секунд — амигдалярне захоплення, префронтальна кора вимкнена.
+            </div>
+          </div>
+        </div>
+
+        <div class="heard-step">
+          <div class="heard-step__letter">E</div>
+          <div class="heard-step__body">
+            <div class="heard-step__title">Empathize — показати, що ви розумієте</div>
+            <div class="heard-step__desc">
+              <em>«Я вас чую. Я бачу, що ви справді засмучені — і це абсолютно зрозуміло. Ваше відчуття важливе.»</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="heard-step">
+          <div class="heard-step__letter">A</div>
+          <div class="heard-step__body">
+            <div class="heard-step__title">Apologize — вибачитись (навіть якщо ви не винні)</div>
+            <div class="heard-step__desc">
+              <em>«Мені шкода, що ви зіткнулись з цим. Навіть якщо це сталось не з моєї вини — ви наш пацієнт, і я відповідальний.»</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="heard-step">
+          <div class="heard-step__letter">R</div>
+          <div class="heard-step__body">
+            <div class="heard-step__title">Resolve — запропонувати конкретне рішення</div>
+            <div class="heard-step__desc">
+              <em>«Давайте разом розберемось. Розкажіть ще раз повільно — що саме не так, і що б ви хотіли, щоб ми зробили?»</em>
+            </div>
+          </div>
+        </div>
+
+        <div class="heard-step">
+          <div class="heard-step__letter">D</div>
+          <div class="heard-step__body">
+            <div class="heard-step__title">Diagnose — зрозуміти, щоб не повторилось</div>
+            <div class="heard-step__desc">
+              <em>«Дякую, що сказали. Я зафіксую цю ситуацію, щоб вона не повторилась з іншими пацієнтами.»</em>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="marker-card marker-card--why animate-in">
+        <div class="marker-card__header">
+          <span class="marker-card__icon">💡</span> ЗАБОРОНЕНІ ФРАЗИ (які розізлять ще більше)
+        </div>
+        <div class="marker-card__body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-2);">
+            <div>❌ «Заспокойтесь» <em style="color:var(--color-text-muted);">— найшвидший спосіб розізлити</em></div>
+            <div>❌ «Нічого страшного, бувають такі випадки» <em style="color:var(--color-text-muted);">— знецінює</em></div>
+            <div>❌ «Ви самі підписали згоду — читали?» <em style="color:var(--color-text-muted);">— емоційно катастрофа</em></div>
+            <div>❌ «Це не моя провина» <em style="color:var(--color-text-muted);">— не в перші 60 секунд</em></div>
+          </div>
+          <div style="margin-top:var(--space-3); padding-top:var(--space-3); border-top:1px solid rgba(245,158,11,0.25);">
+            <strong>Секрет КВП:</strong> після 3 хвилин правильної деескалації кричущий пацієнт стає <strong>найлояльнішим</strong>. Бо він пережив: «я кричав, а мене не відштовхнули».
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 10 — РОЗДІЛ 8: ПРОТОКОЛ 75 СЕКУНД
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="10">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--blue">РОЗДІЛ 8</span>
+          <span class="text-muted text-sm">Кінцева ланка продажу</span>
+        </div>
+        <h2>Протокол 75 секунд — <span class="accent">призначення наступного візиту</span></h2>
+        <p>
+          <strong>70% «не повернулись»</strong> — не через погане лікування, а через те, що лікар не зафіксував наступний крок.
+          Правильний протокол — 5 кроків у кінці прийому.
+        </p>
+      </div>
+
+      <div class="protocol-steps animate-in">
+
+        <div class="protocol-step">
+          <div class="protocol-step__node">1</div>
+          <div class="protocol-step__body">
+            <div class="protocol-step__title">Підсумок того, що зроблено сьогодні</div>
+            <div class="protocol-step__duration">~15 секунд</div>
+            <div class="protocol-step__phrase">
+              Олено, сьогодні ми завершили лікування каналів 36-го зуба — ви молодець, тримались чудово.
+            </div>
+          </div>
+        </div>
+
+        <div class="protocol-step">
+          <div class="protocol-step__node">2</div>
+          <div class="protocol-step__body">
+            <div class="protocol-step__title">Чому потрібен наступний крок</div>
+            <div class="protocol-step__duration">~15 секунд</div>
+            <div class="protocol-step__phrase">
+              Зуб зараз крихкий — нерва немає, стінки тонкі. Якщо не покрити коронкою протягом 3–4 тижнів — ризик перелому 70%. Це означатиме видалення і імплант. Коронка — обов'язковий завершальний крок.
+            </div>
+          </div>
+        </div>
+
+        <div class="protocol-step">
+          <div class="protocol-step__node">3</div>
+          <div class="protocol-step__body">
+            <div class="protocol-step__title">Конкретний термін</div>
+            <div class="protocol-step__duration">~10 секунд</div>
+            <div class="protocol-step__phrase">
+              Оптимально — через 2 тижні почати, через 3 тижні завершити коронкою.
+            </div>
+          </div>
+        </div>
+
+        <div class="protocol-step">
+          <div class="protocol-step__node">4</div>
+          <div class="protocol-step__body">
+            <div class="protocol-step__title">Місток до адміністратора (найважливіший крок)</div>
+            <div class="protocol-step__duration">~10 секунд</div>
+            <div class="protocol-step__phrase">
+              Марино, запиши, будь ласка, Олену через 12 днів — початок коронки 36-го. І через 20 днів — фіксація.
+            </div>
+          </div>
+        </div>
+
+        <div class="protocol-step">
+          <div class="protocol-step__node">5</div>
+          <div class="protocol-step__body">
+            <div class="protocol-step__title">Фіксація запису адміністратором</div>
+            <div class="protocol-step__duration">~20 секунд · не час лікаря</div>
+            <div class="protocol-step__phrase">
+              Адміністратор: «Олено, підходить четвер 15-го о 14:00 і вівторок 20-го о 16:00?»
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="marker-card marker-card--why animate-in">
+        <div class="marker-card__header">
+          <span class="marker-card__icon">💡</span> ФОРМУЛА МІСТКА
+        </div>
+        <div class="marker-card__body">
+          <p><strong>[Ім'я адміністратора] + [ім'я пацієнта] + [точний термін] + [точна процедура]</strong></p>
+          <p>Коли лікар промовляє місток при пацієнті: пацієнт чує конкретну дату, адміністратор отримує чітку інструкцію, пацієнт бачить команду. <strong>Conversion 85%+</strong> проти 40–50% без протоколу.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 11 — РОЗДІЛ 9: ДЗВІНОК-НАГАДУВАННЯ
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="11">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--teal">РОЗДІЛ 9</span>
+          <span class="text-muted text-sm">Follow-up через 2–3 тижні</span>
+        </div>
+        <h2>Дзвінок-нагадування — <span class="accent">не продавати, а турбуватись</span></h2>
+        <p>
+          Хто дзвонить: <strong>менеджер follow-up</strong> (не адміністратор, не лікар).
+          Мета — дізнатись, як пацієнт. Продаж — вторинний результат.
+        </p>
+      </div>
+
+      <div class="scenario animate-in">
+        <div class="scenario__title">
+          <span class="scenario__num">9.1</span>
+          Початок дзвінка — звучати як турбота, не як call-центр
+        </div>
+
+        <div class="do-dont-grid">
+          <div class="marker-card marker-card--do">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">✅</span> ПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Добрий день, Олено. Це Наталя зі стоматології «Єремчук» — менеджер по роботі з пацієнтами. Ви приходили до нас 25-го березня на огляд до доктора Іваненка. Я дзвоню дізнатись, як ви — чи все добре, чи не турбує зуб?
+              </div>
+            </div>
+          </div>
+
+          <div class="marker-card marker-card--dont">
+            <div class="marker-card__header">
+              <span class="marker-card__icon">❌</span> НЕПРАВИЛЬНО
+            </div>
+            <div class="marker-card__body">
+              <div class="phrase-bubble">
+                Ви приходили на огляд, питання — коли приходите на лікування?
+                <span class="phrase-bubble__note">Тиск з перших секунд — пацієнт в обороні.</span>
+              </div>
+              <div class="phrase-bubble">
+                Нагадуємо про нашу пропозицію.
+                <span class="phrase-bubble__note">Корпоративно — пацієнт чує «продаж».</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-header animate-in" style="margin-top: var(--space-4);">
+        <h2 style="font-size: var(--font-size-xl);">Протокол <span class="accent">якщо не відповідає</span></h2>
+      </div>
+
+      <div class="followup-stages animate-in">
+        <div class="followup-stage">
+          <div class="followup-stage__when">Дзвінок 1<br><span style="font-weight:normal; color:var(--color-text-muted);">+14 днів</span></div>
+          <div class="followup-stage__desc">
+            Якщо не взяв — SMS: <em>«Олено, намагалась дозвонитись. Якщо питання — напишіть у Viber. Сподіваюсь, у вас все добре!»</em>
+          </div>
+        </div>
+        <div class="followup-stage">
+          <div class="followup-stage__when">Дзвінок 2<br><span style="font-weight:normal; color:var(--color-text-muted);">+7 днів</span></div>
+          <div class="followup-stage__desc">
+            Якщо не взяв — email з планом у PDF + фраза «якщо виникнуть питання».
+          </div>
+        </div>
+        <div class="followup-stage">
+          <div class="followup-stage__when">Дзвінок 3<br><span style="font-weight:normal; color:var(--color-text-muted);">+30 днів від 1-го</span></div>
+          <div class="followup-stage__desc">
+            Остання спроба. Якщо знову не взяв — у CRM на річне нагадування. <strong>Більше 3 дзвінків — НЕ дзвоніть</strong>, це тиск.
+          </div>
+        </div>
+      </div>
+
+      <div class="marker-card marker-card--why animate-in">
+        <div class="marker-card__body">
+          <p><strong>💡 Конверсія:</strong> 30% «я подумаю» стають записами на follow-up дзвінку <strong>якщо дзвінок м'який</strong>. <strong>2%</strong> — якщо дзвінок агресивний. Навіть якщо пацієнт обрав конкурента — не закривайте канал: «можна нагадати через 3 місяці?».</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 12 — РОЗДІЛ 10: ОРГАНІЧНІ ДОПРОДАЖІ
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="12">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--green">РОЗДІЛ 10</span>
+          <span class="text-muted text-sm">5 ситуацій — без тиску</span>
+        </div>
+        <h2>Органічні допродажі — <span class="accent">коли лікар реально побачив</span></h2>
+        <p>
+          Правило КВП: допродаж працює тільки якщо (а) лікар <strong>реально побачив</strong> проблему,
+          (б) прив'язано до того, що пацієнт <strong>сам сказав</strong>, (в) без тиску, (г) <strong>один за візит</strong>.
+        </p>
+      </div>
+
+      <div class="variants-grid animate-in">
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">1</div>
+            <div class="variant-card__title">Профгігієна після лікування</div>
+          </div>
+          <div class="variant-card__phrase">
+            Лікування зроблено чудово. Через 3 місяці зробіть профгігієну — 1&nbsp;500 грн, 40 хв, не боляче. Без неї через рік може з'явитись карієс біля нової пломби. Це як ТО для машини.
+          </div>
+          <div class="variant-card__why">
+            <strong>Формула:</strong> [результат] → [загроза без профілактики] → [проста дія з ціною] → [запис зараз]. Це не продаж — медична логіка.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">2</div>
+            <div class="variant-card__title">Відбілювання після гігієни</div>
+          </div>
+          <div class="variant-card__phrase">
+            Подивіться в дзеркало — зуби вже освітлились. Якщо хотіли б ще кращий результат — зараз ідеальний момент: зуби чисті, ефект буде максимальним. Хочете, розкажу деталі?
+          </div>
+          <div class="variant-card__why">
+            <strong>Вікно 5 хвилин</strong> після процедури, яка дала видимий результат. Не продавайте — відкрийте розмову. Пацієнт сам вирішить.
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">3</div>
+            <div class="variant-card__title">Захисна капа (бруксизм)</div>
+          </div>
+          <div class="variant-card__phrase">
+            Помітив сліди стирання — типова ознака бруксизму. Ви прокидаєтесь зі скутою щелепою чи болем у скронях? <em>(так, буває)</em> Тоді капа — 4&nbsp;200 грн за один візит.
+          </div>
+          <div class="variant-card__why">
+            <strong>Allow-ask-recommend.</strong> Не продаємо — <strong>питаємо</strong> про симптоми. Коли пацієнт САМ підтверджує — капа стає «вирішенням моєї проблеми», не «продажем клініки».
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-card__header">
+            <div class="variant-card__num">4</div>
+            <div class="variant-card__title">Ортодонтична консультація</div>
+          </div>
+          <div class="variant-card__phrase">
+            Бачу скупченість у нижньому ряді. Консультація ортодонта — безоплатна, жодних зобов'язань. Можливо, вам нічого не потрібно. А можливо є простий варіант — тоді будете знати.
+          </div>
+          <div class="variant-card__why">
+            <strong>Безоплатна консультація</strong> — магічний триггер. 40–50% переходять у лікування. «Може, не треба» — чесно, і пацієнт довіряє.
+          </div>
+        </div>
+
+        <div class="variant-card" style="grid-column: span 2;">
+          <div class="variant-card__header">
+            <div class="variant-card__num">5</div>
+            <div class="variant-card__title">Заміна старих пломб (амальгама 10+ років)</div>
+          </div>
+          <div class="variant-card__phrase">
+            Стара пломба на 46-му, чорна, металева — амальгама, 10+ років. <strong>Не терміново сьогодні</strong>, але в найближчий рік варто замінити на білу, поки не утворилась прихована дірка. 3&nbsp;500 грн. Можемо запланувати на наступний огляд через 6 місяців.
+          </div>
+          <div class="variant-card__why">
+            <strong>Золота фраза:</strong> «не терміново сьогодні, але…». Знімає підозру «все що лікар каже — треба зараз і багато». Після такої подачі пацієнт часто сам каже: «давайте одразу».
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 13 — РОЗДІЛ 11: ТОП-30 ЗАБОРОНЕНИХ ФРАЗ
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="13">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--red">РОЗДІЛ 11</span>
+          <span class="text-muted text-sm">30 фраз + заміна кожної</span>
+        </div>
+        <h2>Топ-30 заборонених фраз — <span class="accent">і чим замінити</span></h2>
+        <p>
+          Ці фрази вбивають case acceptance, довіру, повторність — перевірено на сотнях записів.
+          <strong>Роздрукуйте і повісьте в ординаторській на перший місяць.</strong>
+        </p>
+      </div>
+
+      <div class="animate-in" style="max-height: 55vh; overflow-y: auto; border: 1px solid var(--color-border); border-radius: var(--radius-xl); background: var(--color-white); box-shadow: var(--shadow-sm);">
+        <table class="forbidden-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th style="width: 45%;">❌ Заборонено</th>
+              <th>✅ Заміна</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="category-row"><td colspan="3">Докори / звинувачення пацієнта</td></tr>
+            <tr><td class="td-num">1</td><td class="td-bad">«Треба було раніше приходити»</td><td class="td-good">«Добре, що прийшли зараз — ще не пізно зробити добре»</td></tr>
+            <tr><td class="td-num">2</td><td class="td-bad">«Ви самі довели до такого стану»</td><td class="td-good">«Ситуація складна, але вирішувана. Давайте дивитись, що можемо зробити»</td></tr>
+            <tr><td class="td-num">3</td><td class="td-bad">«Я вам сказав, а ви не послухали»</td><td class="td-good">«Минулого разу обговорювали — давайте повернемось до цього плану»</td></tr>
+            <tr><td class="td-num">4</td><td class="td-bad">«Ну що ж ви так…» (зітхання)</td><td class="td-good">(мовчання + нейтральний огляд)</td></tr>
+            <tr><td class="td-num">5</td><td class="td-bad">«У вас тут завжди так запущено»</td><td class="td-good">«Ось тут темна пляма — це те, з чим сьогодні попрацюємо»</td></tr>
+
+            <tr class="category-row"><td colspan="3">Знецінення</td></tr>
+            <tr><td class="td-num">6</td><td class="td-bad">«Нічого страшного»</td><td class="td-good">«Ситуація серйозна, але у нас є чіткий план»</td></tr>
+            <tr><td class="td-num">7</td><td class="td-bad">«Не бійтесь»</td><td class="td-good">«Я бачу, ви хвилюєтесь — це нормально. Рухатимемось у вашому темпі»</td></tr>
+            <tr><td class="td-num">8</td><td class="td-bad">«Могло бути гірше»</td><td class="td-good">«Розумію, це неприємно. Давайте разом зробимо краще»</td></tr>
+            <tr><td class="td-num">9</td><td class="td-bad">«У всіх таке буває»</td><td class="td-good">«Багато пацієнтів з цим стикались — є перевірене рішення»</td></tr>
+            <tr><td class="td-num">10</td><td class="td-bad">«Потерпіть трошки»</td><td class="td-good">«Ще 30 секунд — і найнеприємніша частина позаду. Підніміть ліву руку, якщо дискомфорт»</td></tr>
+
+            <tr class="category-row"><td colspan="3">Директиви / тиск</td></tr>
+            <tr><td class="td-num">11</td><td class="td-bad">«Вам треба…»</td><td class="td-good">«Я рекомендую… тому що…»</td></tr>
+            <tr><td class="td-num">12</td><td class="td-bad">«Ви повинні зробити…»</td><td class="td-good">«Якби це був мій зуб, я б зробив ось так»</td></tr>
+            <tr><td class="td-num">13</td><td class="td-bad">«Це обов'язково»</td><td class="td-good">«Без цього кроку ризикуємо [наслідок]. Я б не радив відкладати»</td></tr>
+            <tr><td class="td-num">14</td><td class="td-bad">«Інакше втратите зуб»</td><td class="td-good">«Якщо зачекати, через рік ризик серйозніший — я хочу, щоб у вас був вибір зараз»</td></tr>
+            <tr><td class="td-num">15</td><td class="td-bad">«Вирішуйте швидше»</td><td class="td-good">«Питання не терміновості — питання того, щоб не ризикувати. З чого зручніше почати?»</td></tr>
+
+            <tr class="category-row"><td colspan="3">Відмежування</td></tr>
+            <tr><td class="td-num">16</td><td class="td-bad">«Дивіться самі»</td><td class="td-good">«Я рекомендую [X], але останнє слово за вами. Які питання ще є?»</td></tr>
+            <tr><td class="td-num">17</td><td class="td-bad">«Якщо що — телефонуйте»</td><td class="td-good">«Зафіксуємо наступний візит зараз. Через 12 днів, 14:00 — підходить?»</td></tr>
+            <tr><td class="td-num">18</td><td class="td-bad">«Адміністратор запише»</td><td class="td-good">«Марино, запиши, будь ласка, Олену через 10 днів — завершення коронки 36-го»</td></tr>
+            <tr><td class="td-num">19</td><td class="td-bad">«Це не моя проблема»</td><td class="td-good">«Зрозумів, разом з'ясуємо — я покличу, кого треба»</td></tr>
+            <tr><td class="td-num">20</td><td class="td-bad">«Ну як скажете» (пасивна агресія)</td><td class="td-good">«Зрозумів, поважаю вибір. Що можу зробити, щоб допомогти прийняти рішення?»</td></tr>
+
+            <tr class="category-row"><td colspan="3">Фрази «продавця»</td></tr>
+            <tr><td class="td-num">21</td><td class="td-bad">«У нас сьогодні акція…»</td><td class="td-good">«Я рекомендую це по медичних показаннях — [пояснення]»</td></tr>
+            <tr><td class="td-num">22</td><td class="td-bad">«Знижка 10%, якщо вирішите зараз»</td><td class="td-good">«Є розтермінування — 50/50 або 6 місяців через банк»</td></tr>
+            <tr><td class="td-num">23</td><td class="td-bad">«Всім це роблять»</td><td class="td-good">«У вас ситуація, яку бачимо часто — є перевірене рішення»</td></tr>
+            <tr><td class="td-num">24</td><td class="td-bad">«Це нескладна процедура»</td><td class="td-good">«Процедура вимагає точності — тому така вартість, і я особисто гарантую результат»</td></tr>
+            <tr><td class="td-num">25</td><td class="td-bad">«Там у нас все одно дешево»</td><td class="td-good">«Наші ціни справедливі за якість. Дозвольте поясню, що входить»</td></tr>
+
+            <tr class="category-row"><td colspan="3">Фрази-пустушки</td></tr>
+            <tr><td class="td-num">26</td><td class="td-bad">«Ми дбаємо про кожного пацієнта»</td><td class="td-good">(мовчіть і дійте — встаньте при вході, запам'ятайте ім'я дитини)</td></tr>
+            <tr><td class="td-num">27</td><td class="td-bad">«Ми використовуємо найсучасніші технології»</td><td class="td-good">«Ми працюємо з матеріалом 3M, США — тримається 10–15 років»</td></tr>
+            <tr><td class="td-num">28</td><td class="td-bad">«У нас найкращі лікарі»</td><td class="td-good">«Доктор Іваненко — 12 років в імплантології, навчався у Мюнхені»</td></tr>
+            <tr><td class="td-num">29</td><td class="td-bad">«Наша клініка — найкраща у місті»</td><td class="td-good">(ніколи не говоріть так — нехай кажуть пацієнти)</td></tr>
+            <tr><td class="td-num">30</td><td class="td-bad">«Ми — № 1 в Івано-Франківську»</td><td class="td-good">(мовчіть. № 1 — це статус, який не декларують)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 14 — KPI + PLAN
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="14">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <span class="badge badge--green">ПІДСУМОК</span>
+          <span class="text-muted text-sm">Метрики впровадження</span>
+        </div>
+        <h2>KPI, які вимірюємо — <span class="accent">через 6 місяців</span></h2>
+        <p>
+          Гроші — наслідок довіри, а не мета. Будуйте довіру — виручка прийде.
+          Ці 5 метрик показують, чи скрипти дають результат.
+        </p>
+      </div>
+
+      <div class="kpi-grid animate-in">
+
+        <div class="kpi-card">
+          <div class="kpi-card__label">Case acceptance rate</div>
+          <div class="kpi-card__row">
+            <span class="kpi-card__base">55%</span>
+            <span class="kpi-card__arrow">→</span>
+            <span class="kpi-card__target">75–80%</span>
+          </div>
+          <div class="kpi-card__desc">Відсоток пацієнтів, які погоджуються на запропонований план лікування</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card__label">Повторність на 6 міс</div>
+          <div class="kpi-card__row">
+            <span class="kpi-card__base">40%</span>
+            <span class="kpi-card__arrow">→</span>
+            <span class="kpi-card__target">70%</span>
+          </div>
+          <div class="kpi-card__desc">Follow-up візит через 6 місяців — профгігієна, контрольний огляд</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card__label">Конверсія «я подумаю»</div>
+          <div class="kpi-card__row">
+            <span class="kpi-card__base">15%</span>
+            <span class="kpi-card__arrow">→</span>
+            <span class="kpi-card__target">30–40%</span>
+          </div>
+          <div class="kpi-card__desc">Після follow-up дзвінка через 2–3 тижні з м'яким тоном</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card__label">NPS (рекомендація)</div>
+          <div class="kpi-card__row">
+            <span class="kpi-card__base">7.2</span>
+            <span class="kpi-card__arrow">→</span>
+            <span class="kpi-card__target">8.5+</span>
+          </div>
+          <div class="kpi-card__desc">Чи рекомендують вас знайомим — ключовий індикатор лояльності</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card__label">Середній чек на пацієнта/рік</div>
+          <div class="kpi-card__row">
+            <span class="kpi-card__arrow">+</span>
+            <span class="kpi-card__target">15–25%</span>
+          </div>
+          <div class="kpi-card__desc">Через правильні органічні допродажі (без тиску, по медичних показаннях)</div>
+        </div>
+
+      </div>
+
+      <div class="takeaway animate-in">
+        <div class="takeaway__label">Три речі, які має запам'ятати кожен лікар</div>
+        <div class="takeaway__text">
+          <strong>1.</strong> Пацієнт — не клієнт, не покупець, не об'єкт. Це людина, яка довірила вам здоров'я.<br>
+          <strong>2.</strong> Гроші — наслідок довіри, а не мета. High case acceptance — це не «круто продаю», це «пацієнт вірить».<br>
+          <strong>3.</strong> Кожна фраза або будує довіру, або руйнує. Нейтральних фраз у кабінеті не буває.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 15 — FINAL QUOTE
+       ================================================================ -->
+  <section class="slide slide-quote" data-slide="15">
+    <div class="slide__inner">
+
+      <div class="quote-mark animate-in">"</div>
+
+      <blockquote class="animate-in">
+        Ми не боремось за ціну — ми боремось за довгострокового пацієнта.
+        Дешеві клініки беруть одноразовий візит. Ми беремо родину на&nbsp;10+&nbsp;років.
+      </blockquote>
+
+      <div class="quote-attribution animate-in">
+        <div class="quote-author">Комерційний директор</div>
+        <div class="quote-role">мережа клінік «Єремчук» · Івано-Франківськ</div>
+      </div>
+
+      <div class="animate-in" style="margin-top: var(--space-8); display:flex; flex-direction:column; align-items:center; gap:var(--space-3);">
+        <div style="font-size: var(--font-size-sm); color: rgba(255,255,255,0.45); letter-spacing: 0.12em; text-transform: uppercase;">
+          Практичний план впровадження
+        </div>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:var(--space-3); max-width:720px;">
+          <span class="tag tag--gray" style="padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.12);">Тиждень 1–2 · 5 фраз на відпрацювання</span>
+          <span class="tag tag--gray" style="padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.12);">Тиждень 3–4 · роль-плеї на huddles</span>
+          <span class="tag tag--gray" style="padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.12);">Місяць 2 · прослуховування з КВП</span>
+          <span class="tag tag--gray" style="padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.12);">Місяць 3–6 · вимір метрик</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+</div><!-- /presentation -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     1. STATE
+     --------------------------------------------------------------- */
+  const slides       = Array.from(document.querySelectorAll('.slide'));
+  const totalSlides  = slides.length;
+  let   currentIndex = 0;
+
+  const btnPrev      = document.getElementById('btnPrev');
+  const btnNext      = document.getElementById('btnNext');
+  const counter      = document.getElementById('slideCounter');
+  const progressFill = document.getElementById('progressFill');
+
+  /* ---------------------------------------------------------------
+     2. INIT
+     --------------------------------------------------------------- */
+  slides[0].classList.add('slide--active');
+  updateUI();
+
+  /* ---------------------------------------------------------------
+     3. SLIDE TRANSITION
+     --------------------------------------------------------------- */
+  function goToSlide(newIndex) {
+    if (newIndex < 0 || newIndex >= totalSlides) return;
+    if (newIndex === currentIndex) return;
+
+    const prevSlide = slides[currentIndex];
+    const nextSlide = slides[newIndex];
+
+    prevSlide.classList.remove('slide--active');
+    prevSlide.classList.add('slide--prev');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        nextSlide.classList.add('slide--active');
+        nextSlide.classList.remove('slide--prev');
+      });
+    });
+
+    prevSlide.addEventListener('transitionend', function cleanup() {
+      prevSlide.classList.remove('slide--prev');
+      prevSlide.removeEventListener('transitionend', cleanup);
+    });
+
+    currentIndex = newIndex;
+    updateUI();
+
+    /* Scroll slide to top if it has vertical overflow */
+    nextSlide.scrollTop = 0;
+  }
+
+  /* ---------------------------------------------------------------
+     4. UPDATE NAV & PROGRESS
+     --------------------------------------------------------------- */
+  function updateUI() {
+    counter.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+    const pct = ((currentIndex + 1) / totalSlides) * 100;
+    progressFill.style.width = pct + '%';
+    btnPrev.classList.toggle('nav-btn--disabled', currentIndex === 0);
+    btnNext.classList.toggle('nav-btn--disabled', currentIndex === totalSlides - 1);
+  }
+
+  /* ---------------------------------------------------------------
+     5. TOC CARD CLICK HANDLERS (slide 2 → jump to specific slide)
+     --------------------------------------------------------------- */
+  document.querySelectorAll('[data-goto]').forEach(function (card) {
+    card.addEventListener('click', function () {
+      const target = parseInt(card.getAttribute('data-goto'), 10);
+      if (!isNaN(target)) {
+        goToSlide(target - 1); /* data-goto is 1-based, array is 0-based */
+      }
+    });
+  });
+
+  /* ---------------------------------------------------------------
+     6. EVENT LISTENERS
+     --------------------------------------------------------------- */
+  btnPrev.addEventListener('click', function () { goToSlide(currentIndex - 1); });
+  btnNext.addEventListener('click', function () { goToSlide(currentIndex + 1); });
+
+  document.addEventListener('keydown', function (e) {
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        goToSlide(currentIndex - 1);
+        break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+        break;
+      case 'Home':
+        e.preventDefault();
+        goToSlide(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        goToSlide(totalSlides - 1);
+        break;
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>

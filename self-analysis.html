@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Самоаналіз · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ============================================================
+       SELF-ANALYSIS PAGE — PAGE-SPECIFIC STYLES
+       ============================================================ */
+
+    body {
+      overflow: auto;
+      min-height: 100vh;
+      background: var(--color-primary-dark);
+    }
+
+    /* ================================================================
+       HERO HEADER
+       ================================================================ */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 42vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-20) var(--space-6) var(--space-16);
+      overflow: hidden;
+    }
+
+    /* Deep gradient background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #0d1b2e 0%, #0f172a 50%, #091221 100%);
+      z-index: 0;
+    }
+
+    /* Radial glow top-center */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(37,99,235,0.18) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Decorative grid lines */
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+    }
+
+    /* Animated floating orbs */
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-orb--1 {
+      width: 280px; height: 280px;
+      top: -60px; left: -80px;
+      background: radial-gradient(circle, rgba(37,99,235,0.12), transparent 70%);
+      animation: orbDrift 12s ease-in-out infinite;
+    }
+    .hero-orb--2 {
+      width: 200px; height: 200px;
+      bottom: -40px; right: -60px;
+      background: radial-gradient(circle, rgba(14,165,233,0.10), transparent 70%);
+      animation: orbDrift 16s ease-in-out infinite reverse;
+    }
+    @keyframes orbDrift {
+      0%, 100% { transform: translate(0, 0); }
+      33%       { transform: translate(20px, -15px); }
+      66%       { transform: translate(-15px, 10px); }
+    }
+
+    .hero__inner {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+    }
+
+    /* Step indicator */
+    .hero-step {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.30);
+      color: #93c5fd;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-6);
+      animation: fadeUp 0.6s ease-out 0.1s both;
+    }
+    .hero-step svg {
+      width: 12px; height: 12px;
+      stroke: currentColor; fill: none; stroke-width: 2.5;
+    }
+
+    .hero h1 {
+      font-size: clamp(var(--font-size-2xl), 5vw, var(--font-size-4xl));
+      font-weight: var(--font-weight-black);
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      line-height: var(--line-height-tight);
+      margin-bottom: var(--space-5);
+      animation: fadeUp 0.6s ease-out 0.2s both;
+    }
+
+    .hero h1 .accent {
+      background: var(--gradient-blue);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero__subtitle {
+      font-size: var(--font-size-md);
+      color: rgba(255,255,255,0.55);
+      line-height: var(--line-height-relaxed);
+      max-width: 520px;
+      margin: 0 auto;
+      animation: fadeUp 0.6s ease-out 0.3s both;
+    }
+
+    /* Estimated time badge */
+    .hero-time {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-6);
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.35);
+      animation: fadeUp 0.6s ease-out 0.4s both;
+    }
+    .hero-time svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; fill: none; stroke-width: 2;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ================================================================
+       FORM SECTION
+       ================================================================ */
+    .form-section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 var(--space-6) var(--space-20);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Progress dots */
+    .progress-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-10);
+    }
+    .progress-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background var(--transition-normal),
+                  transform var(--transition-normal),
+                  width var(--transition-normal);
+    }
+    .progress-dot.is-done {
+      background: var(--color-success);
+    }
+    .progress-dot.is-active {
+      width: 24px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-blue);
+      transform: none;
+    }
+
+    /* Question card */
+    .q-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-10) var(--space-10);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: var(--space-5);
+      animation: cardReveal 0.5s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Question number + text */
+    .q-num-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+    .q-num-badge {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--gradient-blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-black);
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-top: 2px;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    }
+    .q-text {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-medium);
+      color: rgba(255,255,255,0.90);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* Text area */
+    .q-textarea {
+      width: 100%;
+      min-height: 130px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+      color: rgba(255,255,255,0.85);
+      font-size: var(--font-size-base);
+      font-family: var(--font-family);
+      line-height: var(--line-height-relaxed);
+      resize: vertical;
+      outline: none;
+      transition: border-color var(--transition-fast),
+                  background var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+    .q-textarea:focus {
+      border-color: rgba(37,99,235,0.55);
+      background: rgba(37,99,235,0.05);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.10);
+    }
+    .q-textarea::placeholder { color: rgba(255,255,255,0.20); }
+
+    /* Character hint */
+    .q-hint {
+      margin-top: var(--space-2);
+      font-size: var(--font-size-xs);
+      color: rgba(255,255,255,0.25);
+      text-align: right;
+    }
+
+    /* ================================================================
+       META FIELDS CARD
+       ================================================================ */
+    .meta-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-xl);
+      padding: var(--space-6) var(--space-8);
+      margin-bottom: var(--space-8);
+      display: flex;
+      gap: var(--space-5);
+      flex-wrap: wrap;
+      animation: cardReveal 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+    }
+    .meta-field-wrap {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .meta-field-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+    }
+    .meta-field-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .meta-field-input:focus { border-color: rgba(37,99,235,0.50); }
+    .meta-field-input::placeholder { color: rgba(255,255,255,0.20); }
+
+    /* ================================================================
+       SAVE BUTTON
+       ================================================================ */
+    .save-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      width: 100%;
+      padding: var(--space-6) var(--space-8);
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: var(--radius-xl);
+      color: #ffffff;
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-bold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: opacity var(--transition-fast),
+                  transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+      box-shadow: 0 8px 32px rgba(37,99,235,0.30);
+    }
+    .save-btn:hover {
+      opacity: 0.92;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(37,99,235,0.45);
+    }
+    .save-btn:active { transform: translateY(0); box-shadow: none; }
+    .save-btn svg {
+      width: 20px; height: 20px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ================================================================
+       CONFIRMATION STATE
+       ================================================================ */
+    .confirmation {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: var(--space-12) var(--space-8);
+      animation: cardReveal 0.55s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    .confirmation.is-visible { display: flex; }
+
+    .confirm-icon-ring {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.15);
+      border: 2px solid rgba(16,185,129,0.35);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: var(--space-6);
+      box-shadow: 0 0 40px rgba(16,185,129,0.20);
+    }
+    .confirm-icon-ring svg {
+      width: 40px; height: 40px;
+      stroke: #34d399; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .confirm-title {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-3);
+    }
+    .confirm-subtitle {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.55);
+      line-height: var(--line-height-relaxed);
+      max-width: 480px;
+      margin-bottom: var(--space-10);
+    }
+    .confirm-subtitle strong {
+      color: rgba(255,255,255,0.80);
+    }
+
+    /* Reminder chip */
+    .confirm-reminder {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-5) var(--space-6);
+      background: rgba(245,158,11,0.10);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: var(--radius-lg);
+      max-width: 520px;
+      width: 100%;
+      margin-bottom: var(--space-10);
+      text-align: left;
+    }
+    .confirm-reminder svg {
+      flex-shrink: 0; width: 18px; height: 18px;
+      stroke: #fbbf24; fill: none; stroke-width: 2;
+      margin-top: 1px;
+    }
+    .confirm-reminder p {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.60);
+      line-height: var(--line-height-relaxed);
+    }
+    .confirm-reminder strong { color: #fbbf24; }
+
+    /* CTA button */
+    .btn-go-module {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+      padding: var(--space-5) var(--space-10);
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: var(--radius-xl);
+      color: #ffffff;
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-bold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(37,99,235,0.35);
+      transition: opacity var(--transition-fast),
+                  transform var(--transition-fast),
+                  box-shadow var(--transition-fast);
+    }
+    .btn-go-module:hover {
+      opacity: 0.90;
+      transform: translateY(-3px);
+      box-shadow: 0 14px 40px rgba(37,99,235,0.50);
+    }
+    .btn-go-module:active { transform: translateY(0); }
+    .btn-go-module svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ================================================================
+       PRINT STYLES
+       ================================================================ */
+    @media print {
+      body { background: white; }
+      .hero { min-height: auto; padding: 24px 24px 16px; }
+      .hero::before, .hero::after, .hero-grid,
+      .hero-orb, .hero-time, .hero-step { display: none; }
+      .hero h1 { color: #0f172a; font-size: 22px; -webkit-text-fill-color: #0f172a; background: none; }
+      .hero__subtitle { color: #64748b; font-size: 13px; }
+      .form-section { padding: 0 24px 24px; }
+      .meta-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        padding: 12px 16px;
+      }
+      .meta-field-input {
+        background: white;
+        border: 1px solid #cbd5e1;
+        color: #0f172a;
+      }
+      .meta-field-label { color: #64748b; }
+      .q-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        break-inside: avoid;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+      }
+      .q-text { color: #0f172a; font-size: 13px; }
+      .q-textarea {
+        background: white;
+        border: 1px solid #cbd5e1;
+        color: #0f172a;
+        min-height: 72px;
+        font-size: 12px;
+      }
+      .q-hint { display: none; }
+      .q-num-badge { background: #1d4ed8; box-shadow: none; }
+      .save-btn, .progress-dots, .confirmation { display: none !important; }
+    }
+
+    /* ================================================================
+       RESPONSIVE
+       ================================================================ */
+    @media (max-width: 600px) {
+      .hero { padding: var(--space-12) var(--space-5) var(--space-10); }
+      .form-section { padding: 0 var(--space-4) var(--space-12); }
+      .q-card { padding: var(--space-6) var(--space-5); }
+      .meta-card { padding: var(--space-5) var(--space-5); }
+      .confirmation { padding: var(--space-8) var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ================================================================
+     HERO HEADER
+     ================================================================ -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb--1"></div>
+  <div class="hero-orb hero-orb--2"></div>
+
+  <div class="hero__inner">
+    <div class="hero-step">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Перед початком курсу
+    </div>
+
+    <h1>
+      Зупиніться на<br/>
+      <span class="accent">5 хвилин</span>
+    </h1>
+
+    <p class="hero__subtitle">
+      Ці питання не мають правильних чи неправильних відповідей. Це — ваша відправна точка.
+    </p>
+
+    <div class="hero-time">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Приблизно 5 хвилин
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================
+     FORM
+     ================================================================ -->
+<div class="form-section">
+
+  <!-- Form state -->
+  <div id="formWrap">
+
+    <!-- Progress dots -->
+    <div class="progress-dots" id="progressDots" aria-label="Прогрес заповнення"></div>
+
+    <!-- Meta fields -->
+    <div class="meta-card">
+      <div class="meta-field-wrap">
+        <span class="meta-field-label">Ім'я та прізвище</span>
+        <input type="text" id="metaName" class="meta-field-input" placeholder="Введіть ваше ім'я" autocomplete="off" />
+      </div>
+      <div class="meta-field-wrap">
+        <span class="meta-field-label">Дата</span>
+        <input type="date" id="metaDate" class="meta-field-input" />
+      </div>
+      <div class="meta-field-wrap">
+        <span class="meta-field-label">Клініка</span>
+        <input type="text" id="metaClinic" class="meta-field-input" placeholder="Назва клініки" autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- Questions rendered by JS -->
+    <div id="questionsList"></div>
+
+    <button class="save-btn" id="saveBtn" type="button">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      Зберегти і почати курс
+    </button>
+
+  </div>
+
+  <!-- Confirmation state -->
+  <div class="confirmation" id="confirmation">
+    <div class="confirm-icon-ring">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 class="confirm-title">Відповіді збережено</h2>
+    <p class="confirm-subtitle">
+      Поверніться до них після <strong>Модуля 5</strong>. Ви побачите як змінилося ваше мислення.
+    </p>
+
+    <div class="confirm-reminder">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>
+        <strong>Нагадування:</strong> відповіді збережені у вашому браузері на цьому пристрої. Для роздруківки скористайтесь кнопкою <strong>Ctrl+P</strong> або меню браузера.
+      </p>
+    </div>
+
+    <a href="module-00.html" class="btn-go-module">
+      Перейти до Модуля 0
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var QUESTIONS = [
+    {
+      id: 'q1',
+      text: 'Яку фразу ви зазвичай говорите пацієнту в кінці прийому? Напишіть дослівно.',
+      placeholder: 'Наприклад: "Все готово, будьте здорові" або "Запишіться на прийом коли знову виникне потреба"...'
+    },
+    {
+      id: 'q2',
+      text: 'Як часто ви САМІ призначаєте наступний візит (а не передаєте це адміністратору)? Оцініть % від всіх прийомів.',
+      placeholder: 'Наприклад: приблизно 20% прийомів — решту передаю адміністратору...'
+    },
+    {
+      id: 'q3',
+      text: 'Що ви робите коли пацієнт каже «я подумаю» або «дорого»?',
+      placeholder: 'Опишіть вашу типову реакцію на ці слова...'
+    },
+    {
+      id: 'q4',
+      text: 'Скільки ваших пацієнтів повернулось повторно минулого місяця? (приблизно)',
+      placeholder: 'Орієнтовна кількість або відсоток від загального потоку...'
+    },
+    {
+      id: 'q5',
+      text: 'Що для вас зараз найважче в спілкуванні з пацієнтами?',
+      placeholder: 'Будьте чесні — ці відповіді тільки для вас...',
+      tall: true
+    }
+  ];
+
+  var container    = document.getElementById('questionsList');
+  var progressDots = document.getElementById('progressDots');
+  var saveBtn      = document.getElementById('saveBtn');
+  var formWrap     = document.getElementById('formWrap');
+  var confirmation = document.getElementById('confirmation');
+
+  /* ---- Build progress dots ---- */
+  function buildDots() {
+    while (progressDots.firstChild) { progressDots.removeChild(progressDots.firstChild); }
+    QUESTIONS.forEach(function (_, i) {
+      var dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      dot.id = 'dot_' + i;
+      progressDots.appendChild(dot);
+    });
+    updateDots(0);
+  }
+
+  function updateDots(activeIdx) {
+    QUESTIONS.forEach(function (_, i) {
+      var dot = document.getElementById('dot_' + i);
+      if (!dot) return;
+      dot.classList.remove('is-active', 'is-done');
+      if (i < activeIdx)       dot.classList.add('is-done');
+      else if (i === activeIdx) dot.classList.add('is-active');
+    });
+  }
+
+  /* ---- Build question cards ---- */
+  function buildQuestions() {
+    QUESTIONS.forEach(function (q, i) {
+      var card = document.createElement('div');
+      card.className = 'q-card';
+      card.style.animationDelay = (0.05 * i) + 's';
+
+      var numRow = document.createElement('div');
+      numRow.className = 'q-num-row';
+
+      var badge = document.createElement('div');
+      badge.className = 'q-num-badge';
+      badge.textContent = String(i + 1);
+
+      var text = document.createElement('div');
+      text.className = 'q-text';
+      text.textContent = q.text;
+
+      numRow.appendChild(badge);
+      numRow.appendChild(text);
+
+      var textarea = document.createElement('textarea');
+      textarea.className = 'q-textarea';
+      textarea.id = 'answer_' + q.id;
+      textarea.placeholder = q.placeholder;
+      if (q.tall) { textarea.style.minHeight = '160px'; }
+
+      /* Load saved value if exists */
+      var saved = '';
+      try { saved = localStorage.getItem('sa_' + q.id) || ''; } catch (e) {}
+      if (saved) { textarea.value = saved; }
+
+      /* Update dots on focus */
+      textarea.addEventListener('focus', function () { updateDots(i); });
+      textarea.addEventListener('blur',  function () {
+        try { localStorage.setItem('sa_' + q.id, textarea.value); } catch (e) {}
+        var filled = 0;
+        QUESTIONS.forEach(function (qq) {
+          var el = document.getElementById('answer_' + qq.id);
+          if (el && el.value.trim().length > 0) filled++;
+        });
+        updateDots(filled < QUESTIONS.length ? filled : QUESTIONS.length - 1);
+      });
+
+      var hint = document.createElement('div');
+      hint.className = 'q-hint';
+      hint.textContent = 'Немає правильної відповіді — пишіть чесно';
+
+      card.appendChild(numRow);
+      card.appendChild(textarea);
+      card.appendChild(hint);
+      container.appendChild(card);
+    });
+  }
+
+  /* ---- Save action ---- */
+  saveBtn.addEventListener('click', function () {
+    /* Collect meta */
+    var name   = document.getElementById('metaName')  ? document.getElementById('metaName').value   : '';
+    var date   = document.getElementById('metaDate')  ? document.getElementById('metaDate').value   : '';
+    var clinic = document.getElementById('metaClinic') ? document.getElementById('metaClinic').value : '';
+
+    /* Collect answers */
+    var data = {
+      meta: { name: name, date: date, clinic: clinic },
+      answers: {},
+      savedAt: new Date().toISOString()
+    };
+
+    QUESTIONS.forEach(function (q) {
+      var el = document.getElementById('answer_' + q.id);
+      data.answers[q.id] = el ? el.value : '';
+      try { localStorage.setItem('sa_' + q.id, data.answers[q.id]); } catch (e) {}
+    });
+
+    try { localStorage.setItem('sa_meta', JSON.stringify(data.meta)); } catch (e) {}
+    try { localStorage.setItem('sa_savedAt', data.savedAt); } catch (e) {}
+
+    /* Show confirmation */
+    formWrap.style.display = 'none';
+    confirmation.classList.add('is-visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ---- Init ---- */
+  buildDots();
+  buildQuestions();
+
+  /* Pre-fill date with today */
+  var metaDate = document.getElementById('metaDate');
+  if (metaDate && !metaDate.value) {
+    try {
+      var saved = JSON.parse(localStorage.getItem('sa_meta') || '{}');
+      if (saved.date) {
+        metaDate.value = saved.date;
+      } else {
+        var today = new Date();
+        var yyyy = today.getFullYear();
+        var mm   = String(today.getMonth() + 1).padStart(2, '0');
+        var dd   = String(today.getDate()).padStart(2, '0');
+        metaDate.value = yyyy + '-' + mm + '-' + dd;
+      }
+    } catch (e) {}
+  }
+
+  /* Pre-fill meta */
+  try {
+    var savedMeta = JSON.parse(localStorage.getItem('sa_meta') || '{}');
+    if (savedMeta.name)   { document.getElementById('metaName').value   = savedMeta.name; }
+    if (savedMeta.clinic) { document.getElementById('metaClinic').value = savedMeta.clinic; }
+  } catch (e) {}
+
+  /* Update initial dot state */
+  var initialFilled = 0;
+  QUESTIONS.forEach(function (q) {
+    var el = document.getElementById('answer_' + q.id);
+    if (el && el.value.trim().length > 0) initialFilled++;
+  });
+  updateDots(initialFilled < QUESTIONS.length ? initialFilled : 0);
+
+}());
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Модуль 1 — Довіра в кріслі · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="presentation" id="presentation">
+
+  <!-- Module progress bar -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Navigation arrows -->
+  <button class="nav-btn nav-btn--prev" id="btnPrev" aria-label="Попередній слайд">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <button class="nav-btn nav-btn--next" id="btnNext" aria-label="Наступний слайд">
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <!-- Slide counter -->
+  <div class="slide-counter" id="slideCounter">1 / 18</div>
+
+
+  <!-- ================================================================
+       SLIDE 1 — TITLE
+       ================================================================ -->
+  <section class="slide slide-title" data-slide="1">
+    <div class="slide__inner">
+
+      <div class="title-module-badge animate-in">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2C6.5 2 4 6 4 9c0 2.5 1 5 2 7.5S8 21 9 22c.5.5 1 .5 1.5 0 .5-.5.5-1 .5-2s0-2.5 1-2.5 1 1.5 1 2.5 0 1.5.5 2c.5.5 1 .5 1.5 0 1-1 2-2.5 3-5s2-5 2-7.5c0-3-2.5-7-8-7z"/>
+        </svg>
+        МОДУЛЬ 1
+      </div>
+
+      <p class="title-eyebrow animate-in">Курс для лікарів-стоматологів</p>
+
+      <h1 class="animate-in">
+        Довіра<br/>
+        <span class="accent">в кріслі</span>
+      </h1>
+
+      <p class="title-subtitle animate-in">
+        Чому пацієнт повертається до лікаря — і як це побудувати під час кожного прийому
+      </p>
+
+      <div class="title-meta animate-in">
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          18 слайдів
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          30 хвилин
+        </span>
+        <span class="title-meta-item">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Модуль 2 з 6
+        </span>
+      </div>
+
+    </div>
+
+    <div class="title-decoration">
+      <svg viewBox="0 0 100 120" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5C28 5 18 22 18 36c0 10 4 20 8 30s7 20 10 28c1.5 4 3 5 5 5s3-1.5 4-5c1-3 1.5-8 5-8s4 5 5 8c1 3.5 2.5 5 4 5s3.5-1 5-5c3-8 6-18 10-28s8-20 8-30c0-14-10-31-32-31z"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 2 — STAT: 78%
+       ================================================================ -->
+  <section class="slide slide-stat" data-slide="2">
+    <div class="slide__inner">
+
+      <p class="stat-label-top animate-in">Головна цифра цього модуля</p>
+
+      <div class="stat-number stat--success animate-in" data-target="78" data-suffix="%">0%</div>
+
+      <div class="stat-divider animate-in" style="background: var(--gradient-success);"></div>
+
+      <h2 class="stat-headline animate-in">пацієнтів повертаються до клініки через конкретного лікаря</h2>
+
+      <p class="stat-description animate-in">
+        Не через рекламу. Не через ціни. Не через розташування.<br/>
+        <strong style="color:var(--color-text-primary);">Через вас.</strong>
+      </p>
+
+      <div class="stat-grid animate-in">
+        <div class="stat-grid-item" style="border-color:rgba(16,185,129,0.30); background:rgba(16,185,129,0.05);">
+          <span class="stat-value" style="background:var(--gradient-success); -webkit-background-clip:text; background-clip:text;">78%</span>
+          <span class="stat-unit">Через лікаря</span>
+        </div>
+        <div class="stat-grid-item" style="border-color:rgba(245,158,11,0.30); background:rgba(245,158,11,0.05);">
+          <span class="stat-value" style="background:linear-gradient(135deg,#f59e0b,#d97706); -webkit-background-clip:text; background-clip:text;">15%</span>
+          <span class="stat-unit">Зручність / ціна</span>
+        </div>
+        <div class="stat-grid-item" style="border-color:rgba(37,99,235,0.30); background:rgba(37,99,235,0.05);">
+          <span class="stat-value" style="background:var(--gradient-blue); -webkit-background-clip:text; background-clip:text;">7%</span>
+          <span class="stat-unit">Реклама / рекомендація</span>
+        </div>
+      </div>
+
+      <!-- Context: реальні показники клініки vs галузь -->
+      <div class="animate-in" style="margin-top:var(--space-6); padding:var(--space-5) var(--space-6); background:var(--color-light-bg); border:1px solid var(--color-border); border-radius:var(--radius-xl); display:flex; flex-direction:column; gap:var(--space-3);">
+        <p style="font-size:var(--font-size-xs); font-weight:var(--font-weight-bold); letter-spacing:0.12em; text-transform:uppercase; color:var(--color-text-muted);">Контекст: повторність пацієнтів</p>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:var(--space-3);">
+          <div style="padding:var(--space-3) var(--space-4); background:rgba(239,68,68,0.06); border:1px solid rgba(239,68,68,0.20); border-radius:var(--radius-md); display:flex; flex-direction:column; gap:2px;">
+            <span style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">Наш показник</span>
+            <span style="font-size:var(--font-size-lg); font-weight:var(--font-weight-black); color:#dc2626;">32–50%</span>
+          </div>
+          <div style="padding:var(--space-3) var(--space-4); background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.20); border-radius:var(--radius-md); display:flex; flex-direction:column; gap:2px;">
+            <span style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">Норма галузі</span>
+            <span style="font-size:var(--font-size-lg); font-weight:var(--font-weight-black); color:#d97706;">60%+</span>
+          </div>
+          <div style="padding:var(--space-3) var(--space-4); background:rgba(14,165,233,0.06); border:1px solid rgba(14,165,233,0.20); border-radius:var(--radius-md); display:flex; flex-direction:column; gap:2px;">
+            <span style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">Топ-клініки</span>
+            <span style="font-size:var(--font-size-lg); font-weight:var(--font-weight-black); color:#0284c7;">70%+</span>
+          </div>
+          <div style="padding:var(--space-3) var(--space-4); background:rgba(16,185,129,0.08); border:1.5px solid rgba(16,185,129,0.30); border-radius:var(--radius-md); display:flex; flex-direction:column; gap:2px;">
+            <span style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">Ціль після курсу</span>
+            <span style="font-size:var(--font-size-lg); font-weight:var(--font-weight-black); color:#059669;">60–70%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 3 — STAT: 40% (dark)
+       ================================================================ -->
+  <section class="slide slide-formula" data-slide="3">
+    <div class="slide__inner">
+
+      <p class="animate-in" style="font-size:var(--font-size-sm); font-weight:var(--font-weight-semibold); letter-spacing:0.15em; text-transform:uppercase; color:rgba(255,255,255,0.45);">Ще одна важлива цифра</p>
+
+      <div class="animate-in" style="font-size:clamp(5rem,18vw,12rem); font-weight:900; line-height:1; letter-spacing:-0.04em; background:var(--gradient-warm); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;" data-target="40" data-suffix="%" id="stat40">0%</div>
+
+      <h2 class="animate-in" style="font-size:clamp(var(--font-size-xl),3vw,var(--font-size-3xl)); color:var(--color-white);">пацієнтів забирає лікар коли звільняється і переходить в іншу клініку</h2>
+
+      <p class="animate-in" style="font-size:var(--font-size-md); color:rgba(255,255,255,0.65); max-width:56ch; line-height:var(--line-height-relaxed);">
+        Це доводить: зв'язок «пацієнт–лікар» сильніший за зв'язок «пацієнт–клініка»
+      </p>
+
+      <div class="animate-in" style="padding:var(--space-5) var(--space-6); background:rgba(245,158,11,0.14); border:1.5px solid rgba(245,158,11,0.35); border-radius:var(--radius-xl); max-width:640px;">
+        <div style="display:flex; gap:var(--space-3); align-items:flex-start;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <p style="font-size:var(--font-size-base); color:rgba(255,255,255,0.90); line-height:var(--line-height-relaxed);">
+            Це означає, що ви — <strong style="color:#fbbf24;">найцінніший актив мережі</strong>. І найбільша відповідальність.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 4 — PARADOX OF TRUST (comparison)
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="4">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <h2>Парадокс <span class="accent">довіри</span></h2>
+      </div>
+
+      <div class="comparison animate-in">
+        <div class="comparison-side comparison-side--bad">
+          <div class="comparison-label">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Лікар А
+          </div>
+          <p class="comparison-text">8 років досвіду. Видатна кваліфікація. Мовчить під час роботи. Не пояснює процедури. Поспішає.</p>
+          <div style="display:flex; gap:var(--space-3); align-items:center; padding:var(--space-4); background:rgba(239,68,68,0.08); border-radius:var(--radius-lg);">
+            <div style="font-size:2.5rem; font-weight:900; color:#dc2626; letter-spacing:-0.03em;">38%</div>
+            <div>
+              <p style="font-size:var(--font-size-sm); font-weight:var(--font-weight-semibold); color:var(--color-text-primary);">Повторність пацієнтів</p>
+              <p style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">На рівні «нижче норми»</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-side comparison-side--good">
+          <div class="comparison-label">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Лікар Б
+          </div>
+          <p class="comparison-text">4 роки досвіду. Хороша кваліфікація. Пояснює кожен крок. Запитує про відчуття. Пам'ятає деталі.</p>
+          <div style="display:flex; gap:var(--space-3); align-items:center; padding:var(--space-4); background:rgba(16,185,129,0.10); border-radius:var(--radius-lg);">
+            <div style="font-size:2.5rem; font-weight:900; color:#059669; letter-spacing:-0.03em;">74%</div>
+            <div>
+              <p style="font-size:var(--font-size-sm); font-weight:var(--font-weight-semibold); color:var(--color-text-primary);">Повторність пацієнтів</p>
+              <p style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">Вдвічі більше ніж Лікар А</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box highlight-box--info animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Ключовий інсайт</p>
+          <p class="highlight-box__text">Пацієнт не може оцінити якість вашої роботи технічно. Він оцінює ВАС як людину.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 5 — 4 THINGS THAT BUILD TRUST
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="5">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <h2>4 речі які <span class="accent">будують довіру</span> в кріслі</h2>
+      </div>
+
+      <div class="animate-in" style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-5);">
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-6); background:var(--color-white); border:1.5px solid rgba(37,99,235,0.15); border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
+          <div style="width:48px; height:48px; border-radius:var(--radius-lg); background:rgba(37,99,235,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.5rem;">🗣️</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-2);">Пояснення</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Розповідаєте що робите і навіщо. Пацієнт не боїться невідомості.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-6); background:var(--color-white); border:1.5px solid rgba(16,185,129,0.18); border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
+          <div style="width:48px; height:48px; border-radius:var(--radius-lg); background:rgba(16,185,129,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.5rem;">🤝</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-2);">Увага до відчуттів</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Питаєте «як ви себе почуваєте?», «є дискомфорт?». Пацієнт відчуває контроль.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-6); background:var(--color-white); border:1.5px solid rgba(245,158,11,0.20); border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
+          <div style="width:48px; height:48px; border-radius:var(--radius-lg); background:rgba(245,158,11,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.5rem;">⏱️</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-2);">Темп без поспіху</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Пацієнт відчуває що він важливий, а не «наступний у черзі».</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-6); background:var(--color-white); border:1.5px solid rgba(14,165,233,0.18); border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
+          <div style="width:48px; height:48px; border-radius:var(--radius-lg); background:rgba(14,165,233,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.5rem;">🧠</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-2);">Пам'ять про деталі</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Ви пам'ятаєте ім'я дитини, відпустку, минулу скаргу. Пацієнт відчуває себе людиною, не карткою.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 6 — 4 THINGS THAT BREAK TRUST
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="6">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <h2>4 речі які <span style="color:var(--color-danger);">руйнують довіру</span> — і лікарі часто їх не помічають</h2>
+      </div>
+
+      <div class="animate-in" style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-4);">
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-5) var(--space-6); background:rgba(239,68,68,0.04); border:1.5px solid rgba(239,68,68,0.18); border-radius:var(--radius-xl);">
+          <div style="width:44px; height:44px; border-radius:var(--radius-lg); background:rgba(239,68,68,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.3rem;">🤐</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-1);">Мовчазна робота</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Ви працюєте, пацієнт лежить у тиші і не розуміє що відбувається.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-5) var(--space-6); background:rgba(239,68,68,0.04); border:1.5px solid rgba(239,68,68,0.18); border-radius:var(--radius-xl);">
+          <div style="width:44px; height:44px; border-radius:var(--radius-lg); background:rgba(239,68,68,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.3rem;">💬</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-1);">Розмови з асистентом</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Обговорення стороннього під час процедури: пацієнт відчуває що він заважає.</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-5) var(--space-6); background:rgba(239,68,68,0.04); border:1.5px solid rgba(239,68,68,0.18); border-radius:var(--radius-xl);">
+          <div style="width:44px; height:44px; border-radius:var(--radius-lg); background:rgba(239,68,68,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.3rem;">⚡</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-1);">Поспіх</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Рухи швидкі, відповіді короткі — відчуття «конвеєра».</p>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-4); align-items:flex-start; padding:var(--space-5) var(--space-6); background:rgba(239,68,68,0.04); border:1.5px solid rgba(239,68,68,0.18); border-radius:var(--radius-xl);">
+          <div style="width:44px; height:44px; border-radius:var(--radius-lg); background:rgba(239,68,68,0.10); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.3rem;">⚠️</div>
+          <div>
+            <p style="font-size:var(--font-size-base); font-weight:var(--font-weight-bold); color:var(--color-text-primary); margin-bottom:var(--space-1);">Суперечності</p>
+            <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Лікар сказав одне, адміністратор інше. Довіра руйнується миттєво.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--danger animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Зверніть увагу</p>
+          <p class="highlight-box__text">Більшість цих помилок лікарі роблять не навмисно — просто через звичку і завантаженість.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 7 — SCRIPT: phrases during procedure
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="7">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--blue">Скрипти</span>
+        <h2>Що говорити під час процедури — <span class="accent">конкретні фрази</span></h2>
+      </div>
+
+      <div class="animate-in" style="display:flex; flex-direction:column; gap:var(--space-4);">
+
+        <!-- On start -->
+        <div style="background:var(--color-white); border:1px solid var(--color-border); border-left:4px solid var(--color-primary-blue); border-radius:var(--radius-xl); padding:var(--space-5) var(--space-6); box-shadow:var(--shadow-sm);">
+          <p style="font-size:var(--font-size-xs); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:var(--color-primary-blue); margin-bottom:var(--space-3);">На початку</p>
+          <div class="script-box">
+            <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-2);">
+              <div class="avatar-label avatar-label--doctor">
+                <div class="avatar-icon">
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <span class="avatar-name">Лікар</span>
+              </div>
+            </div>
+            <div class="speech-bubble speech-bubble--doctor">«Зараз я зроблю анестезію — відчуєте легкий укол. Якщо буде дискомфорт — підніміть руку, я одразу зупинюся.»</div>
+          </div>
+        </div>
+
+        <!-- During work -->
+        <div style="background:var(--color-white); border:1px solid var(--color-border); border-left:4px solid var(--color-success); border-radius:var(--radius-xl); padding:var(--space-5) var(--space-6); box-shadow:var(--shadow-sm);">
+          <p style="font-size:var(--font-size-xs); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:#059669; margin-bottom:var(--space-3);">Під час роботи</p>
+          <div class="script-box">
+            <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-2);">
+              <div class="avatar-label avatar-label--doctor">
+                <div class="avatar-icon">
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <span class="avatar-name">Лікар</span>
+              </div>
+            </div>
+            <div class="speech-bubble speech-bubble--doctor">«Ми зараз на середині — все йде добре, ще приблизно 15 хвилин. Ви чудово переносите процедуру.»</div>
+          </div>
+        </div>
+
+        <!-- Step explanation -->
+        <div style="background:var(--color-white); border:1px solid var(--color-border); border-left:4px solid var(--color-accent-teal); border-radius:var(--radius-xl); padding:var(--space-5) var(--space-6); box-shadow:var(--shadow-sm);">
+          <p style="font-size:var(--font-size-xs); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:#0284c7; margin-bottom:var(--space-3);">Пояснення кроку</p>
+          <div class="script-box">
+            <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-2);">
+              <div class="avatar-label avatar-label--doctor">
+                <div class="avatar-icon">
+                  <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <span class="avatar-name">Лікар</span>
+              </div>
+            </div>
+            <div class="speech-bubble speech-bubble--doctor">«Зараз я ставлю коффердам — це гумова накладка, щоб ізолювати зуб. Трохи незвично, але це для вашої безпеки.»</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--success animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Результат</p>
+          <p class="highlight-box__text">Кожна така фраза — це <strong>-1 одиниця тривоги</strong> пацієнта і <strong>+1 до рівня довіри</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 8 — TECHNIQUE: Small anchors
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="8">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--teal">Техніка</span>
+        <h2>«Маленькі якорі» — як <span class="accent">пам'ятати пацієнта</span></h2>
+      </div>
+
+      <div class="animate-in" style="padding:var(--space-4) var(--space-6); background:rgba(14,165,233,0.07); border:1px solid rgba(14,165,233,0.20); border-radius:var(--radius-xl);">
+        <p style="font-size:var(--font-size-md); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">
+          <strong>Якір</strong> — це деталь з попереднього спілкування яку ви запам'ятали і згадали при наступній зустрічі
+        </p>
+      </div>
+
+      <div class="animate-in" style="display:flex; flex-direction:column; gap:var(--space-3);">
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Пам'ятаю, минулого разу ви казали що маєте відпустку в серпні — як відпочили?»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Ваша донька вже пішла до школи цього вересня? Ви казали що хвилювалися через це...»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon">
+                <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Як ваш зуб — той що ми лікували три місяці тому? Більше не турбує?»</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--warning animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Де записувати якорі</p>
+          <p class="highlight-box__text">Нотатки в CRM після кожного прийому. <strong>1–2 речення. 30 секунд.</strong></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 9 — SCRIPT: First 2 minutes with new patient
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="9">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--amber">Скрипт</span>
+        <h2>Перші 2 хвилини з первинним пацієнтом — <span class="accent">золотий час</span></h2>
+      </div>
+
+      <div class="animate-in" style="display:flex; flex-direction:column; gap:var(--space-3);">
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Вітаю, я Олена Вікторівна — ваш лікар сьогодні. Розкажіть, що вас привело до нас?»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--patient">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Пацієнт</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--patient">«У мене болить зуб вже тиждень, не міг записатися раніше...»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Розумію — тиждень з болем це дуже некомфортно. Зараз розберемося. Скажіть, біль постійний чи виникає від чогось — від холодного, від тиску?»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--patient">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Пацієнт</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--patient">«В основному від холодного і коли жую»</div>
+        </div>
+
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Лікар</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Добре, це важлива інформація. Зараз я уважно подивлюся — спочатку зовнішньо, потім зробимо знімок якщо потрібно. Розташовуйтесь зручніше.»</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box highlight-box--info animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Зверніть увагу</p>
+          <p class="highlight-box__text">Лікар підтвердив відчуття пацієнта («тиждень з болем — некомфортно»), задав уточнюючі питання, пояснив що буде далі.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 10 — SYSTEM: 1 minute after appointment
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="10">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--green">Система</span>
+        <h2>«1 хвилина після прийому»</h2>
+      </div>
+
+      <div class="timeline animate-in">
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:rgba(37,99,235,0.15); color:var(--color-primary-blue); box-shadow:none; border:2px solid rgba(37,99,235,0.30);">1</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Прийом завершено</p>
+            <p class="timeline-desc">Пацієнт задоволений, процедура виконана.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node">2</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Поки пацієнт одягається</p>
+            <p class="timeline-desc">Відкриваєте CRM або нотатки — до того як прийшов наступний пацієнт.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:var(--gradient-teal);">3</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Записуєте 3 речі</p>
+            <p class="timeline-desc">Ім'я, 1–2 особисті деталі зі спілкування, настрій пацієнта.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:var(--gradient-success);">4</div>
+          <div class="timeline-body">
+            <p class="timeline-title">На наступному прийомі</p>
+            <p class="timeline-desc">Читаєте нотатку за 1 хвилину до того як зайти — і вже «знаєте» пацієнта.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="animate-in" style="padding:var(--space-5) var(--space-6); background:rgba(37,99,235,0.06); border:1.5px solid rgba(37,99,235,0.18); border-radius:var(--radius-xl);">
+        <p style="font-size:var(--font-size-xs); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:var(--color-primary-blue); margin-bottom:var(--space-2);">Приклад нотатки</p>
+        <p style="font-size:var(--font-size-base); color:var(--color-text-primary); line-height:var(--line-height-relaxed); font-style:italic;">«Марина Коваленко: донька Аня (6 р.), переживала через перший зуб під анестезією, дуже тривожна пацієнтка, реагує добре на детальні пояснення. Лікування каналів — наступний етап через 2 тижні.»</p>
+      </div>
+
+      <div class="highlight-box highlight-box--success animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">ROI цієї хвилини</p>
+          <p class="highlight-box__text">Ця хвилина коштує <strong>56 000 грн LTV</strong>.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 11 — CASE STUDY: Two doctors, one clinic
+       ================================================================ -->
+  <section class="slide slide-case" data-slide="11">
+    <div class="slide__inner">
+
+      <div class="case-header animate-in">
+        <div class="tags-row">
+          <span class="tag">Кейс клініки</span>
+          <span class="tag tag--red">-38% повторності</span>
+          <span class="tag tag--gray">Один і той самий потік пацієнтів</span>
+        </div>
+        <h2>Два лікарі, одна клініка</h2>
+      </div>
+
+      <div class="case-panel case-panel--danger animate-in">
+        <span class="case-panel-label">Лікар А · 8 років досвіду</span>
+        <h3>Технічно відмінний. Майже не розмовляє під час роботи.</h3>
+        <p>Після прийому завжди каже одне: «Ну, все зробили.» Наступний крок не пояснює. Пацієнт виходить без відчуття контакту.</p>
+        <div style="display:flex; gap:var(--space-4);">
+          <div style="background:rgba(239,68,68,0.08); border-radius:var(--radius-md); padding:var(--space-3) var(--space-4); flex:1;">
+            <div style="font-size:2rem; font-weight:900; color:#dc2626;">41%</div>
+            <div style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">повторність пацієнтів</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-panel case-panel--success animate-in">
+        <span class="case-panel-label">Лікар Б · 4 роки досвіду</span>
+        <h3>Пояснює кожен крок. Пам'ятає що пацієнтка боялась болю.</h3>
+        <p>Після прийому: «Ви чудово перенесли — найскладніше позаду. Через 2 тижні завершимо.» Пацієнт виходить з відчуттям турботи.</p>
+        <div style="display:flex; gap:var(--space-4);">
+          <div style="background:rgba(16,185,129,0.08); border-radius:var(--radius-md); padding:var(--space-3) var(--space-4); flex:1;">
+            <div style="font-size:2rem; font-weight:900; color:#059669;">79%</div>
+            <div style="font-size:var(--font-size-xs); color:var(--color-text-secondary);">повторність пацієнтів</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box highlight-box--warning animate-in" style="grid-column:1/-1;">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Фінансова різниця</p>
+          <p class="highlight-box__text">Різниця в повторності — 38%. При однаковому потоці пацієнтів на рік — це <strong>сотні тисяч гривень різниці</strong> в доходах.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 12 — Anxious patient protocol
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="12">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <span class="badge badge--red">Протокол</span>
+        <h2>Тривожний пацієнт — <span style="color:var(--color-danger);">особливий протокол</span></h2>
+      </div>
+
+      <div class="comparison animate-in">
+        <div class="comparison-side" style="background:rgba(239,68,68,0.04); border:1.5px solid rgba(239,68,68,0.20); border-radius:var(--radius-xl); padding:var(--space-6);">
+          <p style="font-size:var(--font-size-xs); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:#dc2626; margin-bottom:var(--space-4);">Ознаки тривожного пацієнта</p>
+          <div style="display:flex; flex-direction:column; gap:var(--space-3);">
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#ef4444; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Напружені руки, стислі щелепи</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#ef4444; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Надмірні уточнення («а це боляче буде?»)</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#ef4444; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Відтягування («може наступного разу?»)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="comparison-side comparison-side--good">
+          <div class="comparison-label">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Що робити
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-2);">
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#10b981; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Уповільніть темп мовлення</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#10b981; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Дайте більше пояснень ніж зазвичай</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#10b981; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Встановіть сигнал зупинки (підняти руку)</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#10b981; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">Похваліть після кожного кроку</p>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:var(--space-3);">
+              <div style="width:6px; height:6px; border-radius:50%; background:#ef4444; flex-shrink:0; margin-top:6px;"></div>
+              <p style="font-size:var(--font-size-sm); color:var(--color-text-secondary); line-height:var(--line-height-relaxed);">Не кажіть «не бійтесь» — це <strong>не працює</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="animate-in">
+        <div class="script-box">
+          <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-2);">
+            <div class="avatar-label avatar-label--doctor">
+              <div class="avatar-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <span class="avatar-name">Фраза для тривожного пацієнта</span>
+            </div>
+          </div>
+          <div class="speech-bubble speech-bubble--doctor">«Я бачу що ви трохи хвилюєтесь — це абсолютно нормально, більшість людей так почуваються. Ми будемо рухатись у вашому темпі. Якщо буде будь-який дискомфорт — підніміть руку і я одразу зупинюся. Домовились?»</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 13 — Last 2 minutes of appointment
+       ================================================================ -->
+  <section class="slide slide-content" data-slide="13">
+    <div class="slide__inner">
+
+      <div class="slide-header animate-in">
+        <h2>Останні 2 хвилини — вирішують чи <span class="accent">повернеться пацієнт</span></h2>
+      </div>
+
+      <div class="comparison animate-in">
+        <div class="comparison-side comparison-side--bad">
+          <div class="comparison-label">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Погано
+          </div>
+          <div class="script-box">
+            <div class="speech-bubble" style="border-color:rgba(239,68,68,0.25); border-left:4px solid #ef4444;">
+              «Ну, все. До побачення. Якщо щось — телефонуйте.»
+            </div>
+          </div>
+          <p class="comparison-note">Короткий, без емоцій, без наступного кроку. Пацієнт виходить у невизначеність.</p>
+        </div>
+
+        <div class="comparison-side comparison-side--good">
+          <div class="comparison-label">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Добре (45 секунд)
+          </div>
+          <div style="display:flex; flex-direction:column; gap:var(--space-2);">
+            <div style="padding:var(--space-3) var(--space-4); background:rgba(16,185,129,0.08); border-radius:var(--radius-lg); font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">«Сьогодні ми зробили складну частину — ви чудово трималися.»</div>
+            <div style="padding:var(--space-3) var(--space-4); background:rgba(16,185,129,0.08); border-radius:var(--radius-lg); font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">«Через 2 тижні завершимо — залишилося небагато.»</div>
+            <div style="padding:var(--space-3) var(--space-4); background:rgba(16,185,129,0.08); border-radius:var(--radius-lg); font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed);">«Якщо буде будь-який дискомфорт — зателефонуйте в клініку, адміністратор з'єднає з лікарем.»</div>
+            <div style="padding:var(--space-3) var(--space-4); background:rgba(16,185,129,0.12); border-radius:var(--radius-lg); font-size:var(--font-size-sm); color:var(--color-text-primary); line-height:var(--line-height-relaxed); border:1px solid rgba(16,185,129,0.25);">«Марино, запишіть [ім'я пацієнта] на [дату] — наступний етап.»</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box highlight-box--success animate-in">
+        <div class="highlight-box__icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="highlight-box__content">
+          <p class="highlight-box__title">Всього 45 секунд</p>
+          <p class="highlight-box__text">Ці 4 речення займають 45 секунд і вирішують чи повернеться людина.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 14 — QUIZ: Situation 1
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="14">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <p class="test-label">Перевірте себе · Ситуація 1</p>
+        <h2 class="test-question">Пацієнт лежить у кріслі, ви починаєте роботу. Пацієнт мовчить, виглядає напружено. Що робите?</h2>
+      </div>
+
+      <div class="test-options animate-in" id="quiz14">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz14', 'exp14')">
+          <span class="option-letter">A</span>
+          <span class="option-text">Продовжуєте працювати — він сам скаже якщо щось не так</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz14', 'exp14')">
+          <span class="option-letter">Б</span>
+          <span class="option-text">Питаєте «Вам не боляче?» і продовжуєте</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz14', 'exp14')">
+          <span class="option-letter">В</span>
+          <span class="option-text">Пояснюєте що зараз будете робити, питаєте про відчуття, встановлюєте сигнал зупинки</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz14', 'exp14')">
+          <span class="option-letter">Г</span>
+          <span class="option-text">Пришвидшуєте роботу щоб швидше закінчити</span>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal" id="exp14">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильна відповідь: В.</strong> Напруженість пацієнта — це сигнал. Пояснення + увага до відчуттів + сигнал зупинки («підніміть руку») — це три кроки які одразу знижують тривогу і будують довіру. Мовчазна робота або поспіх лише посилюють стрес.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 15 — QUIZ: Situation 2
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="15">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <p class="test-label">Перевірте себе · Ситуація 2</p>
+        <h2 class="test-question">Пацієнт прийшов вдруге. При першому прийомі він згадував що боїться болю і що його донька хворіє. Що ви скажете на початку?</h2>
+      </div>
+
+      <div class="test-options animate-in" id="quiz15">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz15', 'exp15')">
+          <span class="option-letter">A</span>
+          <span class="option-text">«Добрий день, сідайте, продовжимо лікування»</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz15', 'exp15')">
+          <span class="option-letter">Б</span>
+          <span class="option-text">«Добрий день! Як донька — видужала?»</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz15', 'exp15')">
+          <span class="option-letter">В</span>
+          <span class="option-text">«Пам'ятаю ви боялися — але сьогодні не боляче буде»</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz15', 'exp15')">
+          <span class="option-letter">Г</span>
+          <span class="option-text">«Відкривайте рота, почнемо»</span>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal" id="exp15">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильна відповідь: Б.</strong> Це техніка «маленьких якорів». Ви запам'ятали особисту деталь і згадали її — пацієнт відчуває що він не просто «номер у черзі». Варіант В — помилка: акцентувати страх не варто, навіть у позитивному ключі.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 16 — QUIZ: Situation 3
+       ================================================================ -->
+  <section class="slide slide-test" data-slide="16">
+    <div class="slide__inner">
+
+      <div class="test-header animate-in">
+        <p class="test-label">Перевірте себе · Ситуація 3</p>
+        <h2 class="test-question">В середині складної процедури ваш асистент каже: «Лікарю, нагадую о 18:00 у вас є особиста зустріч». Що ви робите?</h2>
+      </div>
+
+      <div class="test-options animate-in" id="quiz16">
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz16', 'exp16')">
+          <span class="option-letter">A</span>
+          <span class="option-text">Відповідаєте асистенту детально</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz16', 'exp16')">
+          <span class="option-letter">Б</span>
+          <span class="option-text">Мовчки киваєте і продовжуєте</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, true, 'quiz16', 'exp16')">
+          <span class="option-letter">В</span>
+          <span class="option-text">Кажете асистенту «Давай після прийому» і одразу повертаєтесь до пацієнта: «Все добре, продовжуємо»</span>
+        </button>
+        <button class="test-option" onclick="handleQuiz(this, false, 'quiz16', 'exp16')">
+          <span class="option-letter">Г</span>
+          <span class="option-text">Робите паузу, записуєте нагадування</span>
+        </button>
+      </div>
+
+      <div class="test-answer-reveal" id="exp16">
+        <svg class="reveal-icon" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <p><strong>Правильна відповідь: В.</strong> Розмова з асистентом під час процедури — одна з головних помилок, що руйнують довіру. Пацієнт відчуває що він заважає. Правильний алгоритм: коротко перенести, одразу повернути фокус на пацієнта і <em>вербально</em> підтвердити це фразою.</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 17 — SUMMARY
+       ================================================================ -->
+  <section class="slide slide-summary" data-slide="17">
+    <div class="slide__inner">
+
+      <div class="summary-header animate-in">
+        <div class="summary-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div>
+          <span class="badge badge--blue" style="margin-bottom:var(--space-2);">Модуль 1 завершено</span>
+          <h2>Головне з Модуля 1</h2>
+        </div>
+      </div>
+
+      <div class="timeline animate-in">
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:var(--gradient-success);">1</div>
+          <div class="timeline-body">
+            <p class="timeline-title">78% пацієнтів повертаються через лікаря — ви головний чинник повторності</p>
+            <p class="timeline-desc">Не реклама, не ціна, не локація. Особисто ви.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node">2</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Довіра будується через: пояснення, увагу до відчуттів, темп, пам'ять про деталі</p>
+            <p class="timeline-desc">Чотири конкретні дії — жодної магії.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:var(--gradient-teal);">3</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Техніка «маленьких якорів» — 30 секунд запису після прийому, безцінний ефект</p>
+            <p class="timeline-desc">CRM-нотатка після кожного прийому: ім'я, деталь, настрій.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:linear-gradient(135deg,#f59e0b,#ef4444);">4</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Тривожний пацієнт — сповільнити темп, пояснити більше, дати контроль</p>
+            <p class="timeline-desc">«Підніміть руку» — найпотужніша фраза для тривожного пацієнта.</p>
+          </div>
+        </div>
+
+        <div class="timeline-step">
+          <div class="timeline-node" style="background:var(--gradient-blue);">5</div>
+          <div class="timeline-body">
+            <p class="timeline-title">Останні 2 хвилини прийому — вирішальний момент для повернення</p>
+            <p class="timeline-desc">45 секунд, 4 речення. Найдешевша «реклама» для вашої повторності.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================================================================
+       SLIDE 18 — HOMEWORK + NEXT (dark)
+       ================================================================ -->
+  <section class="slide slide-title" data-slide="18">
+    <div class="slide__inner">
+
+      <div class="title-module-badge animate-in">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Ваше завдання на цей тиждень
+      </div>
+
+      <h1 class="animate-in" style="font-size:clamp(var(--font-size-3xl),5vw,5rem);">
+        <span class="accent">Практика</span> —<br/>ваш єдиний вчитель
+      </h1>
+
+      <!-- Homework box -->
+      <div class="animate-in" style="max-width:660px; padding:var(--space-6); background:rgba(245,158,11,0.12); border:1.5px solid rgba(245,158,11,0.35); border-radius:var(--radius-xl);">
+        <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-4);">
+          <div style="width:28px; height:28px; border-radius:var(--radius-full); background:rgba(245,158,11,0.25); display:flex; align-items:center; justify-content:center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span style="font-size:var(--font-size-sm); font-weight:700; letter-spacing:0.10em; text-transform:uppercase; color:#fbbf24;">ДЗ на тиждень</span>
+        </div>
+        <p style="font-size:var(--font-size-base); color:rgba(255,255,255,0.90); line-height:var(--line-height-relaxed);">Після кожного прийому протягом <strong style="color:#fbbf24;">5 робочих днів</strong> — записуйте 1–2 особисті деталі про пацієнта в нотатки або CRM. Ім'я, деталь, настрій. Перевірте себе через тиждень — чи стало спілкування більш особистим?</p>
+      </div>
+
+      <!-- Two action items -->
+      <div class="animate-in" style="display:flex; flex-direction:column; gap:var(--space-3); max-width:560px;">
+        <div style="display:flex; align-items:flex-start; gap:var(--space-4); padding:var(--space-4) var(--space-5); background:rgba(16,185,129,0.10); border:1px solid rgba(16,185,129,0.25); border-radius:var(--radius-lg);">
+          <div style="width:28px; height:28px; border-radius:var(--radius-full); background:rgba(16,185,129,0.25); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p style="font-size:var(--font-size-base); color:rgba(255,255,255,0.85);">Починайте кожен прийом з пояснення що будете робити</p>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:var(--space-4); padding:var(--space-4) var(--space-5); background:rgba(16,185,129,0.10); border:1px solid rgba(16,185,129,0.25); border-radius:var(--radius-lg);">
+          <div style="width:28px; height:28px; border-radius:var(--radius-full); background:rgba(16,185,129,0.25); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <p style="font-size:var(--font-size-base); color:rgba(255,255,255,0.85);">Завершуйте кожен прийом подякою пацієнту за терпіння</p>
+        </div>
+      </div>
+
+      <!-- Next module hint -->
+      <div class="title-meta animate-in">
+        <span class="title-meta-item" style="color:rgba(255,255,255,0.60);">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          Модуль 2 → Протокол наступного візиту: як записати пацієнта ще в кріслі
+        </span>
+      </div>
+
+      <div class="animate-in">
+        <button id="btn-complete-module" onclick="completeModule('module-01')"
+          style="display:inline-flex;align-items:center;gap:0.625rem;padding:0.875rem 2rem;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:12px;font-size:0.9375rem;font-weight:700;color:#fff;cursor:pointer;transition:opacity 200ms ease-out;box-shadow:0 4px 16px rgba(5,150,105,0.35)">
+          ✓ Завершити модуль 1
+        </button>
+      </div>
+
+    </div>
+
+    <div class="title-decoration">
+      <svg viewBox="0 0 100 120" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 5C28 5 18 22 18 36c0 10 4 20 8 30s7 20 10 28c1.5 4 3 5 5 5s3-1.5 4-5c1-3 1.5-8 5-8s4 5 5 8c1 3.5 2.5 5 4 5s3.5-1 5-5c3-8 6-18 10-28s8-20 8-30c0-14-10-31-32-31z"/>
+      </svg>
+    </div>
+  </section>
+
+
+</div><!-- /.presentation -->
+
+
+<!-- ============================================================
+     JAVASCRIPT — Navigation, stat counters, quiz
+     ============================================================ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ---------------------------------------------------------------
+     1. STATE
+     --------------------------------------------------------------- */
+  const slides      = Array.from(document.querySelectorAll('.slide'));
+  const totalSlides = slides.length;
+  let currentIndex  = 0;
+
+  /* ---------------------------------------------------------------
+     2. DOM REFERENCES
+     --------------------------------------------------------------- */
+  const btnPrev      = document.getElementById('btnPrev');
+  const btnNext      = document.getElementById('btnNext');
+  const counter      = document.getElementById('slideCounter');
+  const progressFill = document.getElementById('progressFill');
+
+  /* ---------------------------------------------------------------
+     3. SLIDE TRANSITION
+     --------------------------------------------------------------- */
+  function goToSlide(newIndex) {
+    if (newIndex < 0 || newIndex >= totalSlides) return;
+
+    const prevSlide = slides[currentIndex];
+    const nextSlide = slides[newIndex];
+
+    prevSlide.classList.remove('slide--active');
+    prevSlide.classList.add('slide--prev');
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        nextSlide.classList.add('slide--active');
+        nextSlide.classList.remove('slide--prev');
+      });
+    });
+
+    prevSlide.addEventListener('transitionend', function cleanup() {
+      prevSlide.classList.remove('slide--prev');
+      prevSlide.removeEventListener('transitionend', cleanup);
+    });
+
+    currentIndex = newIndex;
+    updateUI();
+    triggerCounters(nextSlide);
+  }
+
+  /* ---------------------------------------------------------------
+     4. UPDATE NAV & PROGRESS
+     --------------------------------------------------------------- */
+  function updateUI() {
+    counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+    const pct = ((currentIndex + 1) / totalSlides) * 100;
+    progressFill.style.width = `${pct}%`;
+    btnPrev.classList.toggle('nav-btn--disabled', currentIndex === 0);
+    btnNext.classList.toggle('nav-btn--disabled', currentIndex === totalSlides - 1);
+  }
+
+  /* ---------------------------------------------------------------
+     5. STAT COUNTER ANIMATION
+     --------------------------------------------------------------- */
+  const animatedSlides = new Set();
+
+  function triggerCounters(slide) {
+    if (animatedSlides.has(slide)) return;
+    animatedSlides.add(slide);
+    slide.querySelectorAll('[data-target]').forEach(el => animateCounter(el));
+  }
+
+  function animateCounter(el) {
+    const rawTarget = el.dataset.target;
+    const target    = parseFloat(rawTarget.replace(/\s/g, ''));
+    const suffix    = el.dataset.suffix || '';
+    const isFloat   = rawTarget.includes('.');
+    const duration  = 1600;
+    const start     = performance.now();
+
+    function formatNum(n) {
+      if (n >= 1000) {
+        return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+      }
+      return isFloat ? n.toFixed(1) : Math.round(n).toString();
+    }
+
+    function update(now) {
+      const elapsed  = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease     = 1 - Math.pow(1 - progress, 3);
+      const current  = target * ease;
+
+      el.textContent = formatNum(current) + suffix;
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = formatNum(target) + suffix;
+      }
+    }
+
+    setTimeout(() => requestAnimationFrame(update), 350);
+  }
+
+  /* ---------------------------------------------------------------
+     6. QUIZ HANDLER (exposed globally for onclick)
+     --------------------------------------------------------------- */
+  window.handleQuiz = function(btn, isCorrect, quizId, expId) {
+    const container = document.getElementById(quizId);
+    const reveal    = document.getElementById(expId);
+
+    // Prevent re-clicking after answered
+    if (container.dataset.answered) return;
+    container.dataset.answered = 'true';
+
+    // Disable all options
+    container.querySelectorAll('.test-option').forEach(opt => {
+      opt.style.pointerEvents = 'none';
+    });
+
+    // Mark clicked option
+    if (isCorrect) {
+      btn.classList.add('option--correct');
+    } else {
+      btn.classList.add('option--wrong');
+      // Find and highlight the correct option
+      container.querySelectorAll('.test-option').forEach(opt => {
+        if (opt.getAttribute('onclick').includes('true')) {
+          opt.classList.add('option--correct');
+        }
+      });
+    }
+
+    // Show explanation
+    if (reveal) {
+      reveal.classList.add('revealed');
+      // Auto-scroll so mobile users see explanation
+      setTimeout(() => {
+        reveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    }
+  };
+
+  /* ---------------------------------------------------------------
+     7. EVENT LISTENERS
+     --------------------------------------------------------------- */
+  btnPrev.addEventListener('click', () => goToSlide(currentIndex - 1));
+  btnNext.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+  document.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        goToSlide(currentIndex - 1);
+        break;
+      case 'ArrowRight':
+      case 'ArrowDown':
+      case ' ':
+        e.preventDefault();
+        goToSlide(currentIndex + 1);
+        break;
+      case 'Home':
+        goToSlide(0);
+        break;
+      case 'End':
+        goToSlide(totalSlides - 1);
+        break;
+    }
+  });
+
+  /* Touch / swipe support */
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    const delta = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > 50) {
+      goToSlide(delta > 0 ? currentIndex + 1 : currentIndex - 1);
+    }
+  }, { passive: true });
+
+  /* ---------------------------------------------------------------
+     8. INIT
+     --------------------------------------------------------------- */
+  function init() {
+    if (slides.length > 0) {
+      slides[0].classList.add('slide--active');
+    }
+    updateUI();
+    triggerCounters(slides[0]);
+  }
+
+  init();
+
+})();
+</script>
+
+<script>window.DENTAL_SHOW_SESSION_BAR = true;</script>
+<script src="supabase-config.js"></script>
+<script src="tracking.js"></script>
+<script>
+function completeModule(key) {
+  var btn = document.getElementById('btn-complete-module');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Збереження...'; }
+  window.DentalTracking.saveProgress(key).then(function() {
+    window.DentalTracking.showCompletionToast('Модуль 1 завершено! Прогрес збережено ✓');
+    setTimeout(function() { window.location.href = 'index.html'; }, 2200);
+  });
+}
+</script>
+</body>
+</html>

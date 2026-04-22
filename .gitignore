@@ -1,0 +1,9 @@
+node_modules/
+.claude/
+_extracted_module-*.txt
+generate-pdfs.js
+package.json
+package-lock.json
+supabase-config.js
+tracking.js
+template-demo.html

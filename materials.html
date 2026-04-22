@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Допоміжні матеріали · Курс для лікарів-стоматологів</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ============================================================
+       MATERIALS PAGE — PAGE-SPECIFIC STYLES
+       ============================================================ */
+
+    body {
+      overflow: auto;
+      min-height: 100vh;
+      background: var(--color-primary-dark);
+    }
+
+    /* Ambient background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -15%; left: -8%;
+      width: 55%; height: 55%;
+      background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -15%; right: -8%;
+      width: 45%; height: 45%;
+      background: radial-gradient(circle, rgba(14,165,233,0.04) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .page-shell {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--space-10) var(--space-6) var(--space-20);
+      position: relative; z-index: 1;
+    }
+
+    /* ---- Page header ---- */
+    .page-header {
+      text-align: center;
+      margin-bottom: var(--space-10);
+    }
+    .page-header__badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: rgba(37,99,235,0.15);
+      border: 1px solid rgba(37,99,235,0.30);
+      color: #93c5fd;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-5);
+    }
+    .page-header__badge svg {
+      width: 12px; height: 12px;
+      stroke: currentColor; fill: none; stroke-width: 2.5;
+    }
+    .page-header h1 {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: var(--line-height-tight);
+      margin-bottom: var(--space-3);
+    }
+    .page-header p {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.50);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* ---- Tab nav ---- */
+    .tab-nav {
+      display: flex;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2);
+      margin-bottom: var(--space-8);
+      gap: var(--space-1);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      flex: 1;
+      min-width: max-content;
+      padding: var(--space-3) var(--space-5);
+      border-radius: var(--radius-lg);
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.50);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background var(--transition-fast),
+                  color var(--transition-fast);
+      letter-spacing: 0.01em;
+    }
+    .tab-btn:hover { color: rgba(255,255,255,0.80); }
+    .tab-btn.is-active {
+      background: var(--gradient-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.35);
+    }
+
+    /* ---- Tab panels ---- */
+    .tab-panel { display: none; }
+    .tab-panel.is-active { display: block; animation: panelIn 0.35s ease-out both; }
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- Section card ---- */
+    .section-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-10);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    .section-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+      line-height: var(--line-height-snug);
+    }
+    .section-subtitle {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.45);
+      line-height: var(--line-height-relaxed);
+      margin-bottom: var(--space-8);
+    }
+
+    /* ---- Print button ---- */
+    .btn-print {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      padding: var(--space-3) var(--space-5);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-lg);
+      color: rgba(255,255,255,0.70);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      font-family: var(--font-family);
+      cursor: pointer;
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast),
+                  color var(--transition-fast);
+      float: right;
+      margin-top: -var(--space-10);
+    }
+    .btn-print:hover {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.25);
+      color: #ffffff;
+    }
+    .btn-print svg {
+      width: 14px; height: 14px;
+      stroke: currentColor; fill: none; stroke-width: 2;
+    }
+    .section-header {
+      display: flex; align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+    .section-header-text {}
+
+    /* ====================================================
+       TAB 1 — SELF-ANALYSIS
+       ==================================================== */
+    .self-analysis-meta {
+      display: flex; gap: var(--space-4); flex-wrap: wrap;
+      margin-bottom: var(--space-8);
+    }
+    .meta-field {
+      display: flex; flex-direction: column; gap: var(--space-1);
+      flex: 1; min-width: 140px;
+    }
+    .meta-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .meta-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: var(--space-3) var(--space-4);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .meta-input:focus { border-color: rgba(37,99,235,0.55); }
+    .meta-input::placeholder { color: rgba(255,255,255,0.25); }
+
+    .analysis-question {
+      margin-bottom: var(--space-7);
+    }
+    .analysis-question:last-of-type { margin-bottom: 0; }
+    .analysis-q-label {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+    .analysis-q-num {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: var(--radius-sm);
+      background: var(--gradient-blue);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      color: #ffffff;
+      margin-top: 2px;
+    }
+    .analysis-q-text {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.85);
+      line-height: var(--line-height-relaxed);
+    }
+    .analysis-textarea {
+      width: 100%;
+      min-height: 90px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      line-height: var(--line-height-relaxed);
+      resize: vertical;
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .analysis-textarea:focus { border-color: rgba(37,99,235,0.50); }
+    .analysis-textarea::placeholder { color: rgba(255,255,255,0.20); }
+
+    .analysis-note {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(14,165,233,0.08);
+      border: 1px solid rgba(14,165,233,0.20);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-8);
+    }
+    .analysis-note svg {
+      flex-shrink: 0; width: 16px; height: 16px;
+      stroke: #38bdf8; fill: none; stroke-width: 2;
+      margin-top: 2px;
+    }
+    .analysis-note p {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.60);
+      line-height: var(--line-height-relaxed);
+    }
+
+    /* ====================================================
+       TAB 2 — TRACKER
+       ==================================================== */
+    .tracker-week-field {
+      display: flex; align-items: center; gap: var(--space-3);
+      margin-bottom: var(--space-6);
+    }
+    .tracker-week-label {
+      font-size: var(--font-size-base);
+      color: rgba(255,255,255,0.70);
+      font-weight: var(--font-weight-semibold);
+    }
+    .tracker-week-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-md);
+      padding: var(--space-2) var(--space-4);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      width: 200px; outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .tracker-week-input:focus { border-color: rgba(37,99,235,0.55); }
+    .tracker-week-input::placeholder { color: rgba(255,255,255,0.25); }
+
+    .tracker-table-wrap {
+      overflow-x: auto;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: var(--space-6);
+    }
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--font-size-sm);
+    }
+    .tracker-table th {
+      padding: var(--space-3) var(--space-4);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.45);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: left;
+      white-space: nowrap;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tracker-table td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.70);
+    }
+    .tracker-table tr:last-child td { border-bottom: none; }
+    .tracker-table tr.totals-row td {
+      background: rgba(37,99,235,0.07);
+      font-weight: var(--font-weight-semibold);
+      color: rgba(255,255,255,0.85);
+      border-top: 1px solid rgba(37,99,235,0.20);
+    }
+    .tracker-table td.day-label {
+      font-weight: var(--font-weight-semibold);
+      color: rgba(255,255,255,0.55);
+      min-width: 70px;
+    }
+    .tracker-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      width: 100%;
+      min-width: 80px;
+      padding: var(--space-1) var(--space-2);
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .tracker-input:focus { border-color: rgba(37,99,235,0.55); }
+    .tracker-input::placeholder { color: rgba(255,255,255,0.18); }
+    .pct-cell {
+      font-weight: var(--font-weight-bold);
+      color: #60a5fa;
+      min-width: 60px;
+    }
+
+    .tracker-target-box {
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: var(--space-4) var(--space-6);
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.22);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-8);
+    }
+    .tracker-target-box svg {
+      flex-shrink: 0; width: 18px; height: 18px;
+      stroke: #34d399; fill: none; stroke-width: 2;
+    }
+    .tracker-target-box p {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.65);
+      line-height: var(--line-height-relaxed);
+    }
+    .tracker-target-box strong { color: #6ee7b7; }
+
+    .tracker-reflection {
+      display: flex; flex-direction: column; gap: var(--space-5);
+    }
+    .reflection-item {}
+    .reflection-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: var(--space-2);
+    }
+    .reflection-area {
+      width: 100%;
+      min-height: 72px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      line-height: var(--line-height-relaxed);
+      resize: vertical; outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .reflection-area:focus { border-color: rgba(37,99,235,0.50); }
+    .reflection-area::placeholder { color: rgba(255,255,255,0.18); }
+
+    /* ====================================================
+       TAB 3 — DOCTOR CARD
+       ==================================================== */
+    .doctor-card-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+    }
+    @media (max-width: 640px) {
+      .doctor-card-wrap { grid-template-columns: 1fr; }
+    }
+
+    .card-block {
+      padding: var(--space-5) var(--space-6);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-lg);
+    }
+    .card-block--accent {
+      background: rgba(37,99,235,0.08);
+      border-color: rgba(37,99,235,0.22);
+    }
+    .card-block--danger {
+      background: rgba(239,68,68,0.07);
+      border-color: rgba(239,68,68,0.18);
+    }
+    .card-block--wide {
+      grid-column: 1 / -1;
+    }
+
+    .card-block-title {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+    .card-block--accent .card-block-title { color: #60a5fa; }
+    .card-block--danger .card-block-title { color: #f87171; }
+    .card-block:not(.card-block--accent):not(.card-block--danger) .card-block-title {
+      color: rgba(255,255,255,0.40);
+    }
+
+    .card-steps {
+      display: flex; flex-direction: column;
+      gap: var(--space-2);
+      counter-reset: step-counter;
+    }
+    .card-step {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      counter-increment: step-counter;
+    }
+    .card-step::before {
+      content: counter(step-counter);
+      flex-shrink: 0;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(37,99,235,0.25);
+      border: 1px solid rgba(37,99,235,0.40);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      color: #93c5fd;
+      margin-top: 2px;
+    }
+    .card-step span {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.70);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .card-highlight-box {
+      padding: var(--space-4) var(--space-5);
+      background: rgba(37,99,235,0.12);
+      border: 1px solid rgba(37,99,235,0.25);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-4);
+    }
+    .card-highlight-label {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: var(--space-1);
+    }
+    .card-highlight-text {
+      font-size: var(--font-size-sm);
+      color: #93c5fd;
+      font-weight: var(--font-weight-medium);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .card-objection-list {
+      display: flex; flex-direction: column;
+      gap: var(--space-3);
+    }
+    .card-objection {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+    }
+    .card-objection-trigger {
+      flex-shrink: 0;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      color: #fbbf24;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: var(--radius-sm);
+      padding: var(--space-1) var(--space-2);
+      white-space: nowrap;
+    }
+    .card-objection-response {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.65);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .card-phrase-list {
+      display: flex; flex-direction: column; gap: var(--space-2);
+    }
+    .card-phrase {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.65);
+      padding: var(--space-2) var(--space-3);
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius-sm);
+      border-left: 2px solid rgba(14,165,233,0.45);
+      line-height: var(--line-height-snug);
+    }
+    .card-phrase-killer {
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.55);
+      padding: var(--space-2) var(--space-3);
+      background: rgba(239,68,68,0.06);
+      border-radius: var(--radius-sm);
+      border-left: 2px solid rgba(239,68,68,0.35);
+      line-height: var(--line-height-snug);
+      text-decoration: line-through;
+      text-decoration-color: rgba(239,68,68,0.50);
+    }
+
+    .card-rec-list {
+      display: flex; flex-direction: column; gap: var(--space-3);
+    }
+    .card-rec-item {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+    }
+    .card-rec-dot {
+      flex-shrink: 0;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gradient-teal);
+      margin-top: 6px;
+    }
+    .card-rec-text { font-size: var(--font-size-sm); color: rgba(255,255,255,0.65); line-height: var(--line-height-relaxed); }
+    .card-rec-text strong { color: #7dd3fc; font-weight: var(--font-weight-semibold); }
+
+    /* ====================================================
+       TAB 4 — MANAGER CHECKLIST
+       ==================================================== */
+    .checklist-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-8);
+    }
+    @media (max-width: 580px) {
+      .checklist-meta { grid-template-columns: 1fr; }
+    }
+
+    .checklist-items {
+      display: flex; flex-direction: column;
+      gap: var(--space-2);
+      margin-bottom: var(--space-8);
+    }
+    .checklist-item {
+      display: flex; align-items: flex-start; gap: var(--space-4);
+      padding: var(--space-4) var(--space-5);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-md);
+      transition: background var(--transition-fast),
+                  border-color var(--transition-fast);
+    }
+    .checklist-item:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .checklist-num {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      color: rgba(255,255,255,0.40);
+      margin-top: 1px;
+    }
+    .checklist-text {
+      flex: 1;
+      font-size: var(--font-size-sm);
+      color: rgba(255,255,255,0.75);
+      line-height: var(--line-height-relaxed);
+    }
+    .checklist-radios {
+      flex-shrink: 0;
+      display: flex; gap: var(--space-2);
+      margin-top: 1px;
+    }
+
+    .radio-option {
+      display: flex; align-items: center; gap: var(--space-1);
+      cursor: pointer;
+    }
+    .radio-option input[type="radio"] {
+      appearance: none; -webkit-appearance: none;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.20);
+      background: transparent;
+      cursor: pointer;
+      transition: border-color var(--transition-fast),
+                  background var(--transition-fast);
+    }
+    .radio-option input[type="radio"]:checked { border-color: transparent; }
+    .radio-option.yes input[type="radio"]:checked   { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.25); }
+    .radio-option.no  input[type="radio"]:checked   { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.25); }
+    .radio-option.part input[type="radio"]:checked  { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.25); }
+    .radio-label {
+      font-size: 10px;
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .radio-option.yes  .radio-label { color: rgba(52,211,153,0.70); }
+    .radio-option.no   .radio-label { color: rgba(248,113,113,0.70); }
+    .radio-option.part .radio-label { color: rgba(251,191,36,0.70); }
+
+    /* Score display */
+    .checklist-score-row {
+      display: flex; align-items: center; gap: var(--space-4);
+      padding: var(--space-5) var(--space-6);
+      background: rgba(37,99,235,0.08);
+      border: 1px solid rgba(37,99,235,0.20);
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-6);
+    }
+    .score-num-big {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-black);
+      color: #60a5fa;
+      line-height: 1;
+      min-width: 60px;
+    }
+    .score-legend {
+      display: flex; flex-direction: column; gap: var(--space-1);
+    }
+    .score-legend-item {
+      font-size: var(--font-size-xs);
+      color: rgba(255,255,255,0.45);
+    }
+    .score-legend-item span { font-weight: var(--font-weight-semibold); }
+    .score-legend-item.pass span  { color: #34d399; }
+    .score-legend-item.ok span    { color: #fbbf24; }
+    .score-legend-item.fail span  { color: #f87171; }
+
+    .checklist-comments {
+      display: flex; flex-direction: column; gap: var(--space-5);
+    }
+    .comment-field label {
+      display: block;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: var(--space-2);
+    }
+    .comment-area {
+      width: 100%;
+      min-height: 72px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      color: rgba(255,255,255,0.80);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-family);
+      line-height: var(--line-height-relaxed);
+      resize: vertical; outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .comment-area:focus { border-color: rgba(37,99,235,0.50); }
+    .comment-area::placeholder { color: rgba(255,255,255,0.18); }
+
+    /* ====================================================
+       RESPONSIVE
+       ==================================================== */
+    @media (max-width: 600px) {
+      .page-shell { padding: var(--space-6) var(--space-4) var(--space-12); }
+      .section-card { padding: var(--space-6) var(--space-5); }
+      .tab-btn { font-size: 11px; padding: var(--space-2) var(--space-3); }
+      .checklist-radios { flex-direction: column; gap: var(--space-1); }
+    }
+
+    /* ====================================================
+       PRINT STYLES
+       ==================================================== */
+    @media print {
+      body { background: white; overflow: auto; }
+      body::before, body::after { display: none; }
+      .page-header, .tab-nav, .btn-print { display: none !important; }
+      .tab-panel { display: none !important; }
+      .tab-panel.print-target { display: block !important; }
+      .section-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+      }
+      .page-shell { max-width: 100%; padding: 0; }
+
+      /* Tab 3 — card: A5 two-column */
+      .doctor-card-wrap { break-inside: avoid; }
+
+      /* Color overrides for print */
+      .section-title { color: #0f172a; }
+      .section-subtitle { color: #64748b; }
+      .card-block-title { color: #1d4ed8 !important; }
+      .card-block-title.danger { color: #ef4444 !important; }
+      .card-step span { color: #334155; }
+      .card-highlight-text { color: #1d4ed8; }
+      .card-objection-trigger { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+      .card-objection-response { color: #334155; }
+      .card-phrase { background: #f0f9ff; border-color: #0ea5e9; color: #0f172a; }
+      .card-phrase-killer { background: #fff1f2; border-color: #ef4444; color: #64748b; }
+      .card-rec-text { color: #334155; }
+      .analysis-q-text { color: #0f172a; }
+      .analysis-textarea { background: white; border: 1px solid #cbd5e1; color: #0f172a; min-height: 80px; }
+      .meta-input { background: white; border: 1px solid #cbd5e1; color: #0f172a; }
+      .tracker-table th { background: #f1f5f9; color: #64748b; }
+      .tracker-table td { color: #334155; }
+      .tracker-input { border-bottom: 1px solid #94a3b8; color: #0f172a; }
+      .checklist-item { background: white; border: 1px solid #e2e8f0; }
+      .checklist-text { color: #334155; }
+      .checklist-score-row { background: #eff6ff; border-color: #bfdbfe; }
+      .score-num-big { color: #1d4ed8; }
+      .analysis-note { background: #f0f9ff; border-color: #bae6fd; }
+      .analysis-note p { color: #334155; }
+      .tracker-target-box { background: #f0fdf4; border-color: #bbf7d0; }
+      .tracker-target-box p { color: #334155; }
+      .reflection-area { background: white; border: 1px solid #cbd5e1; color: #0f172a; }
+      .comment-area { background: white; border: 1px solid #cbd5e1; color: #0f172a; }
+      .section-header-text .section-title { color: #0f172a; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-shell">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header__badge">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Допоміжні матеріали
+    </div>
+    <h1>Інструменти лікаря</h1>
+    <p>Самоаналіз, щотижневий трекер, картка лікаря та чекліст керівника</p>
+  </div>
+
+  <!-- Tab navigation -->
+  <nav class="tab-nav" role="tablist" aria-label="Розділи матеріалів">
+    <button class="tab-btn is-active" role="tab" aria-selected="true"  aria-controls="panel-analysis"  id="tab-analysis">Самоаналіз</button>
+    <button class="tab-btn"           role="tab" aria-selected="false" aria-controls="panel-tracker"   id="tab-tracker">Трекер</button>
+    <button class="tab-btn"           role="tab" aria-selected="false" aria-controls="panel-card"      id="tab-card">Картка лікаря</button>
+    <button class="tab-btn"           role="tab" aria-selected="false" aria-controls="panel-checklist" id="tab-checklist">Чекліст керівника</button>
+    <button class="tab-btn"           role="tab" aria-selected="false" aria-controls="panel-resources" id="tab-resources">Відео та матеріали</button>
+  </nav>
+
+  <!-- ================================================================
+       TAB 1 — SELF-ANALYSIS
+       ================================================================ -->
+  <div class="tab-panel is-active" id="panel-analysis" role="tabpanel" aria-labelledby="tab-analysis">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2 class="section-title">Стартовий самоаналіз</h2>
+          <p class="section-subtitle">Чесно дайте собі відповідь — до початку курсу</p>
+        </div>
+        <button class="btn-print" onclick="printTab('panel-analysis')" type="button">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Роздрукувати
+        </button>
+      </div>
+
+      <div class="self-analysis-meta">
+        <div class="meta-field">
+          <span class="meta-label">Ім'я та прізвище</span>
+          <input type="text" class="meta-input" placeholder="Введіть ваше ім'я" autocomplete="off" />
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Дата</span>
+          <input type="date" class="meta-input" />
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Клініка</span>
+          <input type="text" class="meta-input" placeholder="Назва клініки" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="analysis-question">
+        <div class="analysis-q-label">
+          <div class="analysis-q-num">1</div>
+          <div class="analysis-q-text">Яку фразу ви зазвичай говорите пацієнту в кінці прийому? Напишіть дослівно.</div>
+        </div>
+        <textarea class="analysis-textarea" placeholder="Напишіть тут..."></textarea>
+      </div>
+
+      <div class="analysis-question">
+        <div class="analysis-q-label">
+          <div class="analysis-q-num">2</div>
+          <div class="analysis-q-text">Як часто ви САМІ призначаєте наступний візит (а не передаєте це адміністратору)? Оцініть % від всіх прийомів.</div>
+        </div>
+        <textarea class="analysis-textarea" placeholder="Наприклад: приблизно 20% прийомів — решту передаю адміністратору..."></textarea>
+      </div>
+
+      <div class="analysis-question">
+        <div class="analysis-q-label">
+          <div class="analysis-q-num">3</div>
+          <div class="analysis-q-text">Що ви робите коли пацієнт каже «я подумаю» або «дорого»?</div>
+        </div>
+        <textarea class="analysis-textarea" placeholder="Опишіть вашу типову реакцію..."></textarea>
+      </div>
+
+      <div class="analysis-question">
+        <div class="analysis-q-label">
+          <div class="analysis-q-num">4</div>
+          <div class="analysis-q-text">Скільки ваших пацієнтів повернулось повторно минулого місяця? (приблизно)</div>
+        </div>
+        <textarea class="analysis-textarea" placeholder="Орієнтовна кількість або відсоток..."></textarea>
+      </div>
+
+      <div class="analysis-question">
+        <div class="analysis-q-label">
+          <div class="analysis-q-num">5</div>
+          <div class="analysis-q-text">Що для вас зараз найважче в спілкуванні з пацієнтами?</div>
+        </div>
+        <textarea class="analysis-textarea" style="min-height:110px" placeholder="Будьте чесні — ці відповіді тільки для вас..."></textarea>
+      </div>
+
+      <div class="analysis-note">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>Збережіть відповіді. Після курсу — порівняйте. Ви побачите різницю.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       TAB 2 — WEEKLY TRACKER
+       ================================================================ -->
+  <div class="tab-panel" id="panel-tracker" role="tabpanel" aria-labelledby="tab-tracker">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2 class="section-title">Щотижневий трекер лікаря</h2>
+          <p class="section-subtitle">Відстежуйте результат кожного тижня</p>
+        </div>
+        <button class="btn-print" onclick="printTab('panel-tracker')" type="button">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Роздрукувати
+        </button>
+      </div>
+
+      <div class="tracker-week-field">
+        <span class="tracker-week-label">Тиждень:</span>
+        <input type="text" class="tracker-week-input" placeholder="01.01 — 07.01.2026" />
+        <span class="tracker-week-label" style="margin-left:var(--space-4)">Лікар:</span>
+        <input type="text" class="tracker-week-input" placeholder="Ім'я лікаря" />
+      </div>
+
+      <div class="tracker-table-wrap">
+        <table class="tracker-table" id="trackerTable">
+          <thead>
+            <tr>
+              <th>День</th>
+              <th>Пацієнтів прийнято</th>
+              <th>Записано на наступний візит</th>
+              <th>%</th>
+              <th>Нотатки</th>
+            </tr>
+          </thead>
+          <tbody id="trackerBody">
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tracker-target-box">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        <p><strong>Ціль:</strong> 80%+ пацієнтів виходять з записом на наступний візит</p>
+      </div>
+
+      <div class="tracker-reflection">
+        <div class="reflection-item">
+          <div class="reflection-label">Що спрацювало цього тижня?</div>
+          <textarea class="reflection-area" placeholder="Які техніки, фрази або ситуації дали хороший результат..."></textarea>
+        </div>
+        <div class="reflection-item">
+          <div class="reflection-label">Де виникали труднощі?</div>
+          <textarea class="reflection-area" placeholder="Які ситуації або заперечення давалися важко..."></textarea>
+        </div>
+        <div class="reflection-item">
+          <div class="reflection-label">Ціль на наступний тиждень</div>
+          <textarea class="reflection-area" placeholder="Конкретна ціль на наступний тиждень — одна-дві речі..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       TAB 3 — DOCTOR CARD
+       ================================================================ -->
+  <div class="tab-panel" id="panel-card" role="tabpanel" aria-labelledby="tab-card">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2 class="section-title">Картка лікаря</h2>
+          <p class="section-subtitle">Роздрукуйте та тримайте при собі першу неділю</p>
+        </div>
+        <button class="btn-print" onclick="printTab('panel-card')" type="button">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Роздрукувати
+        </button>
+      </div>
+
+      <div class="doctor-card-wrap">
+
+        <!-- Protocol -->
+        <div class="card-block card-block--accent">
+          <div class="card-block-title">Протокол завершення прийому</div>
+          <div class="card-steps">
+            <div class="card-step"><span>Підсумок — що зробили</span></div>
+            <div class="card-step"><span>Медична необхідність — чому важливо далі</span></div>
+            <div class="card-step"><span>Термін — конкретна дата або проміжок</span></div>
+            <div class="card-step"><span>Фраза-місток — передаєте адміністратору</span></div>
+            <div class="card-step"><span>Адміністратор фіксує запис</span></div>
+          </div>
+        </div>
+
+        <!-- Bridge phrase -->
+        <div class="card-block">
+          <div class="card-block-title">Фраза-місток</div>
+          <div class="card-highlight-box">
+            <div class="card-highlight-label">Шаблон</div>
+            <div class="card-highlight-text">«[Ім'я адмін], запишіть [ім'я пацієнта] через [термін] — [процедура]»</div>
+          </div>
+          <div class="card-highlight-box" style="background:rgba(16,185,129,0.08);border-color:rgba(16,185,129,0.22)">
+            <div class="card-highlight-label">Приклад</div>
+            <div class="card-highlight-text" style="color:#6ee7b7">«Марино, запишіть Олену через 10 днів — завершення лікування 36-го зуба»</div>
+          </div>
+        </div>
+
+        <!-- Objections -->
+        <div class="card-block card-block--wide">
+          <div class="card-block-title">Заперечення — швидкі відповіді</div>
+          <div class="card-objection-list">
+            <div class="card-objection">
+              <span class="card-objection-trigger">«Дорого»</span>
+              <span class="card-objection-response">«Давайте з'ясуємо що саме. Розіб'ємо на кроки?»</span>
+            </div>
+            <div class="card-objection">
+              <span class="card-objection-trigger">«Я подумаю»</span>
+              <span class="card-objection-response">«Є щось конкретне що зупиняє?»</span>
+            </div>
+            <div class="card-objection">
+              <span class="card-objection-trigger">«Потім»</span>
+              <span class="card-objection-response">«Через 6 міс буде складніше і дорожче. Вибір ваш.»</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top 3 recommendations -->
+        <div class="card-block">
+          <div class="card-block-title">Топ-3 рекомендації</div>
+          <div class="card-rec-list">
+            <div class="card-rec-item">
+              <div class="card-rec-dot"></div>
+              <div class="card-rec-text"><strong>Профгігієна</strong> — «Через 3 міс — збережемо результат»</div>
+            </div>
+            <div class="card-rec-item">
+              <div class="card-rec-dot"></div>
+              <div class="card-rec-text"><strong>Капа</strong> — «Бачу сліди стирання — захистимо зуби»</div>
+            </div>
+            <div class="card-rec-item">
+              <div class="card-rec-dot"></div>
+              <div class="card-rec-text"><strong>Відбілювання</strong> — «Після гігієни — ідеальний момент»</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phrases that work -->
+        <div class="card-block">
+          <div class="card-block-title">Фрази що підвищують довіру</div>
+          <div class="card-phrase-list">
+            <div class="card-phrase">«Якби це був мій зуб...»</div>
+            <div class="card-phrase">«Покажу на знімку...»</div>
+            <div class="card-phrase">«Розіб'ємо на кроки...»</div>
+          </div>
+        </div>
+
+        <!-- Killer phrases -->
+        <div class="card-block card-block--danger card-block--wide">
+          <div class="card-block-title">Фрази-вбивці — уникайте</div>
+          <div class="card-phrase-list" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-2)">
+            <div class="card-phrase-killer">«Вам треба...»</div>
+            <div class="card-phrase-killer">«Якщо хочете, подумайте»</div>
+            <div class="card-phrase-killer">«Я б не тягнув...»</div>
+            <div class="card-phrase-killer">«Це дорого, але...»</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       TAB 4 — MANAGER CHECKLIST
+       ================================================================ -->
+  <div class="tab-panel" id="panel-checklist" role="tabpanel" aria-labelledby="tab-checklist">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-header-text">
+          <h2 class="section-title">Чекліст перевірки лікаря</h2>
+          <p class="section-subtitle">Щотижнева оцінка керівником</p>
+        </div>
+        <button class="btn-print" onclick="printTab('panel-checklist')" type="button">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Роздрукувати
+        </button>
+      </div>
+
+      <div class="checklist-meta">
+        <div class="meta-field">
+          <span class="meta-label">Лікар</span>
+          <input type="text" class="meta-input" placeholder="Ім'я лікаря" autocomplete="off" />
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Дата</span>
+          <input type="date" class="meta-input" />
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Клініка</span>
+          <input type="text" class="meta-input" placeholder="Назва клініки" autocomplete="off" />
+        </div>
+        <div class="meta-field">
+          <span class="meta-label">Перевіряв</span>
+          <input type="text" class="meta-input" placeholder="Ім'я керівника" autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="checklist-items" id="checklistItems"></div>
+
+      <div class="checklist-score-row">
+        <div class="score-num-big" id="scoreDisplay">0 / 10</div>
+        <div class="score-legend">
+          <div class="score-legend-item pass"><span>8–10</span> — Відмінно</div>
+          <div class="score-legend-item ok"><span>6–7</span> — Добре, є зони для росту</div>
+          <div class="score-legend-item fail"><span>до 6</span> — Потрібна робота</div>
+        </div>
+      </div>
+
+      <div class="checklist-comments">
+        <div class="comment-field">
+          <label for="commentNote">Що відзначити</label>
+          <textarea id="commentNote" class="comment-area" placeholder="Що лікар робить добре — вкажіть конкретно..."></textarea>
+        </div>
+        <div class="comment-field">
+          <label for="commentImprove">Що покращити</label>
+          <textarea id="commentImprove" class="comment-area" placeholder="Що потребує уваги — без оціночних суджень..."></textarea>
+        </div>
+        <div class="comment-field">
+          <label for="commentGoal">Ціль до наступної перевірки</label>
+          <textarea id="commentGoal" class="comment-area" placeholder="Один-два конкретних кроки на наступний тиждень..."></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ================================================================
+     TAB SWITCHING
+     ================================================================ */
+  var tabs   = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var target = btn.getAttribute('aria-controls');
+
+      tabs.forEach(function (t) {
+        t.classList.remove('is-active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(function (p) {
+        p.classList.remove('is-active');
+      });
+
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      var panel = document.getElementById(target);
+      if (panel) { panel.classList.add('is-active'); }
+    });
+  });
+
+  /* ================================================================
+     TRACKER TABLE — build rows + live % calculation
+     ================================================================ */
+  var DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+  var tbody = document.getElementById('trackerBody');
+
+  function buildTrackerRows() {
+    DAYS.forEach(function (day, idx) {
+      var tr = document.createElement('tr');
+
+      var tdDay = document.createElement('td');
+      tdDay.className = 'day-label';
+      tdDay.textContent = day;
+
+      var tdTotal = document.createElement('td');
+      var inTotal = document.createElement('input');
+      inTotal.type = 'number';
+      inTotal.className = 'tracker-input';
+      inTotal.placeholder = '—';
+      inTotal.min = '0';
+      inTotal.dataset.row = String(idx);
+      inTotal.dataset.col = 'total';
+      tdTotal.appendChild(inTotal);
+
+      var tdBooked = document.createElement('td');
+      var inBooked = document.createElement('input');
+      inBooked.type = 'number';
+      inBooked.className = 'tracker-input';
+      inBooked.placeholder = '—';
+      inBooked.min = '0';
+      inBooked.dataset.row = String(idx);
+      inBooked.dataset.col = 'booked';
+      tdBooked.appendChild(inBooked);
+
+      var tdPct = document.createElement('td');
+      tdPct.className = 'pct-cell';
+      tdPct.dataset.row = String(idx);
+      tdPct.dataset.type = 'pct';
+      tdPct.textContent = '—';
+
+      var tdNote = document.createElement('td');
+      var inNote = document.createElement('input');
+      inNote.type = 'text';
+      inNote.className = 'tracker-input';
+      inNote.placeholder = 'Нотатка...';
+      inNote.style.minWidth = '120px';
+      tdNote.appendChild(inNote);
+
+      tr.appendChild(tdDay);
+      tr.appendChild(tdTotal);
+      tr.appendChild(tdBooked);
+      tr.appendChild(tdPct);
+      tr.appendChild(tdNote);
+      tbody.appendChild(tr);
+
+      inTotal.addEventListener('input', function () { recalcRow(idx); });
+      inBooked.addEventListener('input', function () { recalcRow(idx); });
+    });
+
+    /* Totals row */
+    var trTotals = document.createElement('tr');
+    trTotals.className = 'totals-row';
+
+    var labels = ['РАЗОМ', '', '', '', ''];
+    for (var i = 0; i < 5; i++) {
+      var td = document.createElement('td');
+      if (i === 0) {
+        td.className = 'day-label';
+        td.textContent = 'РАЗОМ';
+      } else if (i === 1) {
+        td.id = 'totalSum';
+        td.textContent = '—';
+      } else if (i === 2) {
+        td.id = 'bookedSum';
+        td.textContent = '—';
+      } else if (i === 3) {
+        td.className = 'pct-cell';
+        td.id = 'totalPct';
+        td.textContent = '—';
+      } else {
+        td.textContent = '';
+      }
+      trTotals.appendChild(td);
+    }
+    tbody.appendChild(trTotals);
+  }
+
+  function recalcRow(rowIdx) {
+    var inputs = tbody.querySelectorAll('[data-row="' + rowIdx + '"]');
+    var totalInput = null, bookedInput = null;
+    inputs.forEach(function (el) {
+      if (el.dataset.col === 'total')  totalInput  = el;
+      if (el.dataset.col === 'booked') bookedInput = el;
+    });
+    var pctCell = tbody.querySelector('[data-row="' + rowIdx + '"][data-type="pct"]');
+    var total  = parseFloat(totalInput  ? totalInput.value  : '') || 0;
+    var booked = parseFloat(bookedInput ? bookedInput.value : '') || 0;
+    if (pctCell) {
+      pctCell.textContent = total > 0 ? Math.round((booked / total) * 100) + '%' : '—';
+    }
+    recalcTotals();
+  }
+
+  function recalcTotals() {
+    var allTotal = 0, allBooked = 0;
+    for (var i = 0; i < DAYS.length; i++) {
+      var inputs = tbody.querySelectorAll('[data-row="' + i + '"]');
+      inputs.forEach(function (el) {
+        if (el.dataset.col === 'total')  allTotal  += parseFloat(el.value) || 0;
+        if (el.dataset.col === 'booked') allBooked += parseFloat(el.value) || 0;
+      });
+    }
+    var elTotalSum  = document.getElementById('totalSum');
+    var elBookedSum = document.getElementById('bookedSum');
+    var elTotalPct  = document.getElementById('totalPct');
+    if (elTotalSum)  elTotalSum.textContent  = allTotal  > 0 ? String(allTotal)  : '—';
+    if (elBookedSum) elBookedSum.textContent = allBooked > 0 ? String(allBooked) : '—';
+    if (elTotalPct)  elTotalPct.textContent  = allTotal  > 0 ? Math.round((allBooked / allTotal) * 100) + '%' : '—';
+  }
+
+  buildTrackerRows();
+
+  /* ================================================================
+     MANAGER CHECKLIST — build items + live score
+     ================================================================ */
+  var CHECKLIST_ITEMS = [
+    'Лікар пояснює процедуру під час лікування',
+    'Лікар запитує про відчуття пацієнта',
+    'Лікар не відволікається на сторонні розмови під час процедури',
+    'Лікар не поспішає і не створює відчуття конвеєра',
+    'Лікар призначає наступний візит ДО виходу пацієнта',
+    'Лікар використовує фразу-місток до адміністратора',
+    'Лікар пояснює план лікування без медичного жаргону',
+    'Лікар показує рентген / використовує візуалізацію',
+    'Лікар спокійно реагує на заперечення (не тисне, не здається)',
+    'Пацієнт виходить з записом на наступний прийом'
+  ];
+
+  var checklistContainer = document.getElementById('checklistItems');
+
+  CHECKLIST_ITEMS.forEach(function (text, idx) {
+    var item = document.createElement('div');
+    item.className = 'checklist-item';
+
+    var numEl = document.createElement('div');
+    numEl.className = 'checklist-num';
+    numEl.textContent = String(idx + 1);
+
+    var textEl = document.createElement('div');
+    textEl.className = 'checklist-text';
+    textEl.textContent = text;
+
+    var radios = document.createElement('div');
+    radios.className = 'checklist-radios';
+
+    var options = [
+      { cls: 'yes',  label: 'Так',      value: 'yes' },
+      { cls: 'no',   label: 'Ні',       value: 'no' },
+      { cls: 'part', label: 'Частково', value: 'part' }
+    ];
+
+    options.forEach(function (opt) {
+      var lbl = document.createElement('label');
+      lbl.className = 'radio-option ' + opt.cls;
+      lbl.title = opt.label;
+
+      var radio = document.createElement('input');
+      radio.type = 'radio';
+      radio.name = 'check_' + idx;
+      radio.value = opt.value;
+      radio.addEventListener('change', updateScore);
+
+      var span = document.createElement('span');
+      span.className = 'radio-label';
+      span.textContent = opt.label;
+
+      lbl.appendChild(radio);
+      lbl.appendChild(span);
+      radios.appendChild(lbl);
+    });
+
+    item.appendChild(numEl);
+    item.appendChild(textEl);
+    item.appendChild(radios);
+    checklistContainer.appendChild(item);
+  });
+
+  function updateScore() {
+    var score = 0;
+    CHECKLIST_ITEMS.forEach(function (_, idx) {
+      var checked = document.querySelector('input[name="check_' + idx + '"]:checked');
+      if (checked && checked.value === 'yes') { score++; }
+    });
+    var el = document.getElementById('scoreDisplay');
+    if (el) { el.textContent = score + ' / ' + CHECKLIST_ITEMS.length; }
+  }
+
+  /* ================================================================
+     PRINT — show only the target tab
+     ================================================================ */
+  window.printTab = function (panelId) {
+    panels.forEach(function (p) { p.classList.remove('print-target'); });
+    var target = document.getElementById(panelId);
+    if (target) { target.classList.add('print-target'); }
+    window.print();
+    if (target) { target.classList.remove('print-target'); }
+  };
+
+}());
+</script>
+
+<!-- ════════════════════════════════════════════════
+     TAB: ВІДЕО ТА МАТЕРІАЛИ
+════════════════════════════════════════════════ -->
+<div class="tab-panel" id="panel-resources" role="tabpanel" aria-labelledby="tab-resources" style="display:none">
+  <div style="max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:2rem">
+
+    <div>
+      <h2 style="font-size:clamp(1.5rem,3vw,2rem);font-weight:800;color:var(--color-text-primary);letter-spacing:-0.02em;margin-bottom:0.5rem">Додаткові матеріали</h2>
+      <p style="color:var(--color-text-secondary);font-size:0.9375rem">Відео, аудіо та документи для поглибленого вивчення</p>
+    </div>
+
+    <!-- PDF: The Loyalty Protocol -->
+    <div style="background:#fff;border:1px solid var(--color-border);border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.25rem">
+      <div style="width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#ef4444,#f97316);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:1rem;font-weight:700;color:var(--color-text-primary);margin-bottom:0.25rem">The Loyalty Protocol</div>
+        <div style="font-size:0.875rem;color:var(--color-text-secondary)">PDF · 8.7 MB · Протокол лояльності пацієнтів</div>
+      </div>
+      <a href="The_Loyalty_Protocol.pdf" download
+         style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.625rem 1.25rem;background:linear-gradient(135deg,#2563eb,#0ea5e9);border-radius:10px;font-size:0.875rem;font-weight:600;color:#fff;text-decoration:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Завантажити
+      </a>
+    </div>
+
+    <!-- VIDEO -->
+    <div style="background:#fff;border:1px solid var(--color-border);border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.25rem">
+      <div style="width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#7c3aed,#a855f7);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:1rem;font-weight:700;color:var(--color-text-primary);margin-bottom:0.25rem">Як лікарі будують довіру</div>
+        <div style="font-size:0.875rem;color:var(--color-text-secondary)">MP4 відео · 33.4 MB · Практичні приклади комунікації</div>
+      </div>
+      <div style="font-size:0.8125rem;color:var(--color-text-muted);text-align:center">
+        Файл надано<br>керівником
+      </div>
+    </div>
+
+    <!-- AUDIO -->
+    <div style="background:#fff;border:1px solid var(--color-border);border-radius:16px;padding:1.5rem;display:flex;align-items:center;gap:1.25rem">
+      <div style="width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#0ea5e9,#10b981);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+        </svg>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:1rem;font-weight:700;color:var(--color-text-primary);margin-bottom:0.25rem">Подкаст: Страх → Лояльність</div>
+        <div style="font-size:0.875rem;color:var(--color-text-secondary)">M4A аудіо · 34.6 MB · Як стоматологи перетворюють страх на лояльність</div>
+      </div>
+      <div style="font-size:0.8125rem;color:var(--color-text-muted);text-align:center">
+        Файл надано<br>керівником
+      </div>
+    </div>
+
+    <div style="background:rgba(37,99,235,0.06);border:1px solid rgba(37,99,235,0.15);border-radius:12px;padding:1rem 1.25rem;font-size:0.875rem;color:var(--color-text-secondary)">
+      <strong style="color:var(--color-primary-blue)">Примітка:</strong> Відеофайл і аудіоподкаст доступні локально — зверніться до керівника клініки для доступу.
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
