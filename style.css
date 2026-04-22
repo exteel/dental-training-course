@@ -128,11 +128,16 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   color: var(--color-text-primary);
-  background-color: var(--color-primary-dark);
+  background-color: #0a0f1a;
   line-height: var(--line-height-normal);
   overflow: hidden; /* slides handle their own overflow */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Center presentation — keeps it from sprawling at 50% zoom */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 img, svg {
@@ -158,12 +163,16 @@ a {
   position: relative;
   width: 100vw;
   height: 100vh;
+  /* Cap at designed size — prevents layout sprawl at low zoom levels */
+  max-width: 1920px;
+  max-height: 1080px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 /* ---- Module progress bar (top edge) ---- */
 .progress-track {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -181,7 +190,7 @@ a {
 
 /* ---- Slide counter (bottom-right) ---- */
 .slide-counter {
-  position: fixed;
+  position: absolute;
   bottom: var(--space-6);
   right: var(--space-8);
   font-size: var(--font-size-sm);
@@ -201,7 +210,7 @@ a {
 
 /* ---- Navigation arrows ---- */
 .nav-btn {
-  position: fixed;
+  position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 100;
