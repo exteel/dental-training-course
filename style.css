@@ -2069,11 +2069,13 @@ a {
 
   /* ── Bottom nav bar: [< Назад]  2/18  [Далі >] ── */
   .nav-btn {
-    width: calc(50% - 48px);
-    height: 52px;
+    position: fixed !important;
+    width: calc(50% - 48px) !important;
+    max-width: 160px;
+    height: 52px !important;
     border-radius: 14px;
-    top: auto;
-    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    top: auto !important;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
     transform: none !important;
     background: rgba(37,99,235,0.92);
     border: none;
