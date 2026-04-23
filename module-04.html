@@ -1619,10 +1619,23 @@
 function completeModule(key) {
   var btn = document.getElementById('btn-complete-module');
   if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = 'Збереження...'; }
-  window.DentalTracking.saveProgress(key).then(function() {
-    window.DentalTracking.showCompletionToast('Модуль 4 завершено! Прогрес збережено ✓');
-    setTimeout(function() { window.location.href = 'index.html'; }, 2200);
-  });
+
+  // Always mark visited locally so index.html shows correct state
+  try { localStorage.setItem('dental_progress_' + key, '1'); } catch (e) {}
+
+  // Schedule redirect NO MATTER WHAT — network issues must not trap the user
+  setTimeout(function () { window.location.href = 'index.html'; }, 2200);
+
+  // Try to save to Supabase and show toast in background
+  if (window.DentalTracking && typeof window.DentalTracking.saveProgress === 'function') {
+    try {
+      window.DentalTracking.saveProgress(key).then(function () {
+        if (window.DentalTracking.showCompletionToast) {
+          window.DentalTracking.showCompletionToast('Модуль 4 завершено! Прогрес збережено ✓');
+        }
+      }).catch(function (e) { console.warn('saveProgress failed:', e); });
+    } catch (e) { console.warn('saveProgress threw:', e); }
+  }
 }
 
 

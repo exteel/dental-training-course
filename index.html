@@ -945,8 +945,9 @@
       <div class="top-nav__links">
         <a href="#modules">Модулі</a>
         <a href="#progress">Прогрес</a>
-        <a href="#materials">Матеріали</a>
+        <a href="scripts.html">Скрипти</a>
         <a href="final-test.html">Тест</a>
+        <a href="dashboard.html" title="Адміністратор">Адмін</a>
       </div>
     </div>
   </nav>
@@ -1002,10 +1003,13 @@
             <svg class="btn__icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
             </svg>
-            Почати курс
+            <span id="btn-start-label">Почати: Самоаналіз</span>
           </a>
-          <a href="module-00.html" class="btn btn--outline">
-            Вже проходжу &rarr; Модуль 0
+          <a href="module-00.html" class="btn btn--outline" id="btn-continue">
+            <span id="btn-continue-label">Вже проходжу &rarr; Модуль 0</span>
+          </a>
+          <a href="scripts.html" class="btn btn--ghost" id="btn-scripts" style="background:transparent;border:1px solid rgba(45,212,191,0.35);color:#2dd4bf;">
+            Скрипти КВП
           </a>
         </div>
 
@@ -1609,11 +1613,32 @@
     }
 
     var label = nextKey ? KEY_LABELS[nextKey] : 'Фінальний тест';
-    var nodes = btn.childNodes;
-    for (var n = nodes.length - 1; n >= 0; n--) {
-      if (nodes[n].nodeType === 3 && nodes[n].textContent.trim()) {
-        nodes[n].textContent = '\n            ' + label + '\n          ';
-        break;
+    var startLabelEl = document.getElementById('btn-start-label');
+    if (startLabelEl) {
+      startLabelEl.textContent = label;
+    } else {
+      var nodes = btn.childNodes;
+      for (var n = nodes.length - 1; n >= 0; n--) {
+        if (nodes[n].nodeType === 3 && nodes[n].textContent.trim()) {
+          nodes[n].textContent = '\n            ' + label + '\n          ';
+          break;
+        }
+      }
+    }
+
+    /* Update the outline "Continue" button: wording depends on progress */
+    var contBtn   = document.getElementById('btn-continue');
+    var contLabel = document.getElementById('btn-continue-label');
+    if (contBtn && contLabel) {
+      if (!nextKey) {
+        contBtn.href = 'dashboard.html';
+        contLabel.textContent = 'Мій прогрес →';
+      } else if (lastDoneIndex === -1) {
+        contBtn.href = 'module-00.html';
+        contLabel.textContent = 'Пропустити самоаналіз → Модуль 0';
+      } else {
+        contBtn.href = 'module-00.html';
+        contLabel.textContent = 'Почати з початку → Модуль 0';
       }
     }
   }
