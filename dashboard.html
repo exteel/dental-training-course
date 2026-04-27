@@ -427,7 +427,15 @@
   /* ── State ── */
   var allDoctors   = [];
   var allProgress  = [];
-  var activeClinic = null;
+  /* Auto-pin clinic from URL: dashboard.html?clinic=Stomeconom
+     Useful for sending each manager a pre-filtered link. */
+  var urlClinic = null;
+  try {
+    var qs = new URLSearchParams(window.location.search);
+    var c = qs.get('clinic');
+    if (c && CLINICS.indexOf(c) !== -1) { urlClinic = c; }
+  } catch (e) {}
+  var activeClinic = urlClinic;
 
   function loadData() {
     if (!CONFIGURED) {
@@ -445,6 +453,9 @@
       allProgress = res[1] || [];
       renderClinicCards(allDoctors);
       updateStats(allDoctors);
+      if (activeClinic) {
+        document.getElementById('btn-clear').style.display = 'inline-block';
+      }
       applyFilters();
     }).catch(function () {
       renderTable([]);
