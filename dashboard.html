@@ -390,7 +390,10 @@
   }
   function sbGet(table, q) {
     return fetch(SB_URL + '/rest/v1/' + table + '?' + (q || ''), { headers: sbHeaders() })
-      .then(function (r) { return r.ok ? r.json() : []; });
+      .then(function (r) {
+        if (!r.ok) { throw new Error('HTTP ' + r.status + ' на таблиці "' + table + '"'); }
+        return r.json();
+      });
   }
 
   /* ── Auth ── */
@@ -457,10 +460,24 @@
         document.getElementById('btn-clear').style.display = 'inline-block';
       }
       applyFilters();
-    }).catch(function () {
-      renderTable([]);
-      setTableTitle(null, 0);
+    }).catch(function (err) {
+      renderError(err);
     });
+  }
+
+  function renderError(err) {
+    var tbody = document.getElementById('doctors-tbody');
+    while (tbody.firstChild) { tbody.removeChild(tbody.firstChild); }
+    var detail = (err && err.message) ? err.message : 'мережева помилка';
+    renderEmpty(tbody,
+      'Не вдалося завантажити дані',
+      'База даних недоступна (' + detail + '). Ймовірно, проєкт Supabase у сплячці — розбудіть його в дашборді Supabase і натисніть «Оновити».');
+    ['stat-total', 'stat-completed', 'stat-avg-pct', 'stat-avg-score'].forEach(function (id) {
+      document.getElementById(id).textContent = '!';
+    });
+    var el = document.getElementById('table-title');
+    while (el.firstChild) { el.removeChild(el.firstChild); }
+    el.appendChild(document.createTextNode('Помилка завантаження'));
   }
 
   document.getElementById('btn-refresh').addEventListener('click', loadData);
